@@ -201,9 +201,9 @@ function getSpriteFromLibrary(thing) {
 // The typical use case: given a sprite and thing+dimensions, expand it based on scale and write it to the sprite
 function expandObtainedSprite(sprite, thing, width, height, norefill) {
 	// With the rows set, repeat them by unitsize to create the final, parsed product
-	var parsed = new Uint8ClampedArray(sprite.length * scale),
-		rowsize = width * unitsizet4,
-		heightscale = height * scale,
+	var parsed = new Uint8ClampedArray(sprite.length * Global.scale),
+		rowsize = width * Global.unitsizet4,
+		heightscale = height * Global.scale,
 		readloc = 0,
 		writeloc = 0,
 		si, sj;
@@ -211,7 +211,7 @@ function expandObtainedSprite(sprite, thing, width, height, norefill) {
 	// For each row:
 	for(si = 0; si < heightscale; ++si) {
 		// Add it to parsed x scale
-		for(sj = 0; sj < scale; ++sj) {
+		for(sj = 0; sj < Global.scale; ++sj) {
 			memcpyU8(sprite, parsed, readloc, writeloc, rowsize/*, thing*/);
 			writeloc += rowsize;
 		}
@@ -240,7 +240,7 @@ function expandObtainedSpriteMultiple(sprites, thing, width, height) {
 			parsed[part] = expandObtainedSprite(sprite, thing, width, height, true);
 		}
 		// If it's a number, multiply it by the scale
-		else if (typeof(sprite) == "number") parsed[part] = sprite * scale;
+		else if (typeof(sprite) == "number") parsed[part] = sprite * Global.scale;
 		// Otherwise just add it
 		else parsed[part] = sprite;
 	}
@@ -415,14 +415,14 @@ function drawThingOnCanvasMultiple(context, canvases, canvas, me, leftc, topc) {
 		// If there's a bottom, draw that and push up bottomreal
 		if (canvasref = canvases.bottom) {
 			sdiff = canvases.bottomheight || me.spriteheightpixels;
-			drawPatternOnCanvas(context, canvasref.canvas, leftreal, bottomreal - sdiff, spritewidthpixels, min(heightreal, spriteheightpixels));
+			drawPatternOnCanvas(context, canvasref.canvas, leftreal, bottomreal - sdiff, spritewidthpixels, Global.min(heightreal, spriteheightpixels));
 			bottomreal -= sdiff;
 			heightreal -= sdiff;
 		}
 		// If there's a top, draw that and push down topreal
 		if (canvasref = canvases.top) {
 			sdiff = canvases.topheight || me.spriteheightpixels;
-			drawPatternOnCanvas(context, canvasref.canvas, leftreal, topreal, spritewidthpixels, min(heightreal, spriteheightpixels));
+			drawPatternOnCanvas(context, canvasref.canvas, leftreal, topreal, spritewidthpixels, Global.min(heightreal, spriteheightpixels));
 			topreal += sdiff;
 			heightreal -= sdiff;
 		}
@@ -433,14 +433,14 @@ function drawThingOnCanvasMultiple(context, canvases, canvas, me, leftc, topc) {
 		// If there's a left, draw that and push up leftreal
 		if (canvasref = canvases.left) {
 			sdiff = canvases.leftwidth || me.spritewidthpixels;
-			drawPatternOnCanvas(context, canvasref.canvas, leftreal, topreal, min(widthreal, spritewidthpixels), spriteheightpixels);
+			drawPatternOnCanvas(context, canvasref.canvas, leftreal, topreal, Global.min(widthreal, spritewidthpixels), spriteheightpixels);
 			leftreal += sdiff;
 			widthreal -= sdiff;
 		}
 		// If there's a right, draw that and push back rightreal
 		if (canvasref = canvases.right) {
 			sdiff = canvases.rightwidth || me.spritewidthpixels;
-			drawPatternOnCanvas(context, canvasref.canvas, rightreal - sdiff, topreal, min(widthreal, spritewidthpixels), spriteheightpixels);
+			drawPatternOnCanvas(context, canvasref.canvas, rightreal - sdiff, topreal, Global.min(widthreal, spritewidthpixels), spriteheightpixels);
 			rightreal -= sdiff;
 			widthreal -= sdiff;
 		}
@@ -573,7 +573,7 @@ function memcpyU8(source, destination, readloc, writeloc, writelength/*, thing*/
 	}
 	if (readloc == null) readloc = 0;
 	if (writeloc == null) writeloc = 0;
-	if (writelength == null) writelength = max(0, min(source.length, destination.length));
+	if (writelength == null) writelength = Global.max(0, Global.min(source.length, destination.length));
 
 	var lwritelength = writelength + 0; // Allow JIT integer optimization (Firefox needs this)
 	var lwriteloc = writeloc + 0;

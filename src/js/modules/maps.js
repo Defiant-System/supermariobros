@@ -212,7 +212,7 @@ function shiftToLocation(loc) {
 	
 	// Start off by spawning, then placing Mario
 	spawnMap();
-	mario = placeMario();
+	Global.mario = placeMario();
 	scrollMario(loc.xloc * Global.unitsize);
 	locMovePreparations(mario);
 	// Note that some locs will pause manually after this
@@ -511,7 +511,7 @@ function enterCloudWorld(me) {
 }
 
 function walkToPipe() {
-	mario = placeMario();
+	Global.mario = placeMario();
 	startWalking(mario);
 	Global.map.canscroll = false;
 
