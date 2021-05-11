@@ -43,17 +43,17 @@ function adjustFPS() {
 }
 
 function pause(big) {
-	if (paused && !Global.nextupk) return;
+	if (Global.paused && !Global.nextupk) return;
 	cancelAnimationFrame(nextupk);
 	pauseAllSounds();
-	paused = true;
+	Global.paused = true;
 	if (big) play("Pause");
 }
 
 function unpause() {
-	if (!paused) return;
+	if (!Global.paused) return;
 	Global.nextupk = requestAnimationFrame(upkeep);
-	paused = false;
+	Global.paused = false;
 	resumeAllSounds();
 }
 

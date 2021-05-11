@@ -8,8 +8,6 @@ const verbosity = {
 	Sounds: false,
 };
 
-const Global = {};
-
 
 function FullScreenMario() {
 	// I keep this cute little mini-library for some handy functions
@@ -128,7 +126,7 @@ function resetGameState(nocount) {
 	Global.gamehistory = [];
 	// Clear audio
 	pauseAllSounds();
-	sounds = {};
+	Global.sounds = {};
 }
 
 function scrollWindow(x, y) {

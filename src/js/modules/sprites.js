@@ -114,15 +114,15 @@ function spriteGetArray(colors) {
 function setThingSprite(thing) {
 	if (thing.hidden || !thing.title) return;
 	// The cache is first chcked for previous references to the same className
-	var cache = library.cache,
-			width = thing.spritewidth,
-			height = thing.spriteheight,
-			title = thing.title,
-			className = thing.className,
-			classes = className.split(/\s+/g).slice(1).sort(), // first one will be thing type (character, solid...)
-			key = title + " " + classes, // ex: "Mario mario,running,small,two"
-			cached = cache[key],
-			sprite;
+	var cache = Global.library.cache,
+		width = thing.spritewidth,
+		height = thing.spriteheight,
+		title = thing.title,
+		className = thing.className,
+		classes = className.split(/\s+/g).slice(1).sort(), // first one will be thing type (character, solid...)
+		key = title + " " + classes, // ex: "Mario mario,running,small,two"
+		cached = cache[key],
+		sprite;
 			
 	// If one isn't found, search for it manually
 	sprite = getSpriteFromLibrary(thing);
@@ -143,14 +143,14 @@ function setThingSprite(thing) {
 // Given a thing, it will determine which sprite in library.sprites it should use
 // This is based off a key which uses the setting, title, and classes
 function getSpriteFromLibrary(thing) {
-	var cache = library.cache,
-			title = thing.title,
-			libtype = thing.libtype,
-			className = thing.className,
-			classes = className.split(/\s+/g).slice(1).sort(),
-			setting = (map.area || Global.defaultsetting).setting.split(" "),
-			key, cached, sprite,
-			i;
+	var cache = Global.library.cache,
+		title = thing.title,
+		libtype = thing.libtype,
+		className = thing.className,
+		classes = className.split(/\s+/g).slice(1).sort(),
+		setting = (Global.map.area || Global.defaultsetting).setting.split(" "),
+		key, cached, sprite,
+		i;
 	
 	// So it knows to do these conditionally, add them to the front
 	for(i in setting) classes.unshift(setting[i]);
@@ -161,7 +161,7 @@ function getSpriteFromLibrary(thing) {
 	
 	// Since one isn't found, search for it manually
 	if (!cached) {
-		sprite = library.sprites[libtype][title];
+		sprite = Global.library.sprites[libtype][title];
 		if (!sprite || !sprite.constructor) {
 			console.log("Error in checking for sprite of " + title + ".");
 			console.log("Title " + title, "\nLibtype " + libtype, "\n", thing, "\n");
@@ -202,11 +202,11 @@ function getSpriteFromLibrary(thing) {
 function expandObtainedSprite(sprite, thing, width, height, norefill) {
 	// With the rows set, repeat them by unitsize to create the final, parsed product
 	var parsed = new Uint8ClampedArray(sprite.length * scale),
-			rowsize = width * unitsizet4,
-			heightscale = height * scale,
-			readloc = 0,
-			writeloc = 0,
-			si, sj;
+		rowsize = width * unitsizet4,
+		heightscale = height * scale,
+		readloc = 0,
+		writeloc = 0,
+		si, sj;
 	
 	// For each row:
 	for(si = 0; si < heightscale; ++si) {
@@ -328,17 +328,17 @@ function findSpriteInLibrary(thing, current, classes) {
 // To do: memcpyU8 improvements?
 function refillThingCanvas(thing) {
 	var canvas = thing.canvas,
-			context = thing.context,
-			imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+		context = thing.context,
+		imageData = context.getImageData(0, 0, canvas.width, canvas.height);
 	memcpyU8(thing.sprite, imageData.data);
 	context.putImageData(imageData, 0, 0);
 }
 // Like refillThingCanvas, but for multiple sprites
 function refillThingCanvases(thing, parsed) {
 	var canvases = thing.canvases = {},
-			width = thing.spritewidthpixels,
-			height = thing.spriteheightpixels,
-			part, imageData, canvas, context, i;
+		width = thing.spritewidthpixels,
+		height = thing.spriteheightpixels,
+		part, imageData, canvas, context, i;
 	thing.num_sprites = 1;
 	
 	for(i in parsed) {
@@ -401,14 +401,14 @@ function drawThingOnCanvasSingle(context, canvas, me, leftc, topc) {
 // Slower than single; used when things have multiple sprites.
 function drawThingOnCanvasMultiple(context, canvases, canvas, me, leftc, topc) {
 	var topreal = topc,
-			leftreal = leftc,
-			rightreal = me.right,
-			bottomreal = me.bottom,
-			widthreal = me.unitwidth,
-			heightreal = me.unitheight,
-			spritewidthpixels = me.spritewidthpixels,
-			spriteheightpixels = me.spriteheightpixels,
-			sdiff, canvasref;
+		leftreal = leftc,
+		rightreal = me.right,
+		bottomreal = me.bottom,
+		widthreal = me.unitwidth,
+		heightreal = me.unitheight,
+		spritewidthpixels = me.spritewidthpixels,
+		spriteheightpixels = me.spriteheightpixels,
+		sdiff, canvasref;
 	
 	// Vertical sprites may have 'top', 'bottom', 'middle'
 	if (me.sprite_type[0] == 'v') {
@@ -475,12 +475,12 @@ function getPaletteReference(palette) {
 // Flipping horizontally is reversing pixels within each row
 function flipSpriteArrayHoriz(sprite, thing) {
 	var length = sprite.length,
-			width = thing.spritewidth,
-			height = thing.spriteheight,
-			newsprite = new Uint8ClampedArray(length),
-			rowsize = width * unitsizet4,
-			newloc, oldloc,
-			i, j, k;
+		width = thing.spritewidth,
+		height = thing.spriteheight,
+		newsprite = new Uint8ClampedArray(length),
+		rowsize = width * unitsizet4,
+		newloc, oldloc,
+		i, j, k;
 	// For each row
 	for(i = 0; i < length; i += rowsize) {
 		newloc = i;
@@ -498,13 +498,13 @@ function flipSpriteArrayHoriz(sprite, thing) {
 // Flipping vertically is reversing the order of rows
 function flipSpriteArrayVert(sprite, thing) {
 	var length = sprite.length,
-			width = thing.spritewidth,
-			height = thing.spriteheight,
-			newsprite = new Uint8ClampedArray(length),
-			rowsize = width * unitsizet4,
-			newloc = 0,
-			oldloc = length - rowsize,
-			i, j, k;
+		width = thing.spritewidth,
+		height = thing.spriteheight,
+		newsprite = new Uint8ClampedArray(length),
+		rowsize = width * unitsizet4,
+		newloc = 0,
+		oldloc = length - rowsize,
+		i, j, k;
 	
 	// For each row
 	while(newloc < length) {
@@ -524,10 +524,10 @@ function flipSpriteArrayVert(sprite, thing) {
 // Flipping both horizontally and vertically is actually just reversing the order of pixels
 function flipSpriteArrayBoth(sprite) {
 	var length = sprite.length,
-			newsprite = new Uint8ClampedArray(length),
-			oldloc = sprite.length - 4,
-			newloc = 0,
-			i;
+		newsprite = new Uint8ClampedArray(length),
+		oldloc = sprite.length - 4,
+		newloc = 0,
+		i;
 	while(newloc < length) {
 		for(i = 0; i < 4; ++i)
 			newsprite[newloc + i] = sprite[oldloc + i];
@@ -553,7 +553,7 @@ function clearAllSprites(clearcache) {
 	for(arr in arrs)
 		for(i in (arr = arrs[arr]))
 			setThingSprite(arr[i]);
-	if (clearcache) library.cache = {};
+	if (clearcache) Global.library.cache = {};
 }
 
 // http://www.html5rocks.com/en/tutorials/webgl/typed_arrays/

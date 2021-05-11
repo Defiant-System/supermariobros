@@ -33,25 +33,27 @@ function DataObject(amount, length, name) {
 	this.amount = amount;
 	this.length = length;
 	this.name = name;
-	this.element = createElement("td", {className: "indisplay"});
+	this.element = Global.createElement("td", {className: "indisplay"});
 }
 
 // Sets up the data display on the screen
 function setDataDisplay() {
-	var display = createElement("table", {
-						id: "data_display",
-						className: "display",
-						style: {
-							width: (gamescreen.right + 14) + "px"
-						}}),
-			elems = ["score", "coins", "world", "time", "lives"];
-	body.appendChild(display);
-	data.display = display;
+	var display = Global.createElement("table", {
+					id: "data_display",
+					className: "display",
+					style: {
+						width: (Global.gamescreen.right + 14) + "px"
+					}}),
+		elems = ["score", "coins", "world", "time", "lives"];
+	
+	window.find("content").append(display);
+	
+	Global.data.display = display;
 	for(var i in elems) {
-		display.appendChild(data[elems[i]].element);
-		updateDataElement(data[elems[i]]);
+		display.appendChild(Global.data[elems[i]].element);
+		updateDataElement(Global.data[elems[i]]);
 	}
-	body.appendChild(data.display);
+	window.find("content").append(Global.data.display);
 }
 
 // Getting rid of the display simply means removing it from body
@@ -62,7 +64,7 @@ function clearDataDisplay() {
 // Starts the interval of updating data time
 // 1 game second is about 25*16.667=416.675ms
 function startDataTime() {
-	EventHandler.addEventInterval(updateDataTime, 25, Infinity, data.time);
+	Global.EventHandler.addEventInterval(updateDataTime, 25, Infinity, Global.data.time);
 }
 function updateDataTime(me) {
 	// If the time direction isn't up (random map), check for timing
@@ -72,7 +74,7 @@ function updateDataTime(me) {
 	}
 	// If time is still enabled, change it by 1
 	if (!notime) {
-		map.time = me.amount += me.dir;
+		Global.map.time = me.amount += me.dir;
 		updateDataElement(me);
 	}
 }
@@ -97,7 +99,7 @@ function score(me, amount, appears) {
 	if (appears) {
 		var text = addText(amount, me.left, me.top);
 		text.yvel = -unitsized4;
-		EventHandler.addEvent(killScore, 49, text);
+		Global.EventHandler.addEvent(killScore, 49, text);
 	}
 	while(data.score > 10000) { // you never know...
 		gainLife();

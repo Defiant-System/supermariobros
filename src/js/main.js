@@ -17,6 +17,9 @@
 @import "modules/utility.js";
 
 
+const Global = {
+	worlds: @import "modules/worlds.js"
+};
 
 const supermariobros = {
 	init() {

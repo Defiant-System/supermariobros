@@ -1,17 +1,17 @@
 // Quads has 7 cols and 6 rows
 function resetQuadrants() {
 	Global.quads = [];
-	quads.rows = 5;
-	quads.cols = 6;
+	Global.quads.rows = 5;
+	Global.quads.cols = 6;
 	setQuadDimensions();
 	createQuads();
 }
 
 function Quadrant(row, left) {
 	this.left = left;
-	this.top = (row-1) * quads.height;
-	this.right = this.left + quads.width;
-	this.bottom = this.top + quads.height;
+	this.top = (row-1) * Global.quads.height;
+	this.right = this.left + Global.quads.width;
+	this.bottom = this.top + Global.quads.height;
 	
 	this.things = []
 	this.numobjects = this.tolx = this.toly = 0;
@@ -19,61 +19,64 @@ function Quadrant(row, left) {
 
 // Quads has 7 cols and 6 rows
 function createQuadrants() {
-	quads = [];
-	quads.rows = 5;
-	quads.cols = 6;
+	Global.quads = [];
+	Global.quads.rows = 5;
+	Global.quads.cols = 6;
 	setQuadDimensions();
 	createQuads();
 }
 
 function setQuadDimensions() {
-	quads.width = quads.rightdiff = Math.round(window.innerWidth / (quads.cols - 3));
-	quads.height = Math.round(window.innerHeight / (quads.rows - 2));
+	Global.quads.width = Global.quads.rightdiff = Math.round(window.innerWidth / (Global.quads.cols - 3));
+	Global.quads.height = Math.round(window.innerHeight / (Global.quads.rows - 2));
 	
-	quads.delx = quads.width * -2;
+	Global.quads.delx = Global.quads.width * -2;
 }
 
 function createQuads() {
-	for(var i=0; i<quads.cols; ++i)
-		addQuadCol((i-2) * quads.width);
-	quads.leftmost = quads[0];
+	for (var i=0; i<Global.quads.cols; ++i) {
+		addQuadCol((i-2) * Global.quads.width);
+	}
+	Global.quads.leftmost = Global.quads[0];
 }
 
 // Recentx is the .left of the most recently added stuff
 function addQuadCol(left) {
-	for(var i=0; i<quads.rows; ++i)
-		quads.push(new Quadrant(i, left));
-	quads.rightmost = quads[quads.length - 1];
+	for(var i=0; i<Global.quads.rows; ++i) {
+		Global.quads.push(new Quadrant(i, left));
+	}
+	Global.quads.rightmost = Global.quads[Global.quads.length - 1];
 }
 
 function shiftQuadCol() {
 	var old = [];
 	if (!map.nodeletequads) {
-		for(var i=quads.rows-1; i>0; --i) {
-			old.push(deleteQuad(quads.shift()));
+		for(var i=Global.quads.rows-1; i>0; --i) {
+			old.push(deleteQuad(Global.quads.shift()));
 		}
 	}
-	quads.leftmost = quads[0];
-	quads.rightdiff = quads.width;
+	Global.quads.leftmost = Global.quads[0];
+	Global.quads.rightdiff = Global.quads.width;
 }
 
 function deleteQuad(quad) {
 	if (quad.element) document.body.removeChild(quad.element);
 	return quad;
 }
+
 function updateQuads(xdiff) {
-	quads.rightdiff += xdiff || 0;
-	// if (quads.leftmost.left <= quads.delx) {
-	while(quads.leftmost.left <= quads.delx) {
-		addQuadCol(quads.rightmost.right);
+	Global.quads.rightdiff += xdiff || 0;
+	// if (Global.quads.leftmost.left <= Global.quads.delx) {
+	while(Global.quads.leftmost.left <= Global.quads.delx) {
+		addQuadCol(Global.quads.rightmost.right);
 		shiftQuadCol();
 		spawnMap();
 	}
 }
 
 function determineAllQuadrants() {
-	for(var i=0; i<quads.length; ++i)
-		quads[i].numthings = 0;
+	for(var i=0; i<Global.quads.length; ++i)
+		Global.quads[i].numthings = 0;
 	
 	for(var j=0; j<solids.length; ++j)
 		if (solids[j].moved != false)
@@ -85,9 +88,9 @@ function determineAllQuadrants() {
 
 function determineThingQuadrants(me) {
 	me.numquads = 0;
-	for(var i = 0, len = quads.length; i < len; ++i) {
-		if (objectInQuadrant(me, quads[i])) {
-			setThingInQuadrant(me, quads[i]);
+	for(var i = 0, len = Global.quads.length; i < len; ++i) {
+		if (objectInQuadrant(me, Global.quads[i])) {
+			setThingInQuadrant(me, Global.quads[i]);
 			if (me.numquads > me.maxquads) break;
 		}
 	}

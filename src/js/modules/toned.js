@@ -133,7 +133,7 @@ function TonedJS(give_window) {
 			// 1-dimensionals are easy
 			if (arguments.length == 1) return new Array(dim);
 			// Otherwise recurse
-			var rargs = arrayMake(arguments),
+			var rargs = this.arrayMake(arguments),
 					me = new Array(dim),
 					i;
 			rargs.shift();
