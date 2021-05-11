@@ -70,16 +70,13 @@ function loadSounds(container, reference, prefix) {
 		},
 		len, i;
 	
-	// TODO
-	return;
-
 	for(i=0, len=reference.length; i < len; ++i) {
 		name_raw = reference[i];
 		
 		// Create the sound and store it in the container
 		sound = Global.createElement("Audio", details);
 		container[name_raw] = sound;
-		Global.mlog("Sounds", sound)
+		mlog("Sounds", sound)
 		
 		// Create the MP3 and OGG sources for the audio
 		sound.appendChild(Global.createElement("Source", {

@@ -6,7 +6,7 @@
 function resetSounds() {
 	Global.sounds = {};
 	Global.theme = false;
-	Global.muted = true; //(localStorage && localStorage.muted == "true");
+	Global.muted = (localStorage && localStorage.muted == "true");
 }
 
 
@@ -33,7 +33,7 @@ function play(name_raw) {
 		sound.pause();
 		sound.currentTime = 0;
 	}
-	sound.volume = !muted;
+	sound.volume = !Global.muted;
 	sound.play();
 	
 	// If this is the first time the sound was added, let it know how to stop
@@ -50,7 +50,7 @@ function playLocal(name, xloc, main) {
 	if (!sound || !Global.mario) return;
 	
 	// If it's out of bounds (or muted), the volume is 0
-	if (muted || xloc < 0 || xloc > gamescreen.unitwidth) volume_real = 0;
+	if (Global.muted || xloc < 0 || xloc > gamescreen.unitwidth) volume_real = 0;
 	// Otherwise it's a function of how far the thing is from Mario
 	else volume_real = max(.14, min(.84, 1.4 * (gamescreen.unitwidth - abs(xloc - mario.left)) / gamescreen.unitwidth));
 	
@@ -109,7 +109,7 @@ function soundStop(sound) {
 }
 
 function toggleMute() {
-	var level = !(localStorage.muted = data.muted = muted = !muted);
+	var level = !(localStorage.muted = Global.data.muted = Global.muted = !Global.muted);
 	for(var i in Global.sounds) Global.sounds[i].volume = level;
 }
 

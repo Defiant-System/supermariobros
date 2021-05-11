@@ -4,9 +4,9 @@
 // Resets the main canvas and context
 function resetCanvas() {
 	// The global canvas is one that fills the screen
-	Global.canvas = window.find("canvas");
+	Global.canvas = window.find("canvas")[0];
 	// The context is saved for ease of access
-	Global.context = Global.canvas[0].getContext("2d");
+	Global.context = Global.canvas.getContext("2d");
 }
 
 /* Sprite Parsing */
@@ -371,11 +371,13 @@ function refillCanvas() {
 	
 	// I could implement dirty rectangles, but why? Worst case == average case...
 	// context.clearRect(0, 0, canvas.width, canvas.height);
+	// console.log(Global.area.fillStyle);
 	context.fillStyle = Global.area.fillStyle;
 	context.fillRect(0, 0, canvas.width, canvas.height);
-	for(i = Global.scenery.length - 1; i >= 0; --i) drawThingOnCanvas(context, Global.scenery[i]);
-	for(i = Global.solids.length - 1; i >= 0; --i) drawThingOnCanvas(context, Global.solids[i]);
-	for(i = Global.characters.length - 1; i >= 0; --i) drawThingOnCanvas(context, Global.characters[i]);
+
+	for (i=Global.scenery.length-1; i>=0; --i) drawThingOnCanvas(context, Global.scenery[i]);
+	for (i=Global.solids.length-1; i>=0; --i) drawThingOnCanvas(context, Global.solids[i]);
+	for (i=Global.characters.length-1; i>=0; --i) drawThingOnCanvas(context, Global.characters[i]);
 }
 
 // General function to draw a thing to a context
@@ -383,7 +385,7 @@ function refillCanvas() {
 function drawThingOnCanvas(context, me) {
 	if (me.hidden) return;
 	var leftc = me.left,
-			topc = me.top;
+		topc = me.top;
 	if (leftc > innerWidth) return;
 	
 	// If there's just one sprite, it's pretty simple
@@ -549,10 +551,12 @@ function drawPatternOnCanvas(context, source, leftc, topc, unitwidth, unitheight
 // Forces each thing to redraw itself
 function clearAllSprites(clearcache) {
 	var arrs = [Global.solids, Global.characters, Global.scenery],
-			arr, i;
-	for(arr in arrs)
-		for(i in (arr = arrs[arr]))
+		arr, i;
+	for(arr in arrs) {
+		for(i in (arr = arrs[arr])) {
 			setThingSprite(arr[i]);
+		}
+	}
 	if (clearcache) Global.library.cache = {};
 }
 

@@ -25,12 +25,12 @@ function TonedJS(give_window) {
 		// Proliferates all members of settings to the element recursively
 		proliferate: function(elem, settings, no_override) {
 			var setting, i;
-			for(i in settings) {
+			for (i in settings) {
 				if (no_override && elem[i]) continue;
 				if (typeof(setting = settings[i]) == "object") {
 					if (!elem[i]) elem[i] = {};
 					this.proliferate(elem[i], setting, no_override);
-				} else {
+				} else if (setting) {
 					elem[i] = setting;
 				}
 			}
