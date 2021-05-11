@@ -153,7 +153,7 @@ function setMap(one, two) {
 	Global.area = newmap.area = newmap.areas[0];
 	
 	// Save the score if need be
-	if (Global.mario && mario.power) storeMarioStats();
+	if (Global.mario && Global.mario.power) storeMarioStats();
 	if (Global.data) Global.data.scoreold = Global.data.score.amount;
 	
 	// Actual resetting is done in shiftToLocation
@@ -214,11 +214,11 @@ function shiftToLocation(loc) {
 	spawnMap();
 	Global.mario = placeMario();
 	scrollMario(loc.xloc * Global.unitsize);
-	locMovePreparations(mario);
+	locMovePreparations(Global.mario);
 	// Note that some locs will pause manually after this
 	unpause();
 	// Typically this will do nothing or be from a pipe
-	loc.entry(mario, loc.entrything);
+	loc.entry(Global.mario, loc.entrything);
 	// Don't forget the least annoying part of programming this!
 	Global.EventHandler.addEvent(playTheme, 2);
 	
@@ -392,8 +392,8 @@ function goToTransport(transport) {
 
 function entryPlain(me) {
 	// pause();
-	setLeft(me, unitsizet16);
-	setBottom(me, Global.map.floor * unitsize);
+	setLeft(me, Global.unitsizet16);
+	setBottom(me, Global.map.floor * Global.unitsize);
 	me.nocollide = me.piping = false;
 	me.placed = true;
 	// unpause();
@@ -401,16 +401,16 @@ function entryPlain(me) {
 
 function entryNormal(me) {
 	// pause();
-	setLeft(me, unitsizet16);
-	setTop(me, unitsizet16);
+	setLeft(me, Global.unitsizet16);
+	setTop(me, Global.unitsizet16);
 	me.nocollide = me.piping = false;
 	me.placed = true;
 	// unpause();
 }
 
 function entryBlank(me) {
-	setLeft(me, unitsizet16);
-	setBottom(me, Global.map.floor * unitsize);
+	setLeft(me, Global.unitsizet16);
+	setBottom(me, Global.map.floor * Global.unitsize);
 	me.nocollide = me.piping = me.movement = false;
 	me.placed = me.nofall = me.nocollide = notime = nokeys = true;
 	thingStoreVelocity(me);
@@ -433,22 +433,22 @@ function entryRandom(me) {
 	// To do: remember to set the text & width of the curmap datadisplay
 	switch(Global.map.entrancetype) {
 		case "Down": 
-			entryNormal(mario);
+			entryNormal(Global.mario);
 		break;
 		case "Up":
 			// Use a pipe
-			locMovePreparations(mario);
-			exitPipeVert(mario, addThing(new Thing(Pipe, 32), unitsizet8, (Global.map.floor - 32) * unitsize));
+			locMovePreparations(Global.mario);
+			exitPipeVert(Global.mario, addThing(new Thing(Pipe, 32), unitsizet8, (Global.map.floor - 32) * unitsize));
 		break;
 		case "Vine":
 			// Do that vine stuff
-			locMovePreparations(mario);
-			Global.EventHandler.addEvent(function() { enterCloudWorld(mario, true); }, 1);
-			mario.nofall = true;
+			locMovePreparations(Global.mario);
+			Global.EventHandler.addEvent(function() { enterCloudWorld(Global.mario, true); }, 1);
+			Global.mario.nofall = true;
 			spawnMap();
 		break;
 		case "Castle":
-			startCastle(mario);
+			startCastle(Global.mario);
 		break;
 		default:
 			// Only reached by Overworld the first time
@@ -483,7 +483,7 @@ function enterCloudWorld(me) {
 			clearInterval(movement);
 			setTop(me.attached, screentop, true);
 			me.attached.movement = false;
-			var stopheight = me.attached.top + unitsizet16;
+			var stopheight = me.attached.top + Global.unitsizet16;
 			movement = setInterval(function() {
 				// Mario moving up
 				shiftVert(me, unitsized4 * -1, true);
@@ -512,21 +512,21 @@ function enterCloudWorld(me) {
 
 function walkToPipe() {
 	Global.mario = placeMario();
-	startWalking(mario);
+	startWalking(Global.mario);
 	Global.map.canscroll = false;
 
 	var hasPipingStarted = false;
 	var move = setInterval(function() {
-		if (mario.piping && !hasPipingStarted) {
+		if (Global.mario.piping && !hasPipingStarted) {
 			// We have started piping
 			hasPipingStarted = true;
 		}
-		else if ( !mario.piping && hasPipingStarted ) {
+		else if ( !Global.mario.piping && hasPipingStarted ) {
 			// piping has finished
 			if (sounds[0]) sounds[0].pause();
-			nokeys = mario.keys.run = notime = false;
+			nokeys = Global.mario.keys.run = notime = false;
 			clearInterval(move);
-			mario.maxspeed = mario.maxspeedsave;
+			Global.mario.maxspeed = Global.mario.maxspeedsave;
 		}
 	}, timer);
 	unpause();
@@ -791,8 +791,8 @@ function goOntoLand() {
 }
 function setMapGravity() {
 	if (Global.mario) {
-		if (Global.map.underwater) mario.gravity = Global.gravity / 2.8;
-		else mario.gravity = Global.gravity;
+		if (Global.map.underwater) Global.mario.gravity = Global.gravity / 2.8;
+		else Global.mario.gravity = Global.gravity;
 	}
 }
 

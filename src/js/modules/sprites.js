@@ -371,11 +371,11 @@ function refillCanvas() {
 	
 	// I could implement dirty rectangles, but why? Worst case == average case...
 	// context.clearRect(0, 0, canvas.width, canvas.height);
-	context.fillStyle = area.fillStyle;
+	context.fillStyle = Global.area.fillStyle;
 	context.fillRect(0, 0, canvas.width, canvas.height);
-	for(i = scenery.length - 1; i >= 0; --i) drawThingOnCanvas(context, scenery[i]);
-	for(i = solids.length - 1; i >= 0; --i) drawThingOnCanvas(context, solids[i]);
-	for(i = characters.length - 1; i >= 0; --i) drawThingOnCanvas(context, characters[i]);
+	for(i = Global.scenery.length - 1; i >= 0; --i) drawThingOnCanvas(context, Global.scenery[i]);
+	for(i = Global.solids.length - 1; i >= 0; --i) drawThingOnCanvas(context, Global.solids[i]);
+	for(i = Global.characters.length - 1; i >= 0; --i) drawThingOnCanvas(context, Global.characters[i]);
 }
 
 // General function to draw a thing to a context
@@ -478,7 +478,7 @@ function flipSpriteArrayHoriz(sprite, thing) {
 		width = thing.spritewidth,
 		height = thing.spriteheight,
 		newsprite = new Uint8ClampedArray(length),
-		rowsize = width * unitsizet4,
+		rowsize = width * Global.unitsizet4,
 		newloc, oldloc,
 		i, j, k;
 	// For each row
@@ -501,7 +501,7 @@ function flipSpriteArrayVert(sprite, thing) {
 		width = thing.spritewidth,
 		height = thing.spriteheight,
 		newsprite = new Uint8ClampedArray(length),
-		rowsize = width * unitsizet4,
+		rowsize = width * Global.unitsizet4,
 		newloc = 0,
 		oldloc = length - rowsize,
 		i, j, k;

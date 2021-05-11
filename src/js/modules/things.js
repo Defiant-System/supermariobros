@@ -121,18 +121,20 @@ function placeThing(me, left, top) {
 }
 
 function addText(html, left, top) {
-	var element = createElement("div", {innerHTML: html, className: "text",
+	var element = Global.createElement("div", {innerHTML: html, className: "text",
 		left: left,
 		top: top,
-		onclick: body.onclick || canvas.onclick, 
+		onclick: Global.canvas.onclick, 
+		// onclick: body.onclick || canvas.onclick, 
 		style: {
 			marginLeft: left + "px",
 			marginTop: top + "px"
 		}});
-	body.appendChild(element);
-	texts.push(element);
+	window.find(".content").append(element);
+	Global.texts.push(element);
 	return element;
 }
+
 // Called by funcSpawner placed by pushPreText
 // Kills the text once it's too far away
 function spawnText(me, settings) {
@@ -146,14 +148,14 @@ function spawnText(me, settings) {
 function checkTexts() {
 	var delx = Global.quads.delx,
 		element, me, i;
-	for(i = texts.length - 1; i >= 0; --i) {
-		me = texts[i]
-		element = texts[i].element || me;
+	for(i = Global.texts.length - 1; i >= 0; --i) {
+		me = Global.texts[i]
+		element = Global.texts[i].element || me;
 		me.right = me.left + element.clientWidth
 		if (me.right < delx) {
 			body.removeChild(element);
 			killNormal(me);
-			deleteThing(element, texts, i);
+			deleteThing(element, Global.texts, i);
 		}
 	}
 }
@@ -223,7 +225,7 @@ function FireBall(me, moveleft) {
 	me.group = "item";
 	me.width = me.height = 4;
 	me.speed = Global.unitsize * 1.75;
-	me.gravity = gravity * 1.56;
+	me.gravity = Global.gravity * 1.56;
 	me.jumpheight = Global.unitsize * 1.56;
 	me.nofire = me.nostar = me.collide_primary = true;
 	me.moveleft = moveleft;
@@ -263,7 +265,7 @@ function Star(me) { // GOLDEEN GOLDEEN
 	me.height = 8;
 	me.speed = Global.unitsize * .56;
 	me.jumpheight = Global.unitsize * 1.17;
-	me.gravity = gravity / 2.8;
+	me.gravity = Global.gravity / 2.8;
 	me.animate = emergeUp;
 	me.movement = moveJumping;
 	me.collide = collideFriendly;
@@ -538,7 +540,7 @@ function Koopa(me, smart, fly) {
 		if (fly == true) {
 			me.movement = moveJumping;
 			me.jumpheight = Global.unitsize * 1.17;
-			me.gravity = gravity / 2.8;
+			me.gravity = Global.gravity / 2.8;
 		}
 		else {
 			me.movement = moveFloating;
@@ -657,7 +659,7 @@ function collideEnemy(one, two) {
 	}
 	
 	// Mario on top of enemy
-	if (!map.underwater && one.mario && ((one.star && !two.nostar) || (!two.deadly && objectOnTop(one, two)))) {
+	if (!Global.map.underwater && one.mario && ((one.star && !two.nostar) || (!two.deadly && objectOnTop(one, two)))) {
 		// Enforces toly
 		if (marioAboveEnemy(one, two)) return;
 		// Mario is on top of them (or star):
@@ -693,9 +695,9 @@ function Podoboo(me, jumpheight) {
 	me.width = 7;
 	me.height = 8;
 	me.deadly = me.nofall = me.nocollidesolid = me.nofire = true;
-	me.gravity = map.gravity / 2.1;
+	me.gravity = Global.map.gravity / 2.1;
 	me.jumpheight = (jumpheight || 64) * Global.unitsize;
-	me.speed = -map.maxyvel;
+	me.speed = -Global.map.maxyvel;
 	me.movement = movePodobooInit;
 	me.collide = collideEnemy;
 	me.betweentime = 70;
@@ -751,7 +753,7 @@ function HammerBro(me) {
 	me.death = killFlip;
 	me.movement = moveHammerBro;
 	setCharacter(me, "hammerbro");
-	me.gravity = gravity / 2;
+	me.gravity = Global.gravity / 2;
 	Global.EventHandler.addSpriteCycle(me, ["one", "two"]);
 	Global.EventHandler.addEvent(throwHammer, 35, me, 7);
 	Global.EventHandler.addEventInterval(jumpHammerBro, 140, Infinity, me);
@@ -791,7 +793,7 @@ function jumpHammerBro(me) {
 	if (!characterIsAlive(me)) return true; // finish
 	if (!me.resting) return; // just skip
 	// If it's ok, jump down
-	if (map.floor - (me.bottom / Global.unitsize) >= jumplev1 - 2 && me.resting.name != "floor" && Math.floor(Math.random() * 2)) {
+	if (Global.map.floor - (me.bottom / Global.unitsize) >= jumplev1 - 2 && me.resting.name != "floor" && Math.floor(Math.random() * 2)) {
 		me.yvel = Global.unitsize * -.7;
 		me.falling = true;
 		Global.EventHandler.addEvent(function(me) { me.falling = false; }, 42, me);
@@ -808,7 +810,7 @@ function Hammer(me, left) {
 	me.yvel = -Global.unitsize * 1.4;
 	me.xvel = Global.unitsize / 1.4;
 	if (left) me.xvel *= -1;
-	me.gravity = gravity / 2.1;
+	me.gravity = Global.gravity / 2.1;
 	setCharacter(me, "hammer");
 	Global.EventHandler.addSpriteCycle(me, ["one", "two", "three", "four"], 3);
 }
@@ -854,7 +856,7 @@ function BulletBill(me) {
 function Bowser(me, hard) {
 	me.width = me.height = 16;
 	me.speed = .28 * Global.unitsize;
-	me.gravity = gravity / 2.8;
+	me.gravity = Global.gravity / 2.8;
 	me.deadly = me.dx = me.lookleft = me.nokillend = me.skipoverlaps = true;
 	me.moveleft = me.smart = me.movecount = me.jumpcount = me.firecount = me.deathcount = 0;
 	me.killonend = freezeBowser;
@@ -1056,9 +1058,9 @@ function moveCheepJumping(me) {
 	shiftVert(me, me.yvel += Global.unitsize / 14);
 }
 function startCheepSpawn() {
-	return map.zone_cheeps = Global.EventHandler.addEventInterval(
+	return Global.map.zone_cheeps = Global.EventHandler.addEventInterval(
 		function() {
-			if (!map.zone_cheeps) return true;
+			if (!Global.map.zone_cheeps) return true;
 			var spawn = new Thing(CheepCheep, true, true);
 			addThing(spawn, Math.random() * Global.mario.left * Global.mario.maxspeed / Global.unitsized2, gamescreen.height * Global.unitsize);
 			spawn.xvel = Math.random() * Global.mario.maxspeed;
@@ -1096,24 +1098,24 @@ function Lakitu(me, norepeat) {
 	me.movement = moveLakituInit;
 	me.death = killLakitu;
 	setCharacter(me, "lakitu out");
-	map.has_lakitu = me;
+	Global.map.has_lakitu = me;
 }
 // The lakitu's position starts to the right of mario ...
 function moveLakituInit(me) {
-	if (map.has_lakitu && me.norepeat) return killNormal(me);
+	if (Global.map.has_lakitu && me.norepeat) return killNormal(me);
 	Global.EventHandler.addEventInterval(function(me) {
 		if (me.alive) throwSpiny(me);
 		else return true;
 	}, 140, Infinity, me);
 	me.movement = moveLakituInit2;
 	moveLakituInit2(me);
-	map.has_lakitu = me;
+	Global.map.has_lakitu = me;
 }
 function moveLakituInit2(me) {
 	if (me.right < Global.mario.left) {
 		moveLakitu(me);
 		me.movement = moveLakitu;
-		map.lakitu = me;
+		Global.map.lakitu = me;
 		return true;
 	}
 	shiftHoriz(me, -Global.unitsize);
@@ -1247,7 +1249,7 @@ function Coin(me, solid) {
 	if (solid) me.movement = coinBecomesSolid;
 }
 function coinBecomesSolid(me) {
-	switchContainers(me, characters, solids);
+	switchContainers(me, Global.characters, solids);
 	me.movement = false;
 }
 function hitCoin(me, coin) {
@@ -1267,7 +1269,7 @@ function gainCoin() {
 function coinEmerge(me, solid) {
 	play("Coin");
 	removeClass(me, "still");
-	switchContainers(me, characters, scenery);
+	switchContainers(me, Global.characters, scenery);
 	score(me, 200, false);
 	gainCoin();
 	me.nocollide = me.alive = me.nofall = me.emerging = true;
@@ -1703,12 +1705,12 @@ function marioHopsOff(me, solid, addrun) {
 	
 	console
 	me.piping = me.nocollide = me.nofall = me.climbing = false;
-	me.gravity = gravity / 4;
+	me.gravity = Global.gravity / 4;
 	me.xvel = 3.5;
 	me.yvel = -3.5;
 	Global.EventHandler.addEvent(function(me) {
 		unflipHoriz(me);
-		me.gravity = gravity;
+		me.gravity = Global.gravity;
 		me.movement = moveMario;
 		me.attached = false;
 		if (addrun) {
@@ -1758,7 +1760,7 @@ function killMario(me, big) {
 	if (!me.alive || me.flickering || me.dying) return;
 	// If this is an auto kill, it's for rizzles
 	if (big == 2) {
-		notime = true;
+		Global.notime = true;
 		me.dead = me.dying = true;
 	}
 	// Otherwise it's just a regular (enemy, time, etc.) kill
@@ -1778,16 +1780,16 @@ function killMario(me, big) {
 			updateSize(me);
 			setClass(me, "character mario dead");
 			// Pause some things
-			nokeys = notime = me.dying = true;
+			Global.nokeys = Global.notime = me.dying = true;
 			thingStoreVelocity(me);
 			// Make this the top of characters
-			containerForefront(me, characters);
+			containerForefront(me, Global.characters);
 			// After a tiny bit, animate
 			Global.EventHandler.addEvent(function(me) {
 				thingRetrieveVelocity(me, true);
 				me.nocollide = true;
 				me.movement = me.resting = false;
-				me.gravity = gravity / 2.1;
+				me.gravity = Global.gravity / 2.1;
 				me.yvel = Global.unitsize * -1.4;
 			}, 7, me);
 		}
@@ -1796,7 +1798,7 @@ function killMario(me, big) {
 	// Clear and reset
 	pauseAllSounds();
 	if (!Global.editing) play("Mario Dies");
-	me.nocollide = me.nomove = nokeys = 1;
+	me.nocollide = me.nomove = Global.nokeys = 1;
 	--Global.data.lives.amount;
 	if (!Global.map.random) Global.data.score.amount = Global.data.scoreold;
 	
@@ -1809,11 +1811,11 @@ function killMario(me, big) {
 	}
 	// If the map is normal, or failing that a game over is reached, timeout a reset
 	else if (!Global.map.random || Global.data.lives.amount <= 0) {
-		Global.reset = setTimeout(Global.data.lives.amount ? setMap : gameOver, timer * 280);
+		Global.reset = setTimeout(Global.data.lives.amount ? setMap : gameOver, Global.timer * 280);
 	}
 	// Otherwise it's random; spawn him again
 	else {
-			nokeys = notime = false;
+			Global.nokeys = Global.notime = false;
 			updateDataElement(Global.data.score);
 			updateDataElement(Global.data.lives);
 			// placeMario(unitsizet16, unitsizet8 * -1 + (map.underwater * unitsize * 24));
@@ -1841,7 +1843,7 @@ function marioDropsIn() {
 		}, Global.map.respawndist || 17);
 	}
 	// ...in which case just fix his gravity
-	else Global.mario.gravity = gravity / 2.8;
+	else Global.mario.gravity = Global.gravity / 2.8;
 }
 
 function gameOver() {
@@ -1868,8 +1870,10 @@ function gameOver() {
 function gameRestart() {
 	seedlast = .007;
 	body.style.visibility = "hidden";
-	body.innerHTML = body.style.paddingTop = body.style.fontSize = "";
-	body.appendChild(canvas);
+	body.innerHTML =
+	body.style.paddingTop =
+	body.style.fontSize = "";
+	body.appendChild(Global.canvas);
 	gameon = true;
 	Global.map.random ? setMapRandom() : setMap(1,1);
 	Global.EventHandler.addEvent(function() { body.style.visibility = ""; });
@@ -2311,7 +2315,7 @@ function CastleAxeFalls(me, collider) {
 	killNormal(axe);
 	killNormal(collider);
 	// Pause Mario & wipe the other characters
-	notime = nokeys = true;
+	Global.notime = Global.nokeys = true;
 	thingStoreVelocity(me);
 	killOtherCharacters();
 	Global.EventHandler.addEvent(killNormal, 7, axe.chain);
@@ -2504,7 +2508,7 @@ function FlagCollision(me, detector) {
 	
 	// Reset and clear most stuff, including killing all other characters
 	killOtherCharacters();
-	nokeys = notime = Global.mario.nofall = 1;
+	Global.nokeys = Global.notime = Global.mario.nofall = 1;
 	
 	// Mostly clear Mario, and set him to the pole's left
 	Global.mario.xvel =
@@ -2577,7 +2581,7 @@ function scoreMarioFlag(diff, stone) {
 }
 
 function FlagOff(me, pole) {
-	Global.mario.keys.run = notime = nokeys = 1;
+	Global.mario.keys.run = Global.notime = Global.nokeys = 1;
 	Global.mario.maxspeed = Global.mario.walkspeed;
 	flipHoriz(me);
 	Global.EventHandler.clearClassCycle(me, "climbing");
@@ -2593,7 +2597,7 @@ function endLevelPoints(me, detector) {
 	if (!me || !me.mario) return;
 	
 	// Stop the game, and get rid of mario and the detectors
-	notime = nokeys = true;
+	Global.notime = Global.nokeys = true;
 	killNormal(detector);
 	killNormal(me);
 	

@@ -50,7 +50,7 @@ function addQuadCol(left) {
 
 function shiftQuadCol() {
 	var old = [];
-	if (!map.nodeletequads) {
+	if (!Global.map.nodeletequads) {
 		for(var i=Global.quads.rows-1; i>0; --i) {
 			old.push(deleteQuad(Global.quads.shift()));
 		}
@@ -78,9 +78,9 @@ function determineAllQuadrants() {
 	for(var i=0; i<Global.quads.length; ++i)
 		Global.quads[i].numthings = 0;
 	
-	for(var j=0; j<solids.length; ++j)
-		if (solids[j].moved != false)
-			determineThingQuadrants(solids[j]);
+	for(var j=0; j<Global.solids.length; ++j)
+		if (Global.solids[j].moved != false)
+			determineThingQuadrants(Global.solids[j]);
 	
 	// for(var k=0; k<characters.length; ++k)
 		// determineThingQuadrants(characters[k]);

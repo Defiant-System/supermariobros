@@ -18,12 +18,12 @@ function play(name_raw) {
 	// If it's not already being played,
 	if (!sound) {
 		// Check for it in the library
-		if (sound = library.sounds[name_raw]) {
+		if (sound = Global.library.sounds[name_raw]) {
 			Global.sounds[name_raw] = sound;
 		}
 		// Otherwise it's not known, complain
 		else {
-			log("Unknown sound: '" + name_raw + "'");
+			console.log("Unknown sound: '" + name_raw + "'");
 			return sound;
 		}
 	}
@@ -45,7 +45,7 @@ function play(name_raw) {
 // The same as regular play, but with lower volume when further from Mario
 function playLocal(name, xloc, main) {
 	var sound = play(name, main),
-			volume_real;
+		volume_real;
 	// Don't do anything without having played a sound, or if there's no actual Mario
 	if (!sound || !Global.mario) return;
 	
@@ -73,7 +73,7 @@ function playTheme(name_raw, resume, loop) {
 	}
 	
 	// If the name isn't given, get it from the current area
-	if (!name_raw) name_raw = area.theme;
+	if (!name_raw) name_raw = Global.area.theme;
 	
 	// This creates the sound.
 	var sound = Global.sounds.theme = play(name_raw);
@@ -92,7 +92,7 @@ function playTheme(name_raw, resume, loop) {
 
 // The equivalent of playTheme with Hurry added on
 function playCurrentThemeHurry(name_raw) {
-	playTheme("Hurry " + (name_raw || area.theme));
+	playTheme("Hurry " + (name_raw || Global.area.theme));
 }
 
 // Called when a sound is done to get it out of sounds

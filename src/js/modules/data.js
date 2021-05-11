@@ -5,9 +5,7 @@
 // window.data stores the references to data and elements
 function resetData() {
 	// Make sure there's no data display already
-	var check;
-	if (check = document.getElementById("data_display"))
-		body.removeChild(check);
+	window.find(".data_display").remove();
 	
 	if (!Global.data) {
 		Global.data = new Data();
@@ -70,10 +68,10 @@ function updateDataTime(me) {
 	// If the time direction isn't up (random map), check for timing
 	if (me.dir != 1) {
 		if (me.amount == 100) playCurrentThemeHurry(); 
-		else if (me.amount <= 0) killMario(mario, true);
+		else if (me.amount <= 0) killMario(Global.mario, true);
 	}
 	// If time is still enabled, change it by 1
-	if (!notime) {
+	if (!Global.notime) {
 		Global.map.time = me.amount += me.dir;
 		updateDataElement(me);
 	}
@@ -92,20 +90,20 @@ function score(me, amount, appears) {
 	// Don't do negative values
 	if (amount <= 0) return;
 	// If it's in the form 'score(X)', return 'score(mario, x)'
-	if (arguments.length == 1) return score(mario, me);
+	if (arguments.length == 1) return score(Global.mario, me);
 	// Keep the high score in localStorage, why not.
-	localStorage.highscore = max(localStorage.highscore, data.score.amount += amount);
+	localStorage.highscore = max(localStorage.highscore, Global.data.score.amount += amount);
 	// If it appears, add the element
 	if (appears) {
 		var text = addText(amount, me.left, me.top);
 		text.yvel = -unitsized4;
 		Global.EventHandler.addEvent(killScore, 49, text);
 	}
-	while(data.score > 10000) { // you never know...
+	while(Global.data.score > 10000) { // you never know...
 		gainLife();
-		data.score.amount = data.score.amount % 10000;
+		Global.data.score.amount = Global.data.score.amount % 10000;
 	}
-	updateDataElement(data.score);
+	updateDataElement(Global.data.score);
 }
 function killScore(text) {
 	if (body.contains(text))
@@ -115,25 +113,25 @@ function killScore(text) {
 }
 
 function findScore(lev) {
-	if (lev < data.scorelevs.length) return data.scorelevs[lev];
+	if (lev < Global.data.scorelevs.length) return Global.data.scorelevs[lev];
 	gainLife();
 	return -1;
 }
 
 function gainLife(num, nosound) {
-	data.lives.amount += typeof(num) == "number" ? num : 1;
+	Global.data.lives.amount += typeof(num) == "number" ? num : 1;
 	if (!nosound) play("Gain Life");
-	updateDataElement(data.lives);
+	updateDataElement(Global.data.lives);
 }
 
 function setLives(num) {
-	data.lives.amount = Number(num);
-	updateDataElement(data.lives);
+	Global.data.lives.amount = Number(num);
+	updateDataElement(Global.data.lives);
 }
 
 function storeMarioStats() {
-	data.mariopower = mario.power;
+	Global.data.mariopower = Global.mario.power;
 }
 function clearMarioStats() {
-	data.mariopower = mario.power = 1;
+	Global.data.mariopower = Global.mario.power = 1;
 }

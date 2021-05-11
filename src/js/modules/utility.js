@@ -221,10 +221,10 @@ function slideToXLoc(me, xloc, maxspeed, see) {
 	var midx = getMidX(me);
 	if (midx < xloc) {
 		// Me is the left
-		shiftHoriz(me, min(maxspeed, (xloc - midx)), see);
+		shiftHoriz(me, Global.min(maxspeed, (xloc - midx)), see);
 	} else {
 		// Me is the right
-		shiftHoriz(me, max(-maxspeed, (xloc - midx)), see);
+		shiftHoriz(me, Global.max(-maxspeed, (xloc - midx)), see);
 	}
 }
 
@@ -399,7 +399,7 @@ function objectOnTop(one, two) {
 	if (one.yvel < two.yvel && two.type != "solid") return false;
 	if (one.mario && one.bottom < two.bottom && two.group == "enemy") return true;
 	return(  (one.left + Global.unitsize < two.right && one.right - Global.unitsize > two.left) && 
-	(one.bottom - two.yvel <= two.top + two.toly || one.bottom <= two.top + two.toly + abs(one.yvel - two.yvel)));
+	(one.bottom - two.yvel <= two.top + two.toly || one.bottom <= two.top + two.toly + Global.abs(one.yvel - two.yvel)));
 }
 
 // Like objectOnTop, but more specifically used for characterOnSolid and characterOnResting
@@ -409,7 +409,7 @@ function objectOnSolid(one, two) {
 			one.right - Global.unitsize > two.left )
 		&& 
 		( one.bottom - one.yvel <= two.top + two.toly || 
-			one.bottom <= two.top + two.toly + abs(one.yvel - two.yvel) )
+			one.bottom <= two.top + two.toly + Global.abs(one.yvel - two.yvel) )
 	);
 }
 
@@ -443,7 +443,7 @@ function characterTouchedSolid(me, solid) {
 		if (solid.hidden) return;
 		me.resting = solid;
 		// Meh.
-		if (me.mario && map.underwater) removeClass(me, "paddling");
+		if (me.mario && Global.map.underwater) removeClass(me, "paddling");
 	}
 	
 	// Solid on top of me
@@ -467,11 +467,11 @@ function characterTouchedSolid(me, solid) {
 	//// .midx is given by solidOnCharacter
 	if (!characterNotBumping(me, solid) && !objectOnTop(me, solid) && !objectOnTop(solid, me) && !me.under && me != solid.up) {
 		if (me.right <= solid.right) { // To left of solid
-			me.xvel = min(me.xvel, 0);
-			shiftHoriz(me, max(solid.left + Global.unitsize - me.right, -Global.unitsized2), true);
+			me.xvel = Global.min(me.xvel, 0);
+			shiftHoriz(me, Global.max(solid.left + Global.unitsize - me.right, -Global.unitsized2), true);
 		} else if (me.left >= solid.left) { // To right of solid
-			me.xvel = max(me.xvel, 0);
-			shiftHoriz(me, min(solid.right - Global.unitsize - me.left, Global.unitsized2), true);
+			me.xvel = Global.max(me.xvel, 0);
+			shiftHoriz(me, Global.min(solid.right - Global.unitsize - me.left, Global.unitsized2), true);
 		}
 		
 		// Non-Marios are instructed to flip
@@ -487,7 +487,7 @@ function characterTouchedSolid(me, solid) {
 
 // Really just for koopas
 function characterNotBumping(me, solid) {
-	if (me.top + me.toly + abs(me.yvel) > solid.bottom) return true;
+	if (me.top + me.toly + Global.abs(me.yvel) > solid.bottom) return true;
 	return false;
 }
 
@@ -613,7 +613,7 @@ function offResting(me) {
 function moveJumping(me) {
 	moveSimple(me);
 	if (me.resting) {
-		me.yvel = -abs(me.jumpheight);
+		me.yvel = -Global.abs(me.jumpheight);
 		me.resting = false;
 	}
 }
@@ -623,16 +623,16 @@ function moveJumping(me) {
 // [moveFloating, 30, 72] slides up and down between 30 and 72
 function moveFloating(me) {
 	setPlatformEndpoints(me);
-	me.begin = map.floor * Global.unitsize - me.begin;
-	me.end = map.floor * Global.unitsize - me.end;
+	me.begin = Global.map.floor * Global.unitsize - me.begin;
+	me.end = Global.map.floor * Global.unitsize - me.end;
 	(me.movement = moveFloatingReal)(me);
 }
 
 function moveFloatingReal(me) {
 	if (me.top < me.end)
-		me.yvel = min(me.yvel + Global.unitsized32, me.maxvel);
+		me.yvel = Global.min(me.yvel + Global.unitsized32, me.maxvel);
 	else if (me.bottom > me.begin)
-		me.yvel = max(me.yvel - Global.unitsized32, -me.maxvel);
+		me.yvel = Global.max(me.yvel - Global.unitsized32, -me.maxvel);
 	movePlatformNorm(me);
 }
 
@@ -646,9 +646,9 @@ function moveSliding(me) {
 
 function moveSlidingReal(me) {
 	if (gamescreen.left + me.left < me.begin)
-		me.xvel = min(me.xvel + Global.unitsized32, me.maxvel);
+		me.xvel = Global.min(me.xvel + Global.unitsized32, me.maxvel);
 	else if (gamescreen.left + me.right > me.end)
-		me.xvel = max(me.xvel - Global.unitsized32, -me.maxvel);
+		me.xvel = Global.max(me.xvel - Global.unitsized32, -me.maxvel);
 	movePlatformNorm(me);
 }
 

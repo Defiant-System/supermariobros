@@ -115,8 +115,13 @@ function resetGameState(nocount) {
 	clearAllTimeouts();
 	// Also reset data
 	resetData();
-	Global.nokeys = Global.spawning = Global.spawnon =
-		Global.notime = Global.editing = Global.qcount = Global.lastscroll = 0;
+	Global.nokeys =
+	Global.spawning =
+	Global.spawnon =
+	Global.notime =
+	Global.editing =
+	Global.qcount =
+	Global.lastscroll = 0;
 	Global.paused = Global.gameon = true;
 	// Shifting location shouldn't wipe the gamecount (for key histories)
 	if (!nocount) Global.gamecount = 0;
@@ -133,20 +138,22 @@ function scrollWindow(x, y) {
 	x = x || 0; y = y || 0;
 	var xinv = -x, yinv = -y;
 	
-	gamescreen.left += x; gamescreen.right += x;
-	gamescreen.top += y; gamescreen.bottom += y;
+	Global.gamescreen.left += x; Global.gamescreen.right += x;
+	Global.gamescreen.top += y; Global.gamescreen.bottom += y;
 	
-	shiftAll(characters, xinv, yinv);
-	shiftAll(solids, xinv, yinv);
-	shiftAll(scenery, xinv, yinv);
-	shiftAll(quads, xinv, yinv);
-	shiftElements(texts, xinv, yinv);
+	shiftAll(Global.characters, xinv, yinv);
+	shiftAll(Global.solids, xinv, yinv);
+	shiftAll(Global.scenery, xinv, yinv);
+	shiftAll(Global.quads, xinv, yinv);
+	shiftElements(Global.texts, xinv, yinv);
 	updateQuads(xinv);
 }
+
 function shiftAll(stuff, x, y) {
 	for(var i = stuff.length - 1; i >= 0; --i)
 			shiftBoth(stuff[i], x, y);
 }
+
 function shiftElements(stuff, x, y) {
 	for(var i = stuff.length - 1, elem; i >= 0; --i) {
 		elem = stuff[i];
@@ -162,7 +169,7 @@ function scrollMario(x, y, see) {
 	y = y || 0;
 	scrollWindow(x,y);
 	setLeft(Global.mario, saveleft, see);
-	setTop(Global.mario, savetop + y * unitsize, see);
+	setTop(Global.mario, savetop + y * Global.unitsize, see);
 	updateQuads();
 }
 
