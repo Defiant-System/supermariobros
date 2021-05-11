@@ -14,7 +14,7 @@ function Thing(type) {
 	// Otherwise make this based off the type
 	// Make sure this is legally created
 	var self = this === window ? new Thing() : this,
-			args = self.args = arrayMake(arguments);
+		args = self.args = arrayMake(arguments);
 	args[0] = self;
 	type.apply(self, args);
 	self.alive = true;
@@ -104,12 +104,12 @@ function addThing(me, left, top) {
 		me = new Thing(me);
 	}
 	placeThing(me, left, top);
-	window[me.libtype].push(me);
+	Global[me.libtype].push(me);
 	me.placed = true;
 	determineThingQuadrants(me);
 	if (me.onadding) me.onadding(); // generally just for sprite cycles
 	setThingSprite(me);
-	window["last_" + (me.title || me.group || "unknown")] = me;
+	Global["last_" + (me.title || me.group || "unknown")] = me;
 	return me;
 }
 // Called by addThing for simple placement
@@ -1328,7 +1328,7 @@ function coinEmergeMoveParent(me) {
 
 function placeMario(xloc, yloc) {
 	clearOldMario();
-	window.mario = new Thing(Mario);
+	Global.mario = new Thing(Mario);
 	var adder = addThing(mario, xloc || unitsizet16, yloc || (map.floor - mario.height) * unitsize);
 	if (data.mariopower >= 2) {
 		marioGetsBig(mario, true);
@@ -1337,7 +1337,7 @@ function placeMario(xloc, yloc) {
 	return adder;
 }
 function clearOldMario() {
-	if (!window.mario) return;
+	if (!Global.mario) return;
 	// if (mario.element) removeElement(mario);
 	mario.alive = false;
 	mario.dead = true;
@@ -1543,7 +1543,7 @@ function moveMario(me) {
 	else if (me.xvel < -decel) me.xvel+=decel;
 	else if (me.xvel!=0) {
 	me.xvel = 0;
-	if (!window.nokeys && me.keys.run==0) {
+	if (!Global.nokeys && me.keys.run==0) {
 			if (me.keys.left_down)me.keys.run=-1;
 			else if (me.keys.right_down)me.keys.run=1;
 		}  
@@ -1779,13 +1779,13 @@ function killMario(me, big) {
 
 	// Clear and reset
 	pauseAllSounds();
-	if (!window.editing) play("Mario Dies");
+	if (!Global.editing) play("Mario Dies");
 	me.nocollide = me.nomove = nokeys = 1;
 	--data.lives.amount;
 	if (!map.random) data.score.amount = data.scoreold;
 	
 	// If it's in editor, (almost) immediately set map
-	if (window.editing) {
+	if (Global.editing) {
 		setTimeout(function() {
 			editorSubmitGameFuncPlay();
 			editor.playing = editor.playediting = true;
@@ -1793,7 +1793,7 @@ function killMario(me, big) {
 	}
 	// If the map is normal, or failing that a game over is reached, timeout a reset
 	else if (!map.random || data.lives.amount <= 0) {
-		window.reset = setTimeout(data.lives.amount ? setMap : gameOver, timer * 280);
+		Global.reset = setTimeout(data.lives.amount ? setMap : gameOver, timer * 280);
 	}
 	// Otherwise it's random; spawn him again
 	else {
@@ -1843,7 +1843,7 @@ function gameOver() {
 	body.className = "Night"; // to make it black
 	body.innerHTML = innerHTML;
 	
-	window.gamecount = Infinity;
+	Global.gamecount = Infinity;
 	clearMarioStats();
 	
 	setTimeout(gameRestart, 7000);
@@ -2482,7 +2482,7 @@ function CastleDoorDetector(me) {
 }
 function FlagCollision(me, detector) {
 	if (!me || !me.mario) return killNormal(me);
-	window.detector = detector;
+	Global.detector = detector;
 	pauseAllSounds();
 	play("Flagpole");
 	

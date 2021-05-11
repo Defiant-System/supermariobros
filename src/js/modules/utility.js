@@ -63,7 +63,7 @@ function specifyTimer(timerin) {
 	// Also, this kills performance. Works best with smaller windows!
 	timer = timerin;
 	requestAnimationFrame = function(func) {
-		window.setTimeout(func, timer);
+		setTimeout(func, timer);
 	};
 }
 
@@ -804,14 +804,14 @@ function flicker(me, cleartime, interval) {
 // Also kills all moving solids
 function killOtherCharacters() {
 	var thing, i;
-	if (window.characters) {
+	if (Global.characters) {
 		for(i = characters.length - 1; i >= 0; --i) {
 			thing = characters[i];
 			if (!thing.nokillend) deleteThing(thing, characters, i);
 			else if (thing.killonend) thing.killonend(thing);
 		}
 	}
-	if (window.solids) {
+	if (Global.solids) {
 		for(i = solids.length - 1; i >= 0; --i)
 			if (solids[i].killonend)
 				deleteThing(solids[i], solids, i);

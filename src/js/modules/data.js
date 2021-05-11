@@ -9,8 +9,8 @@ function resetData() {
 	if (check = document.getElementById("data_display"))
 		body.removeChild(check);
 	
-	if (!window.data) {
-		window.data = new Data();
+	if (!Global.data) {
+		Global.data = new Data();
 		// setDataDisplay();
 	}
 }

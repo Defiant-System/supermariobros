@@ -1,6 +1,6 @@
 // Quads has 7 cols and 6 rows
 function resetQuadrants() {
-	window.quads = [];
+	Global.quads = [];
 	quads.rows = 5;
 	quads.cols = 6;
 	setQuadDimensions();

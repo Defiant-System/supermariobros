@@ -148,7 +148,7 @@ function getSpriteFromLibrary(thing) {
 			libtype = thing.libtype,
 			className = thing.className,
 			classes = className.split(/\s+/g).slice(1).sort(),
-			setting = (map.area || window.defaultsetting).setting.split(" "),
+			setting = (map.area || Global.defaultsetting).setting.split(" "),
 			key, cached, sprite,
 			i;
 	
@@ -365,9 +365,9 @@ function refillThingCanvases(thing, parsed) {
 
 // This is called every upkeep to refill the main canvas
 function refillCanvas() {
-	var canvas = window.canvas,
-			context = window.context,
-			things, thing, left, top, i;
+	var canvas = Global.canvas,
+		context = Global.context,
+		things, thing, left, top, i;
 	
 	// I could implement dirty rectangles, but why? Worst case == average case...
 	// context.clearRect(0, 0, canvas.width, canvas.height);
@@ -548,7 +548,7 @@ function drawPatternOnCanvas(context, source, leftc, topc, unitwidth, unitheight
 
 // Forces each thing to redraw itself
 function clearAllSprites(clearcache) {
-	var arrs = [window.solids, window.characters, window.scenery],
+	var arrs = [Global.solids, Global.characters, Global.scenery],
 			arr, i;
 	for(arr in arrs)
 		for(i in (arr = arrs[arr]))

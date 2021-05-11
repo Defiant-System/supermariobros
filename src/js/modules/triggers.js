@@ -114,7 +114,7 @@ function Controls(pipes, gamepadPipes) {
 		},
 		// Pause
 		pause: function(keys) {
-			if (!paused && !(window.editing && !editor.playing))
+			if (!paused && !(Global.editing && !editor.playing))
 				setTimeout(function() { pause(true); }, 140);
 		},
 		// Mute / Unmute
@@ -182,7 +182,7 @@ function Controls(pipes, gamepadPipes) {
 function ControlsPipe(name, strict) {
 	var responses = controls[name];
 	return function(event) {
-		if ((strict && ((mario && mario.dead) || window.paused)) || window.nokeys) return;
+		if ((strict && ((mario && mario.dead) || Global.paused)) || Global.nokeys) return;
 
 		// Allow this to be used as keyup(37) or keyup({which: 37})
 		if (typeof(event) != "number" || event.which || event.control)
@@ -195,12 +195,12 @@ function ControlsPipe(name, strict) {
 		else mlog(name, "Could not", name,  event);
 
 		// Record this in the history
-		window.gamehistory[gamecount] = [keydown, event];
+		Global.gamehistory[gamecount] = [keydown, event];
 	};
 }
 
 function keydown(event) {
-	if ((mario && mario.dead) || window.paused || window.nokeys) return;
+	if ((mario && mario.dead) || Global.paused || Global.nokeys) return;
 	var responses = controls["keydown"];
 	// Allow this to be used as keyup(37) or keyup({which: 37})
 	if (typeof(event) === "object" || event.which)
@@ -208,11 +208,11 @@ function keydown(event) {
 	if (responses[event])
 			responses[event](mario.keys);
 
-	window.gamehistory[gamecount] = [keydown, event];
+	Global.gamehistory[gamecount] = [keydown, event];
 }
 
 function keyup(event) {
-	if (window.nokeys) return;
+	if (Global.nokeys) return;
 	var responses = controls["keyup"];
 	// Allow this to be used as keyup(37) or keyup({which: 37})
 	if (typeof(event) === "object" || event.which)
@@ -220,7 +220,7 @@ function keyup(event) {
 	if (responses[event])
 			responses[event](mario.keys);
 
-	window.gamehistory[gamecount] = [keyup, event];
+	Global.gamehistory[gamecount] = [keyup, event];
 }
 
 function contextmenu(event) {
@@ -232,7 +232,7 @@ function mousedown(event) {
 	// Right click
 	if (event.which == 3) {
 		if (paused) unpause();
-		else if ((!window.editor) || (!editing && !editor.playing)) pause(true);
+		else if ((!Global.editor) || (!editing && !editor.playing)) pause(true);
 		if (event.preventDefault)
 			event.preventDefault()
 	}
@@ -268,7 +268,7 @@ function hyperlulz() {
 }
 function maxlulz() {
 	// Sigh....
-	// window.palette = arrayShuffle(window.palette, 1);
+	// Global.palette = arrayShuffle(Global.palette, 1);
 	// clearAllSprites(true);
 	EventHandler.addEvent(function(arr) {
 			setAreaSetting(arr[randInt(arr.length)]);
@@ -289,7 +289,7 @@ function setMessageTriggers() {
 	// When a message is received, send it to the appropriate command code
 	window.addEventListener("message", function(event) {
 		var data = event.data,
-				type = data.type;
+			type = data.type;
 		// If the type is known, do it
 		if (command_codes[type])
 			command_codes[type](data);

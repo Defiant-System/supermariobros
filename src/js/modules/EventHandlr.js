@@ -360,8 +360,8 @@ function EventHandlr(settings) {
 		// Timing numbers
 		timingDefault      = settings.timingDefault      || 7;
 		// Function handlers
-		addClass           = settings.addClass           || window.addClass       || classAdd;
-		removeClass        = settings.removeClass        || window.removeClass    || classRemove;
+		addClass           = settings.addClass           || Global.addClass       || classAdd;
+		removeClass        = settings.removeClass        || Global.removeClass    || classRemove;
 	}
 	
 	reset(settings || {});

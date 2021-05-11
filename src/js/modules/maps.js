@@ -34,7 +34,7 @@ function resetMaps() {
 	}
 	
 	// Maps not found, and sounds, are loaded via AJAX
-	startLoadingMaps();
+	// startLoadingMaps();
 }
 
 // A new map, which contains general settings for the game run

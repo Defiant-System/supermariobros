@@ -2,9 +2,9 @@
 // Contains functions associated with the upkeep
 
 function upkeep() {
-	if (window.paused) return;
-	// window.nextupk = requestAnimationFrame(upkeep);
-	window.nextupk = setTimeout(upkeep, timer);
+	if (Global.paused) return;
+	// Global.nextupk = requestAnimationFrame(upkeep);
+	Global.nextupk = setTimeout(upkeep, timer);
 	
 	// Adjust for differences in performance
 	adjustFPS();
@@ -32,18 +32,18 @@ function upkeep() {
 }
 
 function adjustFPS() {
-	window.time_now = now();
+	Global.time_now = now();
 	var time_diff = time_now - time_prev,
 			fps_actual = roundDigit(1000 / time_diff, .001);
 	
-	window.fps = roundDigit((.7 * fps) + (.3 * fps_actual), .01);
-	window.realtime = fps_target / fps;
+	Global.fps = roundDigit((.7 * fps) + (.3 * fps_actual), .01);
+	Global.realtime = fps_target / fps;
 	
-	window.time_prev = time_now;
+	Global.time_prev = time_now;
 }
 
 function pause(big) {
-	if (paused && !window.nextupk) return;
+	if (paused && !Global.nextupk) return;
 	cancelAnimationFrame(nextupk);
 	pauseAllSounds();
 	paused = true;
@@ -52,7 +52,7 @@ function pause(big) {
 
 function unpause() {
 	if (!paused) return;
-	window.nextupk = requestAnimationFrame(upkeep);
+	Global.nextupk = requestAnimationFrame(upkeep);
 	paused = false;
 	resumeAllSounds();
 }
@@ -176,7 +176,7 @@ function maintainMario(update) {
 	
 	// Scrolloffset is how far over the middle mario's right is
 	// It's multiplied by 0 or 1 for map.canscroll
-	window.scrolloffset = (map.canscroll/* || (map.random && !map.noscroll)*/) * (mario.right - gamescreen.middlex);
+	Global.scrolloffset = (map.canscroll/* || (map.random && !map.noscroll)*/) * (mario.right - gamescreen.middlex);
 	if (scrolloffset > 0 && !map.shifting) {
 		scrollWindow(lastscroll = round(min(mario.scrollspeed, scrolloffset)));
 	}

@@ -4,9 +4,9 @@
 /* Maps */
 
 function startLoadingMaps() {
-		// Don't attempt to ajax if on a local system, it'll just crash and you'll look like a fool
+	// Don't attempt to ajax if on a local system, it'll just crash and you'll look like a fool
 	if (window.location.protocol == "file:") return;
-		
+	
 	// Over-eager loading ftw!
 	passivelyLoadMap([1,2], new XMLHttpRequest());
 }

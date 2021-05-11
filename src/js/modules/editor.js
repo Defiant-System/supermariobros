@@ -17,9 +17,9 @@ function loadEditor(noreset) {
 	
 	// If you want to clear the current map
 	if (!noreset) {
-		window.canedit = true;
+		Global.canedit = true;
 		setMap(["Special", "Blank"]);
-		window.canedit = false;
+		Global.canedit = false;
 	}
 	
 	// Set the library and controls
@@ -36,14 +36,14 @@ function loadEditor(noreset) {
 	
 	// Let the rest of the game know what's going on
 	map.shifting = false;
-	window.editing = true;
+	Global.editing = true;
 }
 
 // To do: Merge this into the main library, 
 // and make Things.js use it for constructors
 function setEditorLibrary() {
 	// The editor contains the placeable solids and characters
-	window.editor = {
+	Global.editor = {
 		xloc: 0,
 		yloc: 0,
 		playing: false,
@@ -369,7 +369,7 @@ function createEditorSidebar() {
 	sidebar.appendChild(options);
 	
 	// With it initially set, add the sidebar
-	body.appendChild(window.sidebar = sidebar);
+	body.appendChild(Global.sidebar = sidebar);
 }
 
 // Lets the user choose which Thing to place
@@ -479,7 +479,7 @@ function createEditorGuideLines() {
 		i, parent, line;
 	
 	// The parent holds them and provides the marginLeft
-	window.maplines = parent = document.createElement("div");
+	Global.maplines = parent = document.createElement("div");
 	parent.style.marginLeft = left;
 	parent.id = "maplines";
 	
@@ -546,7 +546,7 @@ function setEditorTriggers() {
 
 // Place a new thing at the editor's location
 function editorMouseClick(event) {
-	if (!window.editing || editor.clicking) return;
+	if (!Global.editing || editor.clicking) return;
 	editorPreventClicks();
 	
 	// If erasing, do that instead
@@ -966,7 +966,7 @@ function editorPreventClicks() {
 	EventHandler.addEvent(editorClickOff, 3);
 }
 function editorClickOff() {
-	if (window.editor) editor.clicking = false;
+	if (Global.editor) editor.clicking = false;
 }
 
 // Deletes and pops the last thing in placed
@@ -1141,7 +1141,7 @@ function Eraser(me) {
 }
 // Checks everything for collision (necessary because sceneries don't collide)
 function eraserErases(me) {
-	if (!window.editor) return;
+	if (!Global.editor) return;
 	var placed = editor.placed,
 			arr = placed.concat(solids).concat(characters).concat(scenery), 
 			other, i;
@@ -1232,14 +1232,14 @@ function editorCreateInputWindow(blurb, value, callback) {
 function editorCloseInputWindow(noedit) {
 	editorPreventClicks();
 	// Delete the input window
-	removeChildSafe(window.input_window, body);
+	removeChildSafe(Global.input_window, body);
 	
 	if (!noedit) {
 		// Recreate the current thing
 		editorSetCurrentThingFromName();
 		
 		// Pretty sure this is necessary.
-		window.editing = true;
+		Global.editing = true;
 	}
 	
 	editorUpdateFollower();
@@ -1247,17 +1247,17 @@ function editorCloseInputWindow(noedit) {
 
 // It's as if it never happened.
 function editorClose(inmap) {
-	if (!window.editor) return;
+	if (!Global.editor) return;
 	
 	// Clear any visual changes
 	classRemove(body, "editor");
 	classRemove(body, "erasing");
 	
 	// Remove the follower
-	// if (window.editor) {
+	// if (Global.editor) {
 		killNormal(editor.follower);
 		editor.follower = false;
-		delete window.editor;
+		delete Global.editor;
 	// }
 	
 	// Remove the editor elements (safely)
@@ -1267,14 +1267,14 @@ function editorClose(inmap) {
 	// Stop the mouse triggers
 	document.onmousemove = null;
 	
-	window.editing = false;
+	Global.editing = false;
 	// Unless this is being called by setMap, stop shifting
-	if (inmap && window.map) map.shifting = false;
+	if (inmap && Global.map) map.shifting = false;
 }
 
 // Called by scrollWindow while editing to update the follower
 function scrollEditor(xinv, yinv) {
-	if (!window.editor) return;
+	if (!Global.editor) return;
 	
 	var follower = editor.follower;
 	if (!follower) return;
@@ -1305,16 +1305,16 @@ function setEditorLocalRetrieval() {
 // Starts the editor with a particular function from editor.rawfunc
 function editorSubmitGameFunc() {
 	// If there's no raw function known, don't do anything
-	if (!window.editor || !editor.rawfunc) return loadEditor();
+	if (!Global.editor || !editor.rawfunc) return loadEditor();
 	
 	var rawfunc = editor.rawfunc,
-			mapfunc = window.custommapfunc = new Function(editor.rawfunc);
+			mapfunc = Global.custommapfunc = new Function(editor.rawfunc);
 
 	// Start the map
 	mapfuncs.Custom = { Map: mapfunc };
-	window.canedit = true;
+	Global.canedit = true;
 	setMap(["Custom", "Map"]);
-	window.canedit = editor.playing = false;
+	Global.canedit = editor.playing = false;
 	
 	// Load mario and all things 
 	entryBlank(mario);
@@ -1334,7 +1334,7 @@ function editorSubmitGameFuncPlay() {
 
 // Grabs the raw function from the input window
 function editorSubmitLoad() {
-	if (!window.editor || !editor.window_input) return;
+	if (!Global.editor || !editor.window_input) return;
 	editorPreventClicks();
 	var rawfunc = editor.window_input.value;
 	loadEditor(); 
