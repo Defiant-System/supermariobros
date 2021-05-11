@@ -37,11 +37,8 @@ function DataObject(amount, length, name) {
 // Sets up the data display on the screen
 function setDataDisplay() {
 	var display = Global.createElement("table", {
-					id: "data_display",
-					className: "display",
-					style: {
-						width: (Global.gamescreen.right + 14) + "px"
-					}}),
+						className: "data_display display"
+					}),
 		elems = ["score", "coins", "world", "time", "lives"];
 	
 	window.find("content").append(display);
@@ -56,7 +53,7 @@ function setDataDisplay() {
 
 // Getting rid of the display simply means removing it from body
 function clearDataDisplay() {
-	body.removeChild(data_display);
+	window.find(".data_display").remove();
 }
 
 // Starts the interval of updating data time

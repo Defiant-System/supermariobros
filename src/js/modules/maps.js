@@ -256,9 +256,11 @@ function setAreaPreCreation(area) {
 
 function clearTexts() {
 	if (Global.texts)
-		for(var i = texts.length - 1; i >= 0; --i)
-			if (texts[i])
-				removeChildSafe(texts[i], body);
+		for(var i = Global.texts.length - 1; i >= 0; --i) {
+			if (Global.texts[i]) {
+				Global.removeChildSafe(Global.texts[i], window.find(".content")[0]);
+			}
+		}
 	Global.texts = [];
 }
 
@@ -466,7 +468,7 @@ function enterCloudWorld(me) {
 	if (Global.map.random) Global.map.exitloc = getAfterSkyTransport();
 	
 	var screenbottom = 140 * unitsize,
-			screentop = 72 * unitsize;
+		screentop = 72 * unitsize;
 	me.placed = me.nofall = true;
 	setTop(me, screenbottom);
 	setLeft(me, unitsize * 30);

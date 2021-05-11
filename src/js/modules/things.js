@@ -1848,7 +1848,7 @@ function marioDropsIn() {
 
 function gameOver() {
 	// Having a gamecount of -1 truly means it's all over
-	gameon = false;
+	Global.gameon = false;
 	pause();
 	pauseTheme();
 	play("Game Over");
@@ -1858,8 +1858,8 @@ function gameOver() {
 	// innerHTML += "You have run out of lives. Maybe you're not ready for playing real games...";
 	innerHTML += "</p>";
 	
-	body.className = "Night"; // to make it black
-	body.innerHTML = innerHTML;
+	// body.className = "Night"; // to make it black
+	// body.innerHTML = innerHTML;
 	
 	Global.gamecount = Infinity;
 	clearMarioStats();
@@ -1874,7 +1874,7 @@ function gameRestart() {
 	body.style.paddingTop =
 	body.style.fontSize = "";
 	body.appendChild(Global.canvas);
-	gameon = true;
+	Global.gameon = true;
 	Global.map.random ? setMapRandom() : setMap(1,1);
 	Global.EventHandler.addEvent(function() { body.style.visibility = ""; });
 	setLives(3);
