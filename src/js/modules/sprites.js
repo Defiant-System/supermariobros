@@ -4,18 +4,9 @@
 // Resets the main canvas and context
 function resetCanvas() {
 	// The global canvas is one that fills the screen
-	Global.canvas = getCanvas(innerWidth, innerHeight, true);
-	// Global.canvas = createElement(
-		// "canvas",
-		// {width: innerWidth,
-		 // height: innerHeight,
-		 // style: {
-			 // width: innerWidth + "px",
-			 // height: innerHeight + "px"
-		 // }});
+	Global.canvas = window.find("canvas");
 	// The context is saved for ease of access
-	Global.context = Global.canvas.getContext("2d");
-	body.appendChild(Global.canvas);
+	Global.context = Global.canvas[0].getContext("2d");
 }
 
 /* Sprite Parsing */
@@ -30,10 +21,10 @@ function resetCanvas() {
 // This could output the Uint8ClampedArray immediately if given the area - deliberately does not, for ease of storage
 function spriteUnravel(colors) {
 	var paletteref = getPaletteReferenceStarting(Global.palette),
-			digitsize = Global.digitsize,
-			clength = colors.length,
-			current, rep, nixloc, newp, i, len,
-			output = "", loc = 0;
+		digitsize = Global.digitsize,
+		clength = colors.length,
+		current, rep, nixloc, newp, i, len,
+		output = "", loc = 0;
 	while(loc < clength) {
 		switch(colors[loc]) {
 			// A loop, ordered as 'x char times ,'
@@ -47,8 +38,7 @@ function spriteUnravel(colors) {
 				// Add that int to output, rep many times
 				while(rep--) output += current;
 				loc = nixloc + 1;
-			break;
-			
+				break;
 			// A palette changer, in the form 'p[X,Y,Z...]' (or 'p' for default)
 			case 'p':
 				// If the next character is a '[', customize.
@@ -64,12 +54,11 @@ function spriteUnravel(colors) {
 					paletteref = getPaletteReference(Global.palette);
 					digitsize = Global.digitsize;
 				}
-			break;
-			
+				break;
 			// A typical number
 			default: 
 				output += Global.makeDigit(paletteref[colors.slice(loc, loc += digitsize)], Global.digitsize);
-			break;
+				break;
 		}
 	}
 	

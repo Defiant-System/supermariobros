@@ -5,21 +5,21 @@
 
 function resetMaps() {
 	var i, j, mapfunc;
-	window.currentmap = [1,1];
-	window.defaultsetting = { setting: "Overworld" };
+	Global.currentmap = [1,1];
+	Global.defaultsetting = { setting: "Overworld" };
 	
 	// Mapfuncs starts off such that [X][Y] is window.WorldXY, if it exists
-	window.mapfuncs = new Array(9);
+	Global.mapfuncs = new Array(9);
 	// For each [i][j], if window.WorldIJ exists, it's used
 	// Otherwise it will be queried via AJAX later
 	for(var i = 1, j; i <= 9; ++i) {
-		mapfunc = mapfuncs[i] = [0,0,0,0,0];
+		mapfunc = Global.mapfuncs[i] = [0,0,0,0,0];
 		for(j = mapfunc.length; j >= 0; --j)
-			mapfunc[j] = window["World" + i + "" + j];
+			mapfunc[j] = Global["World" + i + "" + j];
 	}
 	
 	// Random maps are all window functions
-	mapfuncs["Random"] = {
+	Global.mapfuncs["Random"] = {
 		Overworld:  WorldRandomOverworld,
 		Underworld: WorldRandomUnderworld,
 		Underwater: WorldRandomUnderwater,
@@ -29,12 +29,12 @@ function resetMaps() {
 	};
 	
 	// Right now there aren't too many special maps
-	mapfuncs["Special"] = {
+	Global.mapfuncs["Special"] = {
 		Blank: BlankMap
 	}
 	
 	// Maps not found, and sounds, are loaded via AJAX
-	// startLoadingMaps();
+	startLoadingMaps();
 }
 
 // A new map, which contains general settings for the game run
@@ -44,8 +44,8 @@ function Map() {
 	this.floor = 104;
 	this.time = 400; // optionally specified later
 	this.curloc = -1;
-	this.gravity = gravity;
-	this.maxyvel = unitsize * 1.75;
+	this.gravity = Global.gravity;
+	this.maxyvel = Global.unitsize * 1.75;
 	this.maxyvelinv = this.maxyvel * -2.1;
 }
 
@@ -74,7 +74,7 @@ function setAreaSetting(area, setting, sound) {
 	else goOntoLand();
 	
 	if (sound) playTheme();
-	if (gameon) clearAllSprites();
+	if (Global.gameon) clearAllSprites();
 	map.shifting = false;
 }
 
@@ -111,13 +111,13 @@ function PreThing(xloc, yloc, type) {
 /* Map Setting */
 // Resets the board and starts
 function setMap(one, two) {
-	if (!gameon) return;
+	if (!Global.gameon) return;
 	
 	// Unless it's ok to, kill the editor
-	if (!window.canedit && window.editing) editorClose(true);
+	if (!Global.canedit && Global.editing) editorClose(true);
 	
 	// Remove random stuff
-	removeRandomDisplays();
+	window.find(".randomdisplay").remove();
 	
 	// If arguments[0] is an array, it's [one, two]
 	if (one instanceof Array) {
@@ -125,33 +125,33 @@ function setMap(one, two) {
 		one = one[0];
 	}
 	
-	var newcurrentmap = one ? [one, two] : window.currentmap,
+	var newcurrentmap = one ? [one, two] : Global.currentmap,
 			newmap = new Map(),
-			func = mapfuncs[newcurrentmap[0]];
+			func = Global.mapfuncs[newcurrentmap[0]];
 	
 	// Create the new map using the mapfunc, making sure it's loaded
 	if (!func) {
-		log("No such map section exists (yet?):", func);
+		console.log("No such map section exists (yet?):", func);
 		return;
 	}
 	newcurrentmap.func = func = func[newcurrentmap[1]];
 	if (!func) {
-		log("No such map exists (yet?):", func);
+		console.log("No such map exists (yet?):", func);
 		return;
 	}
 	
 	// Since the func exists, set and use it
-	window.map = newmap;
-	window.currentmap = newcurrentmap;
+	Global.map = newmap;
+	Global.currentmap = newcurrentmap;
 	func(newmap);
 	
 	// Set the map variables back to 0
-	newmap.areanum = newmap.curloc =/* window.playediting =*/ 0;
-	window.area = newmap.area = newmap.areas[0];
+	newmap.areanum = newmap.curloc =/* Global.playediting =*/ 0;
+	Global.area = newmap.area = newmap.areas[0];
 	
 	// Save the score if need be
-	if (window.mario && mario.power) storeMarioStats();
-	if (window.data) data.scoreold = data.score.amount;
+	if (Global.mario && mario.power) storeMarioStats();
+	if (Global.data) data.scoreold = data.score.amount;
 	
 	// Actual resetting is done in shiftToLocation
 	shiftToLocation(0);
@@ -162,7 +162,7 @@ function setMap(one, two) {
 // LocationType is either 1 (down) or -1 (up)
 // Down means Mario is moving down; Up means Mario is moving up.
 function setMapRandom(transport) {
-	if (!gameon) return;
+	if (!Global.gameon) return;
 	
 	resetSeed();
 	
@@ -200,7 +200,7 @@ function shiftToLocation(loc) {
 	
 	// Set this location's area as current
 	map.areanum = loc.area;
-	window.area = map.area = map.areas[map.areanum];
+	Global.area = map.area = map.areas[map.areanum];
 	
 	// Clear everything, create the map, then set post-creation settings
 	setAreaPreCreation(area);
@@ -210,7 +210,7 @@ function shiftToLocation(loc) {
 	// Start off by spawning, then placing Mario
 	spawnMap();
 	mario = placeMario();
-	scrollMario(loc.xloc * unitsize);
+	scrollMario(loc.xloc * Global.unitsize);
 	locMovePreparations(mario);
 	// Note that some locs will pause manually after this
 	unpause();
@@ -225,11 +225,11 @@ function shiftToLocation(loc) {
 // To do: add in other stuff
 function setAreaPreCreation(area) {
 	// Clear the containers
-	window.events = [];
+	Global.events = [];
 	EventHandler.clearAllEvents();
-	window.characters = [];
-	window.solids = [];
-	window.scenery = [];
+	Global.characters = [];
+	Global.solids = [];
+	Global.scenery = [];
 	clearTexts();
 	area.precharacters = [];
 	area.presolids = [];
@@ -250,11 +250,11 @@ function setAreaPreCreation(area) {
 	}
 }
 function clearTexts() {
-	if (window.texts)
+	if (Global.texts)
 		for(var i = texts.length - 1; i >= 0; --i)
 			if (texts[i])
 				removeChildSafe(texts[i], body);
-	window.texts = [];
+	Global.texts = [];
 }
 function setAreaPostCreation() {
 	map.current_character = map.current_solid = map.current_scenery = 0;
@@ -331,9 +331,9 @@ function spawnMap() {
 	arr = area.precharacters;
 	arrlen = arr.length;
 	current = map.current_character;
-	while(arrlen > current && screenright >= (prething = arr[current]).xloc * unitsize) {
+	while(arrlen > current && screenright >= (prething = arr[current]).xloc * Global.unitsize) {
 		thing = prething.object;
-		addThing(thing, prething.xloc * unitsize - gamescreen.left, prething.yloc * unitsize);
+		addThing(thing, prething.xloc * Global.unitsize - gamescreen.left, prething.yloc * Global.unitsize);
 		thing.placenum = current;
 		++current;
 	}
@@ -343,9 +343,9 @@ function spawnMap() {
 	arr = area.presolids;
 	arrlen = arr.length;
 	current = map.current_solid;
-	while(arrlen > current && screenrightpq >= (prething = arr[current]).xloc * unitsize) {
+	while(arrlen > current && screenrightpq >= (prething = arr[current]).xloc * Global.unitsize) {
 		thing = prething.object;
-		addThing(thing, prething.xloc * unitsize - gamescreen.left, prething.yloc * unitsize);
+		addThing(thing, prething.xloc * Global.unitsize - gamescreen.left, prething.yloc * Global.unitsize);
 		thing.placenum = current;
 		++current;
 	}
@@ -355,9 +355,9 @@ function spawnMap() {
 	arr = area.prescenery;
 	arrlen = arr.length;
 	current = map.current_scenery;
-	while(arrlen > current && screenrightpq >= (prething = arr[current]).xloc * unitsize) {
+	while(arrlen > current && screenrightpq >= (prething = arr[current]).xloc * Global.unitsize) {
 		thing = prething.object;
-		addThing(thing, prething.xloc * unitsize - gamescreen.left, prething.yloc * unitsize);
+		addThing(thing, prething.xloc * Global.unitsize - gamescreen.left, prething.yloc * Global.unitsize);
 		thing.placenum = current;
 		++current;
 	}
@@ -570,7 +570,7 @@ function locMovePreparations(me) {
 	removeClass(me, "flipped");
 }
 function startCastle(me) {
-	me = me || window.mario;
+	me = me || Global.mario;
 	if (!me) return;
 	setBottom(me, unitsize * 56);
 	setLeft(me, unitsizet2);
@@ -611,7 +611,7 @@ function setExitLoc(num) {
 
 /* Shortcut Functions */
 // Most of which call pushPre---
-function pushPreThing(type, xloc, yloc, extras, more) {
+function pushPreThing2(type, xloc, yloc, extras, more) {
 	var prething = new PreThing(map.refx + xloc, map.refy - yloc, type, extras, more);
 	if (prething.object.solid && !prething.object.nostretch) {
 		map.area.width = max(map.area.width, prething.xloc + prething.object.width);
@@ -736,16 +736,16 @@ function pushPreWarpWorld(xloc, yloc, worlds, offset, block) {
 	}
 	
 	if (block) {
-		window.block = pushPreThing(ScrollBlocker, xloc, ceilmax);
+		Global.block = pushPreThing(ScrollBlocker, xloc, ceilmax);
 		pushPreThing(ScrollBlocker, startx + 16, ceilmax);
 	}
 }
 
 // Can be called either in a map function or during gameplay
 function goUnderWater() {
-	if (window.map) {
+	if (Global.map) {
 		if (map.area) {
-			if (window.mario && !map.shifting)
+			if (Global.mario && !map.shifting)
 				setAreaSetting(String(map.area.setting || "") + " Underwater");
 			map.area.underwater = true;
 		}
@@ -758,7 +758,7 @@ function goUnderWater() {
 function goOntoLand() {
 	if (map) {
 		if (map.area) {
-			if (window.mario && !map.shifting)
+			if (Global.mario && !map.shifting)
 				setAreaSetting(map.area.setting.replace("Underwater", "") || "Overworld");
 			map.area.underwater = false;
 		}
@@ -768,14 +768,14 @@ function goOntoLand() {
 	}
 }
 function setMapGravity() {
-	if (window.mario) {
-		if (map.underwater) mario.gravity = gravity / 2.8;
-		else mario.gravity = gravity;
+	if (Global.mario) {
+		if (map.underwater) mario.gravity = Global.gravity / 2.8;
+		else mario.gravity = Global.gravity;
 	}
 }
 
 function setBStretch() {
-	window.bstretch = gamescreen.width / 8 - 2; 
+	Global.bstretch = gamescreen.width / 8 - 2; 
 }
 
 /*

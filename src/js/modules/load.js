@@ -54,34 +54,34 @@ function setNextLevelArr(arr) {
 /* Sounds */
 
 function startLoadingSounds() {
-	var libsounds = library.sounds;
-	setTimeout(function() { loadSounds(libsounds, library.sounds.names, "Sounds/"); }, 7);
-	setTimeout(function() { loadSounds(libsounds, library.sounds.themes, "Sounds/Themes/"); }, 14);
+	var libsounds = Global.library.sounds;
+	setTimeout(function() { loadSounds(libsounds, Global.library.sounds.names, "~/sounds/"); }, 7);
+	setTimeout(function() { loadSounds(libsounds, Global.library.sounds.themes, "~/sounds/"); }, 14);
 }
 
 // Loads sounds (in order) from the reference into the container
 function loadSounds(container, reference, prefix) {
 	var sound, name_raw, 
-			details = {
-					preload: 'auto',
-					prefix: '',
-					used: 0
-				},
-			len, i;
+		details = {
+			preload: 'auto',
+			prefix: '',
+			used: 0
+		},
+		len, i;
 	for(i = 0, len = reference.length; i < len; ++i) {
 		name_raw = reference[i];
 		
 		// Create the sound and store it in the container
-		sound = createElement("Audio", details);
+		sound = Global.createElement("Audio", details);
 		container[name_raw] = sound;
 		mlog("Sounds", sound)
 		
 		// Create the MP3 and OGG sources for the audio
-		sound.appendChild(createElement("Source", {
+		sound.appendChild(Global.createElement("Source", {
 			type: "audio/mp3",
 			src: prefix + "mp3/" + name_raw + ".mp3"
 		}));
-		sound.appendChild(createElement("Source", {
+		sound.appendChild(Global.createElement("Source", {
 			type: "audio/ogg",
 			src: prefix + "ogg/" + name_raw + ".ogg"
 		}));

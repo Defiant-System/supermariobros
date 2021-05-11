@@ -2701,7 +2701,7 @@ function enableWarpWorldText(me, warp) {
 // Scenery sizes are stored in window.scenery
 // After creation, they're processed
 function resetScenery() {
-	window.Scenery = {
+	Global.Scenery = {
 		// Individual sizes for scenery
 		sprites: {
 			"BrickHalf": [8, 4],
@@ -2839,7 +2839,7 @@ function resetScenery() {
 		}
 	};
 	
-	processSceneryPatterns(Scenery.patterns);
+	processSceneryPatterns(Global.Scenery.patterns);
 }
 
 // Sets the width of them and removes the blank element
@@ -2868,7 +2868,7 @@ function SceneryBlocker(me, width, height) {
 function Sprite(me, name, reps) {
 	if (!reps) reps = [1,1];
 	// Grab the template from window.Scenery (or complain if it's not there)
-	var template = me.template = Scenery.sprites[name];
+	var template = me.template = Global.Scenery.sprites[name];
 	if (!template) {
 		log("No sprite template found for", name);
 		return;

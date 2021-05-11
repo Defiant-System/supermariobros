@@ -4,7 +4,7 @@
 
 function resetTriggers() {
 	// Make the controls object
-	window.controls = new Controls({
+	Global.controls = new Controls({
 		left:   [37, 65,      "AXIS_LEFT", "DPAD_LEFT"],                     // a,     left
 		right:  [39, 68,      "AXIS_RIGHT", "DPAD_RIGHT"],                   // d,     right
 		up:     [38, 87, 32,  "FACE_1", "DPAD_UP", "LEFT_BOTTOM_SHOULDER"],  // w,     up
@@ -16,56 +16,56 @@ function resetTriggers() {
 	});
 	
 	// Gamepad.js support for joysticks and controllers
-	window.gamepad = new Gamepad();
-	gamepad.bind(Gamepad.Event.BUTTON_DOWN, ControlsPipe("keydown", true));
-	gamepad.bind(Gamepad.Event.BUTTON_UP, ControlsPipe("keyup", false));
-	gamepad.bind(Gamepad.Event.AXIS_CHANGED, function(event) {
-		var value = event.value,
-				value_abs = abs(value);
+	// Global.gamepad = new window.Gamepad();
+	// Global.gamepad.bind(Gamepad.Event.BUTTON_DOWN, ControlsPipe("keydown", true));
+	// Global.gamepad.bind(Gamepad.Event.BUTTON_UP, ControlsPipe("keyup", false));
+	// Global.gamepad.bind(Gamepad.Event.AXIS_CHANGED, function(event) {
+	// 	var value = event.value,
+	// 		value_abs = abs(value);
 		
-		// Don't allow tremors
-		if (value_abs < 0.1) return;
+	// 	// Don't allow tremors
+	// 	if (value_abs < 0.1) return;
 		
-		// Depending on the axis used...
-		switch(event.axis) {
-			// Left stick, vertical
-			case "LEFT_STICK_Y":
-			case "RIGHT_STICK_Y":
-				// If it actually has a direction, either go up or down
-				if (value_abs > 0.5) {
-					keydown(value > 0 ? "DPAD_DOWN" : "DPAD_UP");
-				}
-				// It doesn't have a direction, so they're both unpressed
-				else {
-					keyup("DPAD_UP");
-					keyup("DPAD_DOWN");
-				}
-			break;
-			// Left stick, horizontal
-			case "LEFT_STICK_X":
-			case "RIGHT_STICK_X":
-				// If it actually has a direction, either go left or right
-				if (value_abs > 0.5) {
-					keydown(value < 0 ? "DPAD_LEFT" : "DPAD_RIGHT");
-				}
-				// It doesn't have a direction, so they're both unpressed
-				else {
-					keyup("DPAD_UP");
-					keyup("DPAD_DOWN");
-				}
-			break;
-		}
-	});
+	// 	// Depending on the axis used...
+	// 	switch(event.axis) {
+	// 		// Left stick, vertical
+	// 		case "LEFT_STICK_Y":
+	// 		case "RIGHT_STICK_Y":
+	// 			// If it actually has a direction, either go up or down
+	// 			if (value_abs > 0.5) {
+	// 				keydown(value > 0 ? "DPAD_DOWN" : "DPAD_UP");
+	// 			}
+	// 			// It doesn't have a direction, so they're both unpressed
+	// 			else {
+	// 				keyup("DPAD_UP");
+	// 				keyup("DPAD_DOWN");
+	// 			}
+	// 		break;
+	// 		// Left stick, horizontal
+	// 		case "LEFT_STICK_X":
+	// 		case "RIGHT_STICK_X":
+	// 			// If it actually has a direction, either go left or right
+	// 			if (value_abs > 0.5) {
+	// 				keydown(value < 0 ? "DPAD_LEFT" : "DPAD_RIGHT");
+	// 			}
+	// 			// It doesn't have a direction, so they're both unpressed
+	// 			else {
+	// 				keyup("DPAD_UP");
+	// 				keyup("DPAD_DOWN");
+	// 			}
+	// 		break;
+	// 	}
+	// });
 
-	gamepad.init();
+	// Global.gamepad.init();
 
 	// Set the key events on the body
-	proliferate(body, {
-			onkeydown: ControlsPipe("keydown", true),
-			onkeyup: ControlsPipe("keyup", false),
-			oncontextmenu: contextmenu,
-			onmousedown: mousedown
-		});
+	// Global.proliferate(body, {
+	// 		onkeydown: ControlsPipe("keydown", true),
+	// 		onkeyup: ControlsPipe("keyup", false),
+	// 		oncontextmenu: contextmenu,
+	// 		onmousedown: mousedown
+	// 	});
 	
 	// Set UI triggers
 	setMessageTriggers();

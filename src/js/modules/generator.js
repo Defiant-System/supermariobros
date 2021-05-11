@@ -5,9 +5,9 @@
 // jsperf.com/josh-random-number-generators
 // It's only 7 lines, who cares if it's ~393 x slower than Math.random()? lulz
 function resetSeed() {
-	window.seeder = 1777771 / (window.seed = (round(random() * 10000000))); // 1777771 is prime
-	window.seedlast = .007;
-	window.getSeed = function() { 
+	Global.seeder = 1777771 / (Global.seed = (Global.round(Global.random() * 10000000))); // 1777771 is prime
+	Global.seedlast = .007;
+	Global.getSeed = function() { 
 		return seedlast = "0." + String(seeder / seedlast).substring(4).replace('.', '');
 	}
 }
@@ -34,7 +34,7 @@ function pushRandomSectionOverworld(xloc) {
 		pushPreThing(Stone, xloc, floorlev, bwidth);
 	}
 	
-	window.randcount_powerup = 3;
+	Global.randcount_powerup = 3;
 	
 	// If the section is 1 or 2 blocks wide and has floor, it may have small scenery
 	if (bwidth <= 3 && map.had_floor) {
@@ -607,7 +607,7 @@ function pushRandomSectionUnderworld(xloc) {
 			divwidth = floor(bwidth / each),
 			i, j;
 	pushPreFloor(xloc, 0, bwidth);
-	window.randcount_powerup = 3;
+	Global.randcount_powerup = 3;
 	
 	// Smaller / normal
 	if (bwidth < each) {
@@ -782,7 +782,7 @@ function pushRandomSectionUnderwater(xloc) {
 	pushPreFloor(xloc, 0, bwidth);
 	pushPreScenery("Water", xloc, ceilmax - 21, bwidth * 8 / 3, 1)
 	pushPreThing(WaterBlock, xloc, ceilmax, bwidth * 8);
-	window.randcount_powerup = 3;
+	Global.randcount_powerup = 3;
 	
 	// Each chunk is 4 blocks wide, not the normal 3
 	for(var i=0; i<bwidth; i += 4) {
@@ -1190,12 +1190,4 @@ function createTunnel(xloc, width, btype) {
 	}
 	// fillPreThing(btype, xloc, 8, width, bottom, 8, 8);
 	// fillPreThing(btype, xloc, 96 - top * 8, width, top, 8, 8);
-}
-
-// Get rid of previous elements
-function removeRandomDisplays() {
-var elems = body.getElementsByClassName("randomdisplay"),
-		i;
-for(i = elems.length - 1; i >= 0; --i)  
-	body.removeChild(elems[i]);
 }

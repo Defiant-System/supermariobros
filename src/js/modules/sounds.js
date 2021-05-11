@@ -4,22 +4,22 @@
 // Starts pre-emptively loading sounds (see load.js::startLoadingSOunds)
 // All sounds are stored in library.sounds, while ones used in this run are also in window.sounds
 function resetSounds() {
-	window.sounds = {};
-	window.theme = false;
-	window.muted = (localStorage && localStorage.muted == "true");
+	Global.sounds = {};
+	Global.theme = false;
+	Global.muted = (localStorage && localStorage.muted == "true");
 }
 
 
 // Override is whether the main music pauses
 function play(name_raw) {
 	// First check if this is already in sounds
-	var sound = sounds[name_raw];
+	var sound = Global.sounds[name_raw];
 	
 	// If it's not already being played,
 	if (!sound) {
 		// Check for it in the library
 		if (sound = library.sounds[name_raw]) {
-			sounds[name_raw] = sound;
+			Global.sounds[name_raw] = sound;
 		}
 		// Otherwise it's not known, complain
 		else {
@@ -66,17 +66,17 @@ function playTheme(name_raw, resume, loop) {
 	loop = typeof loop !== 'undefined' ? loop : true;
 
 	// First make sure there isn't already a theme playing
-	if (sound = sounds.theme) {
+	if (sound = Global.sounds.theme) {
 		soundStop(sound);
-		delete sounds.theme;
-		delete sounds[sound.name_raw];
+		delete Global.sounds.theme;
+		delete Global.sounds[sound.name_raw];
 	}
 	
 	// If the name isn't given, get it from the current area
 	if (!name_raw) name_raw = area.theme;
 	
 	// This creates the sound.
-	var sound = sounds.theme = play(name_raw);
+	var sound = Global.sounds.theme = play(name_raw);
 
 	if (loop) {
 		sound.loop = true;
@@ -89,6 +89,7 @@ function playTheme(name_raw, resume, loop) {
 	
 	return sound;
 }
+
 // The equivalent of playTheme with Hurry added on
 function playCurrentThemeHurry(name_raw) {
 	playTheme("Hurry " + (name_raw || area.theme));
@@ -96,7 +97,7 @@ function playCurrentThemeHurry(name_raw) {
 
 // Called when a sound is done to get it out of sounds
 function soundFinish(sound, name_raw) {
-	if (sounds[name_raw]) delete sounds[name_raw];
+	if (Global.sounds[name_raw]) delete Global.sounds[name_raw];
 }
 
 function soundStop(sound) {
@@ -109,10 +110,22 @@ function soundStop(sound) {
 
 function toggleMute() {
 	var level = !(localStorage.muted = data.muted = muted = !muted);
-	for(var i in sounds) sounds[i].volume = level;
+	for(var i in Global.sounds) Global.sounds[i].volume = level;
 }
 
-function pauseAllSounds() { for(var i in sounds) if (sounds[i]) sounds[i].pause(); }
-function resumeAllSounds() { for(var i in sounds) if (sounds[i]) sounds[i].play(); }
-function pauseTheme() { if (sounds.theme) sounds.theme.pause(); }
-function resumeTheme() { if (sounds.theme) sounds.theme.play(); }
+function pauseAllSounds() {
+	for(var i in Global.sounds) if (Global.sounds[i]) Global.sounds[i].pause();
+}
+
+function resumeAllSounds() {
+	for(var i in Global.sounds) if (Global.sounds[i]) Global.sounds[i].play();
+}
+
+function pauseTheme() {
+	if (Global.sounds.theme) Global.sounds.theme.pause();
+}
+
+function resumeTheme() {
+	if (Global.sounds.theme) Global.sounds.theme.play();
+}
+

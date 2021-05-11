@@ -11,7 +11,7 @@ const verbosity = {
 const Global = {};
 
 
-function Mario() {
+function FullScreenMario() {
 	// I keep this cute little mini-library for some handy functions
 	TonedJS(true);
 
