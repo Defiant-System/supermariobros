@@ -61,26 +61,32 @@ function startLoadingSounds() {
 
 // Loads sounds (in order) from the reference into the container
 function loadSounds(container, reference, prefix) {
-	var sound, name_raw, 
+	var sound,
+		name_raw, 
 		details = {
 			preload: 'auto',
 			prefix: '',
 			used: 0
 		},
 		len, i;
-	for(i = 0, len = reference.length; i < len; ++i) {
+	
+	// TODO
+	return;
+
+	for(i=0, len=reference.length; i < len; ++i) {
 		name_raw = reference[i];
 		
 		// Create the sound and store it in the container
 		sound = Global.createElement("Audio", details);
 		container[name_raw] = sound;
-		mlog("Sounds", sound)
+		Global.mlog("Sounds", sound)
 		
 		// Create the MP3 and OGG sources for the audio
 		sound.appendChild(Global.createElement("Source", {
 			type: "audio/mp3",
-			src: prefix + "mp3/" + name_raw + ".mp3"
+			src: prefix + name_raw + ".mp3"
 		}));
+
 		sound.appendChild(Global.createElement("Source", {
 			type: "audio/ogg",
 			src: prefix + "ogg/" + name_raw + ".ogg"

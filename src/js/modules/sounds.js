@@ -6,7 +6,7 @@
 function resetSounds() {
 	Global.sounds = {};
 	Global.theme = false;
-	Global.muted = (localStorage && localStorage.muted == "true");
+	Global.muted = true; //(localStorage && localStorage.muted == "true");
 }
 
 
