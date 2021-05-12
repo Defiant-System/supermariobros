@@ -1,0 +1,30 @@
+<Sounds>
+	<i id="Bowser Falls" url="~/sounds/Bowser Falls.mp3" />
+	<i id="Bowser Fires" url="~/sounds/Bowser Fires.mp3" />
+	<i id="Break Block" url="~/sounds/Break Block.mp3" />
+	<i id="Bump" url="~/sounds/Bump.mp3" />
+	<i id="Coin" url="~/sounds/Coin.mp3" />
+	<i id="Ending" url="~/sounds/Ending.mp3" />
+	<i id="Fireball" url="~/sounds/Fireball.mp3" />
+	<i id="Firework" url="~/sounds/Firework.mp3" />
+	<i id="Flagpole" url="~/sounds/Flagpole.mp3" />
+	<i id="Gain Life" url="~/sounds/Gain Life.mp3" />
+	<i id="Game Over 2" url="~/sounds/Game Over 2.mp3" />
+	<i id="Game Over" url="~/sounds/Game Over.mp3" />
+	<i id="Hurry" url="~/sounds/Hurry.mp3" />
+	<i id="Into the Tunnel" url="~/sounds/Into the Tunnel.mp3" />
+	<i id="Jump Small" url="~/sounds/Jump Small.mp3" />
+	<i id="Jump Super" url="~/sounds/Jump Super.mp3" />
+	<i id="Kick" url="~/sounds/Kick.mp3" />
+	<i id="Level Complete" url="~/sounds/Level Complete.mp3" />
+	<i id="Mario Dies" url="~/sounds/Mario Dies.mp3" />
+	<i id="Pause" url="~/sounds/Pause.mp3" />
+	<i id="Pipe" url="~/sounds/Pipe.mp3" />
+	<i id="Power Down" url="~/sounds/Power Down.mp3" />
+	<i id="Powerup Appears" url="~/sounds/Powerup Appears.mp3" />
+	<i id="Powerup" url="~/sounds/Powerup.mp3" />
+	<i id="Stage Clear" url="~/sounds/Stage Clear.mp3" />
+	<i id="Vine Emerging" url="~/sounds/Vine Emerging.mp3" />
+	<i id="World Clear" url="~/sounds/World Clear.mp3" />
+	<i id="You Dead" url="~/sounds/You Dead.mp3" />
+</Sounds>

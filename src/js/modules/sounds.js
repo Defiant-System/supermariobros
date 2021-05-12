@@ -10,8 +10,12 @@ function resetSounds() {
 }
 
 
-// Override is whether the main music pauses
 function play(name_raw) {
+	window.audio.play(name_raw);
+}
+
+// Override is whether the main music pauses
+function playOrg(name_raw) {
 	// First check if this is already in sounds
 	var sound = Global.sounds[name_raw];
 
@@ -48,7 +52,7 @@ function play(name_raw) {
 
 // The same as regular play, but with lower volume when further from Mario
 function playLocal(name, xloc, main) {
-	var sound = play(name, main),
+	var sound = playOrg(name, main),
 		volume_real;
 	// Don't do anything without having played a sound, or if there's no actual Mario
 	if (!sound || !Global.mario) return;
@@ -80,7 +84,7 @@ function playTheme(name_raw, resume, loop) {
 	if (!name_raw) name_raw = Global.area.theme;
 	
 	// This creates the sound.
-	var sound = Global.sounds.theme = play(name_raw);
+	var sound = Global.sounds.theme = playOrg(name_raw);
 
 	if (loop) {
 		sound.loop = true;
