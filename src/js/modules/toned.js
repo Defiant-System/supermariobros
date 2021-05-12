@@ -82,11 +82,11 @@ function TonedJS(give_window) {
 		},
 		elementShiftLeft: function(me, left) {
 			if (!me.left) me.left = Number(me.style.marginLeft.replace("px", ""));
-			me.style.marginLeft = round(me.left += left) + "px";
+			me.style.marginLeft = this.round(me.left += left) + "px";
 		},
 		elementShiftTop: function(me, top) {
 			if (!me.top) me.top = Number(me.style.marginLeft.replace("px", ""));
-			me.style.marginTop = round(me.top += top) + "px";
+			me.style.marginTop = this.round(me.top += top) + "px";
 		},
 		// Deletes an element if it's in its parent, or the body
 		removeChildSafe: function(child, container) {
@@ -196,7 +196,7 @@ function TonedJS(give_window) {
 			num = String(num);
 			return this.stringOf(fill || 0, this.max(0, size - num.length)) + num;
 		},
-		roundDigit: function(n, d) { return Number(d ? ~~(0.5 + (n / d)) * d : round(n)); },
+		roundDigit: function(n, d) { return Number(d ? ~~(0.5 + (n / d)) * d : this.round(n)); },
 		// It's often faster to store references to common Math functions
 		sign: function(n) { return n ? n < 0 ? -1 : 1 : 0; },
 		round: function(n) { return ~~(0.5 + n); },

@@ -61,6 +61,7 @@ function clearDataDisplay() {
 function startDataTime() {
 	Global.EventHandler.addEventInterval(updateDataTime, 25, Infinity, Global.data.time);
 }
+
 function updateDataTime(me) {
 	// If the time direction isn't up (random map), check for timing
 	if (me.dir != 1) {
@@ -89,11 +90,11 @@ function score(me, amount, appears) {
 	// If it's in the form 'score(X)', return 'score(mario, x)'
 	if (arguments.length == 1) return score(Global.mario, me);
 	// Keep the high score in localStorage, why not.
-	localStorage.highscore = max(localStorage.highscore, Global.data.score.amount += amount);
+	localStorage.highscore = Global.max(localStorage.highscore, Global.data.score.amount += amount);
 	// If it appears, add the element
 	if (appears) {
 		var text = addText(amount, me.left, me.top);
-		text.yvel = -unitsized4;
+		text.yvel = -Global.unitsized4;
 		Global.EventHandler.addEvent(killScore, 49, text);
 	}
 	while(Global.data.score > 10000) { // you never know...
@@ -102,9 +103,9 @@ function score(me, amount, appears) {
 	}
 	updateDataElement(Global.data.score);
 }
+
 function killScore(text) {
-	if (body.contains(text))
-		body.removeChild(text);
+	if (body.contains(text)) body.removeChild(text);
 	killNormal(text);
 	deleteThing(text, texts, texts.indexOf(text));
 }
@@ -129,6 +130,7 @@ function setLives(num) {
 function storeMarioStats() {
 	Global.data.mariopower = Global.mario.power;
 }
+
 function clearMarioStats() {
 	Global.data.mariopower = Global.mario.power = 1;
 }

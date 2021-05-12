@@ -190,7 +190,7 @@ function maintainTexts() {
 	for(i = Global.texts.length - 1; i >= 0; --i) {
 		me = Global.texts[i];
 		element = me.element || me;
-		if (me.xvel) elementShiftLeft(element, me.xvel);
-		if (me.yvel) elementShiftTop(element, me.yvel);
+		if (me.xvel) Global.elementShiftLeft(element, me.xvel);
+		if (me.yvel) Global.elementShiftTop(element, me.yvel);
 	}
 }

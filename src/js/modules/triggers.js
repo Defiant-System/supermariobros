@@ -60,12 +60,12 @@ function resetTriggers() {
 	// Global.gamepad.init();
 
 	// Set the key events on the body
-	// Global.proliferate(body, {
-	// 		onkeydown: ControlsPipe("keydown", true),
-	// 		onkeyup: ControlsPipe("keyup", false),
-	// 		oncontextmenu: contextmenu,
-	// 		onmousedown: mousedown
-	// 	});
+	Global.proliferate(document.body, {
+			onkeydown: ControlsPipe("keydown", true),
+			onkeyup: ControlsPipe("keyup", false),
+			// oncontextmenu: contextmenu,
+			// onmousedown: mousedown
+		});
 	
 	// Set UI triggers
 	setMessageTriggers();
@@ -91,14 +91,14 @@ function Controls(pipes, gamepadPipes) {
 		// Up / Jump
 		up: function(keys) {
 			keys.up = true;
-			if (mario.canjump &&/* !mario.crouching &&*/ (mario.resting || map.underwater)) {
+			if (Global.mario.canjump &&/* !Global.mario.crouching &&*/ (Global.mario.resting || Global.map.underwater)) {
 				keys.jump = 1;
-				mario.canjump = keys.jumplev = 0;
+				Global.mario.canjump = keys.jumplev = 0;
 				// To do: can mario make a jumping sound during the spring, and during the pipe cutscenes?
-				if (mario.power > 1) play("Jump Super");
+				if (Global.mario.power > 1) play("Jump Super");
 				else play("Jump Small");
-				if (map.underwater) setTimeout(function() {
-					mario.jumping = keys.jump = false;
+				if (Global.map.underwater) setTimeout(function() {
+					Global.mario.jumping = keys.jump = false;
 				}, timer * 14);
 			}
 		},
@@ -108,13 +108,13 @@ function Controls(pipes, gamepadPipes) {
 		},
 		// Sprint / Fire
 		sprint: function(keys) {
-			if (mario.power == 3 && keys.sprint == 0 && !keys.crouch)
-				mario.fire();
+			if (Global.mario.power == 3 && keys.sprint == 0 && !keys.crouch)
+				Global.mario.fire();
 			keys.sprint = 1;
 		},
 		// Pause
 		pause: function(keys) {
-			if (!paused && !(Global.editing && !editor.playing))
+			if (!Global.paused && !(Global.editing && !editor.playing))
 				setTimeout(function() { pause(true); }, 140);
 		},
 		// Mute / Unmute
@@ -123,8 +123,8 @@ function Controls(pipes, gamepadPipes) {
 		},
 		// qqqqqqq
 		q: function(keys) {
-			if (++qcount > 28) maxlulz();
-			switch(qcount) {
+			if (++Global.qcount > 28) maxlulz();
+			switch(Global.qcount) {
 				case 7: lulz(); break;
 				case 14: superlulz(); break;
 				case 21: hyperlulz(); break;
@@ -144,8 +144,8 @@ function Controls(pipes, gamepadPipes) {
 		},
 		// Up
 		up: function(keys) {
-			if (!map.underwater) keys.jump = keys.up = 0;
-			mario.canjump = true;
+			if (!Global.map.underwater) keys.jump = keys.up = 0;
+			Global.mario.canjump = true;
 		},
 		// Down
 		down: function(keys) {
@@ -180,9 +180,9 @@ function Controls(pipes, gamepadPipes) {
 // Generates a pipe to the given name
 // For example, ControlsPipe("keydown") pipes to Controls.keydown
 function ControlsPipe(name, strict) {
-	var responses = controls[name];
+	var responses = Global.controls[name];
 	return function(event) {
-		if ((strict && ((mario && mario.dead) || Global.paused)) || Global.nokeys) return;
+		if ((strict && ((Global.mario && Global.mario.dead) || Global.paused)) || Global.nokeys) return;
 
 		// Allow this to be used as keyup(37) or keyup({which: 37})
 		if (typeof(event) != "number" || event.which || event.control)
@@ -190,37 +190,37 @@ function ControlsPipe(name, strict) {
 
 		// If there is a known response to this character code, do it
 		if (responses[event])
-			responses[event](mario.keys);
+			responses[event](Global.mario.keys);
 		// Otherwise only complain if verbosity[name] is true
 		else mlog(name, "Could not", name,  event);
 
 		// Record this in the history
-		Global.gamehistory[gamecount] = [keydown, event];
+		Global.gamehistory[Global.gamecount] = [keydown, event];
 	};
 }
 
 function keydown(event) {
-	if ((mario && mario.dead) || Global.paused || Global.nokeys) return;
-	var responses = controls["keydown"];
+	if ((Global.mario && Global.mario.dead) || Global.paused || Global.nokeys) return;
+	var responses = Global.controls["keydown"];
 	// Allow this to be used as keyup(37) or keyup({which: 37})
 	if (typeof(event) === "object" || event.which)
 		event = event.which;
 	if (responses[event])
-			responses[event](mario.keys);
+			responses[event](Global.mario.keys);
 
-	Global.gamehistory[gamecount] = [keydown, event];
+	Global.gamehistory[Global.gamecount] = [keydown, event];
 }
 
 function keyup(event) {
 	if (Global.nokeys) return;
-	var responses = controls["keyup"];
+	var responses = Global.controls["keyup"];
 	// Allow this to be used as keyup(37) or keyup({which: 37})
 	if (typeof(event) === "object" || event.which)
 		event = event.which;
 	if (responses[event])
-			responses[event](mario.keys);
+			responses[event](Global.mario.keys);
 
-	Global.gamehistory[gamecount] = [keyup, event];
+	Global.gamehistory[Global.gamecount] = [keyup, event];
 }
 
 function contextmenu(event) {
@@ -249,7 +249,7 @@ function scriptKeys(oldhistory) {
 
 
 function lulz(options, timer) {
-	mario.star = true;
+	Global.mario.star = true;
 	options = options || [Goomba];
 	timer = timer || 7;
 	EventHandler.addEvent(function() {

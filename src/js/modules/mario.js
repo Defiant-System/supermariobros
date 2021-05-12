@@ -157,8 +157,8 @@ function shiftAll(stuff, x, y) {
 function shiftElements(stuff, x, y) {
 	for(var i = stuff.length - 1, elem; i >= 0; --i) {
 		elem = stuff[i];
-		elementShiftLeft(elem, x);
-		elementShiftTop(elem, y);
+		Global.elementShiftLeft(elem, x);
+		Global.elementShiftTop(elem, y);
 	}
 }
 

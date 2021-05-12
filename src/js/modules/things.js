@@ -672,7 +672,7 @@ function collideEnemy(one, two) {
 		if (one.star) scoreEnemyStar(two);
 		else {
 			scoreEnemyStomp(two);
-			/*Global.EventHandler.addEvent(function(one, two) { */setBottom(one, min(one.bottom, two.top + Global.unitsize));/* }, 0, one, two);*/
+			/*Global.EventHandler.addEvent(function(one, two) { */setBottom(one, Global.min(one.bottom, two.top + Global.unitsize));/* }, 0, one, two);*/
 		}
 		// Make Mario have the hopping thing
 		addClass(one, "hopping");
@@ -880,7 +880,7 @@ function moveBowser(me) {
 	if (!characterIsAlive(Global.mario)) return;
 	lookTowardMario(me);
 	if (me.lookleft) me.xvel = Math.sin(Math.PI * (me.counter += .007)) / 1.4;
-	else me.xvel = min(me.xvel + .07, .84);
+	else me.xvel = Global.min(me.xvel + .07, .84);
 }
 function bowserJumps(me) {
 	if (!characterIsAlive(me)) return true;
@@ -948,7 +948,7 @@ function moveFlying(me) {
 		me.movement = false;
 		return;
 	}
-	shiftVert(me, min(max(0, me.ylev - me.bottom), Global.unitsize));
+	shiftVert(me, Global.min(Global.max(0, me.ylev - me.bottom), Global.unitsize));
 }
 
 function WaterBlock(me, width) {
@@ -981,18 +981,18 @@ function moveBlooper(me) {
 		case 63: squeezeBlooper(me); break;
 		default: ++me.counter; break;
 	}
-	if (me.squeeze) me.yvel = max(me.yvel + .021, .7); // going down
-	else me.yvel = min(me.yvel - .035, -.7); // going up
+	if (me.squeeze) me.yvel = Global.max(me.yvel + .021, .7); // going down
+	else me.yvel = Global.min(me.yvel - .035, -.7); // going up
 	shiftVert(me, me.yvel, true);
 	
 	if (!me.squeeze) {
 		if (Global.mario.left > me.right + Global.unitsizet8) {
 			// Go to the right
-			me.xvel = min(me.speed, me.xvel + Global.unitsized32);
+			me.xvel = Global.min(me.speed, me.xvel + Global.unitsized32);
 		}
 		else if (Global.mario.right < me.left - Global.unitsizet8) {
 			// Go to the left
-			me.xvel = max(me.speedinv, me.xvel - Global.unitsized32);
+			me.xvel = Global.max(me.speedinv, me.xvel - Global.unitsized32);
 		}
 	}
 }
@@ -1505,8 +1505,8 @@ function moveMario(me) {
 			me.jumping = true;
 		}
 		if (!Global.map.underwater) {
-			var dy = Global.unitsize / (pow(++me.keys.jumplev, Global.map.jumpmod - .0014 * me.xvel));
-			me.yvel = max(me.yvel - dy, Global.map.maxyvelinv);
+			var dy = Global.unitsize / (Global.pow(++me.keys.jumplev, Global.map.jumpmod - .0014 * me.xvel));
+			me.yvel = Global.max(me.yvel - dy, Global.map.maxyvelinv);
 		}
 	}
 	
@@ -1539,7 +1539,7 @@ function moveMario(me) {
 		me.xvel *= .98;
 		decel = .0007;
 		// If you're accelerating in the opposite direction from your current velocity, that's a skid
-		if (/*sprinting && */signBool(me.keys.run) == me.moveleft) {
+		if (/*sprinting && */Global.signBool(me.keys.run) == me.moveleft) {
 			if (!me.skidding) {
 				addClass(me, "skidding");
 				me.skidding = true;
@@ -1586,14 +1586,14 @@ function moveMario(me) {
 		if (me.power == 1) setMarioSizeSmall(me);
 	}
 	if (me.xvel > 0) {
-		me.xvel = min(me.xvel, me.maxspeed);
+		me.xvel = Global.min(me.xvel, me.maxspeed);
 		if (me.moveleft && (me.resting || Global.map.underwater)) {
 			unflipHoriz(me);
 			me.moveleft = false;
 		}
 	}
 	else if (me.xvel < 0) {
-		me.xvel = max(me.xvel, me.maxspeed * -1);
+		me.xvel = Global.max(me.xvel, me.maxspeed * -1);
 		if (!me.moveleft && (me.resting || Global.map.underwater)) {
 			flipHoriz(me);
 			me.moveleft = true;
@@ -1614,7 +1614,7 @@ function moveMario(me) {
 			me.jumping = false;
 			removeClass(me, "jumping");
 			if (me.power == 1) setMarioSizeSmall(me);
-			addClass(me, abs(me.xvel) < .14 ? "still" : "running");
+			addClass(me, Global.abs(me.xvel) < .14 ? "still" : "running");
 		}
 		// Paddling
 		if (me.paddling) {
@@ -1853,10 +1853,10 @@ function gameOver() {
 	pauseTheme();
 	play("Game Over");
 	
-	var innerHTML = "<div style='font-size:49px;padding-top: " + (innerHeight / 2 - 28/*49*/) + "px'>GAME OVER</div>";
+	var innerHTML = "<div style='font-size:49px;padding-top: " + (window.innerHeight / 2 - 28/*49*/) + "px'>GAME OVER</div>";
 	// innerHTML += "<p style='font-size:14px;opacity:.49;width:490px;margin:auto;margin-top:49px;'>";
 	// innerHTML += "You have run out of lives. Maybe you're not ready for playing real games...";
-	innerHTML += "</p>";
+	// innerHTML += "</p>";
 	
 	// body.className = "Night"; // to make it black
 	// body.innerHTML = innerHTML;
@@ -1868,15 +1868,18 @@ function gameOver() {
 }
 
 function gameRestart() {
-	seedlast = .007;
-	body.style.visibility = "hidden";
-	body.innerHTML =
-	body.style.paddingTop =
-	body.style.fontSize = "";
-	body.appendChild(Global.canvas);
+	Global.seedlast = .007;
+	console.log("TODO: gameRestart");
+	// body.style.visibility = "hidden";
+	// body.innerHTML =
+	// body.style.paddingTop =
+	// body.style.fontSize = "";
+	// body.appendChild(Global.canvas);
 	Global.gameon = true;
 	Global.map.random ? setMapRandom() : setMap(1,1);
-	Global.EventHandler.addEvent(function() { body.style.visibility = ""; });
+	Global.EventHandler.addEvent(function() {
+		body.style.visibility = "";
+	});
 	setLives(3);
 }
 
@@ -2137,7 +2140,7 @@ function collideSpring(me, spring) {
 	return characterTouchedSolid(me, spring);
 }
 function springMarioInit(spring, mario) {
-	spring.tension = spring.tensionsave = max(mario.yvel * .77, Global.unitsize);
+	spring.tension = spring.tensionsave = Global.max(mario.yvel * .77, Global.unitsize);
 	mario.movement = moveMarioSpringDown;
 	mario.spring = spring;
 	mario.xvel /= 2.8;
@@ -2181,7 +2184,7 @@ function moveSpringUp(spring) {
 	
 	if (spring.height > spring.heightnorm) {
 		if (spring == Global.mario.spring) {
-			Global.mario.yvel = max(-Global.unitsizet2, spring.tensionsave * -.98);
+			Global.mario.yvel = Global.max(-Global.unitsizet2, spring.tensionsave * -.98);
 			Global.mario.resting = Global.mario.spring = false;
 		}
 		reduceSpringHeight(spring, (spring.height - spring.heightnorm) * Global.unitsize);
@@ -2246,7 +2249,7 @@ function CastleBlock(me, arg1, arg2) {
 	if (length) {
 		me.balls = new Array(length);
 		me.dt = .07 * (dt ? 1 : -1);
-		me.timeout = round(7 / (abs(dt) || 1));
+		me.timeout = round(7 / (Global.abs(dt) || 1));
 		me.movement = castleBlockSpawn;
 		me.timer = me.counter = 0;
 		me.angle = .25;
@@ -2259,7 +2262,7 @@ function castleBlockSpawn(me) {
 		me.balls[i] = addThing(spawn, midx + i * Global.unitsize * 3, midy + i * Global.unitsize * 3);
 	}
 	me.movement = false;
-	var interval = abs(me.dt) || 1;
+	var interval = Global.abs(me.dt) || 1;
 	Global.EventHandler.addEventInterval(castleBlockEvent, me.timeout, Infinity, me);
 }
 function castleBlockEvent(me) {
