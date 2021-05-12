@@ -78,8 +78,8 @@ function changeUnitsize(num) {
 		}
 	}
 	
-	setter(solids);
-	setter(characters);
+	setter(Global.solids);
+	setter(Global.characters);
 }
 
 // num = 1 by default
@@ -792,7 +792,7 @@ function generalMovement(me, dx, dy, cleartime) {
 	var move = setInterval(function() {
 		shiftVert(me, dy);
 		shiftHoriz(me, dx);
-	}, timer);
+	}, Global.timer);
 	setTimeout(function() { clearInterval(move); }, cleartime);
 }
 
@@ -807,7 +807,7 @@ function blockBumpMovement(me) {
 			me.up = false;
 		}
 		determineThingCollisions(me); // for coins
-	}, timer);
+	}, Global.timer);
 }
 
 function emergeUp(me, solid) {
@@ -815,14 +815,14 @@ function emergeUp(me, solid) {
 	flipHoriz(me);
 	me.nomove = me.nocollide = me.alive = me.nofall = me.emerging = true;
 	determineThingQuadrants(me);
-	switchContainers(me, characters, scenery);
+	switchContainers(me, Global.characters, Global.scenery);
 	// Start moving up
 	var move = setInterval(function() {
 				shiftVert(me, -Global.unitsized8);
 				// Stop once the bottom is high enough
 				if (me.bottom <= solid.top) {
 					clearInterval(move);
-					switchContainers(me, scenery, characters);
+					switchContainers(me, Global.scenery, Global.characters);
 					me.nocollide = me.nomove = me.moveleft = me.nofall = me.emerging = false;
 					// If it has a function to call after being completely out (vines), do it
 					if (me.emergeOut) me.emergeOut(me, solid);
@@ -839,12 +839,12 @@ function emergeUp(me, solid) {
 						}, 1, Infinity, me, solid);
 					}
 				}
-			}, timer);
+			}, Global.timer);
 }
 
 function flicker(me, cleartime, interval) {
-	var cleartime = round(cleartime) || 49,
-			interval = round(interval) || 3;
+	var cleartime = Global.round(cleartime) || 49,
+		interval = Global.round(interval) || 3;
 	me.flickering = true;
 	Global.EventHandler.addEventInterval(function(me) { me.hidden = !me.hidden; }, interval, cleartime, me);
 	Global.EventHandler.addEvent(function(me) { me.flickering = me.hidden = false; }, cleartime * interval + 1, me);
@@ -856,16 +856,16 @@ function flicker(me, cleartime, interval) {
 function killOtherCharacters() {
 	var thing, i;
 	if (Global.characters) {
-		for(i = characters.length - 1; i >= 0; --i) {
-			thing = characters[i];
-			if (!thing.nokillend) deleteThing(thing, characters, i);
+		for(i = Global.characters.length - 1; i >= 0; --i) {
+			thing = Global.characters[i];
+			if (!thing.nokillend) deleteThing(thing, Global.characters, i);
 			else if (thing.killonend) thing.killonend(thing);
 		}
 	}
 	if (Global.solids) {
-		for(i = solids.length - 1; i >= 0; --i)
-			if (solids[i].killonend)
-				deleteThing(solids[i], solids, i);
+		for(i = Global.solids.length - 1; i >= 0; --i)
+			if (Global.solids[i].killonend)
+				deleteThing(Global.solids[i], Global.solids, i);
 	}
 }
 

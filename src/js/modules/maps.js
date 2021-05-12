@@ -414,7 +414,7 @@ function entryBlank(me) {
 	setLeft(me, Global.unitsizet16);
 	setBottom(me, Global.map.floor * Global.unitsize);
 	me.nocollide = me.piping = me.movement = false;
-	me.placed = me.nofall = me.nocollide = notime = nokeys = true;
+	me.placed = me.nofall = me.nocollide = Global.notime = Global.nokeys = true;
 	thingStoreVelocity(me);
 	clearDataDisplay();
 }
@@ -440,7 +440,7 @@ function entryRandom(me) {
 		case "Up":
 			// Use a pipe
 			locMovePreparations(Global.mario);
-			exitPipeVert(Global.mario, addThing(new Thing(Pipe, 32), unitsizet8, (Global.map.floor - 32) * unitsize));
+			exitPipeVert(Global.mario, addThing(new Thing(Pipe, 32), Global.unitsizet8, (Global.map.floor - 32) * Global.unitsize));
 		break;
 		case "Vine":
 			// Do that vine stuff
@@ -467,17 +467,17 @@ function enterCloudWorld(me) {
 	
 	if (Global.map.random) Global.map.exitloc = getAfterSkyTransport();
 	
-	var screenbottom = 140 * unitsize,
-		screentop = 72 * unitsize;
+	var screenbottom = 140 * Global.unitsize,
+		screentop = 72 * Global.unitsize;
 	me.placed = me.nofall = true;
 	setTop(me, screenbottom);
-	setLeft(me, unitsize * 30);
+	setLeft(me, Global.unitsize * 30);
 	removeClass(me, "jumping");
 	addClasses(me, ["climbing", "animated"]);
 	me.climbing = Global.EventHandler.addSpriteCycle(me, ["one", "two"], "climbing");
 	
 	me.attached = new Thing(Vine, -1);
-	addThing(me.attached, unitsizet32, screenbottom - unitsizet8);
+	addThing(me.attached, Global.unitsizet32, screenbottom - Global.unitsizet8);
 	
 	var movement = setInterval(function() {
 		// Vine moving up
@@ -488,7 +488,7 @@ function enterCloudWorld(me) {
 			var stopheight = me.attached.top + Global.unitsizet16;
 			movement = setInterval(function() {
 				// Mario moving up
-				shiftVert(me, unitsized4 * -1, true);
+				shiftVert(me, Global.unitsized4 * -1, true);
 				if (me.top <= stopheight) {
 					// Mario stops moving up
 					removeClass(me, "animated");
@@ -497,19 +497,19 @@ function enterCloudWorld(me) {
 					clearInterval(movement);
 					setTimeout(function() {
 						// Mario switches sides
-						setLeft(me, unitsize * 36, true);
+						setLeft(me, Global.unitsize * 36, true);
 						addClass(me, "flipped");
 						setTimeout(function() {
 							// Mario hops off
 							marioHopsOff(me, me.attached, true);
 							Global.EventHandler.clearClassCycle(me, "climbing");
 							me.running = Global.EventHandler.addSpriteCycle(me, ["one", "two", "three", "two"], "running", setMarioRunningCycler);
-						}, timer * 28);
-					}, timer * 14);
+						}, Global.timer * 28);
+					}, Global.timer * 14);
 				}
-			}, timer);
+			}, Global.timer);
 		}
-	}, timer);
+	}, Global.timer);
 }
 
 function walkToPipe() {
@@ -526,56 +526,56 @@ function walkToPipe() {
 		else if ( !Global.mario.piping && hasPipingStarted ) {
 			// piping has finished
 			if (sounds[0]) sounds[0].pause();
-			nokeys = Global.mario.keys.run = notime = false;
+			Global.nokeys = Global.mario.keys.run = Global.notime = false;
 			clearInterval(move);
 			Global.mario.maxspeed = Global.mario.maxspeedsave;
 		}
-	}, timer);
+	}, Global.timer);
 	unpause();
 }
 
 function startWalking(me) {
 	me.movement = moveMario;
 	me.maxspeed = me.walkspeed;
-	nokeys = notime = me.keys.run = true;
+	Global.nokeys = Global.notime = me.keys.run = true;
 	me.nofall = me.nocollide = false;
 }
 
 function intoPipeVert(me, pipe, transport) {
 	if (!pipe.transport || !me.resting || 
-												me.right + unitsizet2 > pipe.right ||
-												me.left - unitsizet2 < pipe.left) return;
+		me.right + Global.unitsizet2 > pipe.right ||
+		me.left - Global.unitsizet2 < pipe.left) return;
 	pipePreparations(me);
-	switchContainers(me, characters, scenery);
+	switchContainers(me, Global.characters, Global.scenery);
 	unpause();
 	var move = setInterval(function() {
-		shiftVert(me, unitsized4, true);
+		shiftVert(me, Global.unitsized4, true);
 		if (me.top >= pipe.top) {
 			clearInterval(move);
 			setTimeout(function() { goToTransport(transport); }, 700);
 		}
-	}, timer);
+	}, Global.timer);
 }
 
 function intoPipeHoriz(me, pipe, transport) {
 	if (!me.keys.run || !(me.resting || Global.map.underwater)) return;
 	pipePreparations(me);
-	switchContainers(me, characters, scenery);
+	switchContainers(me, Global.characters, Global.scenery);
 	unpause();
 	var move = setInterval(function() {
-		shiftHoriz(me, unitsized4, true);
+		shiftHoriz(me, Global.unitsized4, true);
 		if (me.left >= pipe.left) {
 			clearInterval(move);
 			setTimeout(function() { goToTransport(transport); }, 700);
 		}
-	}, timer);
+	}, Global.timer);
 }
 
 function pipePreparations(me) {
 	pauseTheme();
 	play("Pipe");
 	locMovePreparations(me);
-	me.nofall = me.nocollide = nokeys = notime = true;
+	me.nofall = me.nocollide = Global.nokeys = Global.notime = true;
 	me.movement = me.xvel = me.yvel = 0;
 }
 
@@ -593,27 +593,27 @@ function locMovePreparations(me) {
 function startCastle(me) {
 	me = me || Global.mario;
 	if (!me) return;
-	setBottom(me, unitsize * 56);
-	setLeft(me, unitsizet2);
+	setBottom(me, Global.unitsize * 56);
+	setLeft(me, Global.unitsizet2);
 	me.nocollide = me.piping = false;
 	me.placed = true;
 }
 // Exit functions
 function exitPipeVert(me, pipe) {
-	switchContainers(me, characters, scenery);
-	me.nofall = nokeys = notime = true;
+	switchContainers(me, Global.characters, Global.scenery);
+	me.nofall = Global.nokeys = Global.notime = true;
 	play("Pipe");
 	setTop(me, pipe.top);
 	setMidXObj(me, pipe, true);
-	var dy = unitsize / -4, move = setInterval(function() {
+	var dy = Global.unitsize / -4, move = setInterval(function() {
 		shiftVert(me, dy, true);
 		if (me.bottom <= pipe.top) {
-			switchContainers(me, scenery, characters);
+			switchContainers(me, Global.scenery, Global.characters);
 			clearInterval(move);
-			me.nocollide = me.piping = me.nofall = nokeys = notime = false;
+			me.nocollide = me.piping = me.nofall = Global.nokeys = Global.notime = false;
 			me.placed = true;
 		}
-	}, timer);
+	}, Global.timer);
 }
 
 function endLevel() {
@@ -683,10 +683,10 @@ function pushPreFloor(xloc, yloc, length) {
 function makeCeiling(xloc, num) {
 	num = num || 1;
 	for(var i=0; i<num; ++i)
-		pushPreThing(Brick, xloc + i * 8, ceillev);
+		pushPreThing(Brick, xloc + i * 8, Global.ceillev);
 }
 function makeCeilingCastle(xloc, bwidth, bheight) {
-	pushPreThing(Stone, xloc, ceillev, bwidth || 1, bheight || 1);
+	pushPreThing(Stone, xloc, Global.ceillev, bwidth || 1, bheight || 1);
 }
 
 function pushPreBridge(xloc, yloc, length, sides) {
@@ -724,12 +724,12 @@ function pushPreScale(xloc, yloc, width, settings) {
 	platright = pushPreThing(Platform, xloc + width * 4 - platwidth - 6, yloc - offy2 * 4, platwidth, moveFallingScale).object;
 	platleft.parent = me; platright.parent = me;
 	platleft.partner = platright; platright.partner = platleft;
-	platleft.tension = offy1 * unitsizet4 - unitsize * 10; 
-	platright.tension = offy2 * unitsizet4 - unitsize * 10;
+	platleft.tension = offy1 * Global.unitsizet4 - Global.unitsize * 10; 
+	platright.tension = offy2 * Global.unitsizet4 - Global.unitsize * 10;
 	
 	// Set the tension
-	me.tensionleft = offy1 * unitsize;
-	me.tensionright = offy2 * unitsize;
+	me.tensionleft = offy1 * Global.unitsize;
+	me.tensionright = offy2 * Global.unitsize;
 	
 	// Add the strings
 	platleft.string = pushPreScenery("String", xloc, yloc - offy1 * 4, 1, (offy1 - .5) * 4).object;
@@ -822,7 +822,7 @@ function endCastleOutside(xloc, yloc, castlevel, wall, dist) {
 	
 	// detect2.castle = pushPreScenery("Castle", xloc + dist, yloc + castlevel).object;
 	if (wall) pushPreScenery("CastleWall", xloc + dist + 72, yloc, wall);
-	if (castlevel == 0) shiftHoriz(detect2, unitsizet8);
+	if (castlevel == 0) shiftHoriz(detect2, Global.unitsizet8);
 	
 	pushPreCastle(xloc + dist + 16, yloc, castlevel);
 }
@@ -1074,7 +1074,7 @@ function zoneDisableLakitu() {
 		removeClass(lakitu, "flipped");
 	}
 	lakitu.movement = function(me) {
-		me.xvel = Global.max(me.xvel - unitsized32, unitsize * -1);
+		me.xvel = Global.max(me.xvel - Global.unitsized32, Global.unitsize * -1);
 	};
 }
 
@@ -1125,7 +1125,7 @@ function DtB(yloc, divider) {
 function BlankMap(map) {
 	map.locs = [ new Location(0, entryBlank) ];
 	map.areas = [ new Area("Overworld", function() {
-		setTimeout(refillCanvas, timer + 2);
+		setTimeout(refillCanvas, Global.timer + 2);
 	}) ];
 }
 
