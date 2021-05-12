@@ -50,8 +50,9 @@ function step(num) {
 function fastforward(num) {
 	pause();
 	function resume() {
-		for(i = speed = (num || 1) - 1; i > 0; --i)
+		for(i = speed = (num || 1) - 1; i > 0; --i) {
 			step();
+		}
 		unpause();
 	}
 	
@@ -90,9 +91,11 @@ function randTrue(num) {
 	return floor(getSeed() * ((num || 1) + 1));
 	// return floor(random() * ((num || 1) + 1));
 }
+
 function randSign(num) {
 	return randTrue(num) * 2 - 1;
 }
+
 function randBoolJS(num) {
 	return floor(random() * 2);
 }

@@ -1,6 +1,6 @@
 
 @font-face {
-	font-family: press start;
+	font-family: "press start";
 	src: url(~/fonts/pressstart2p-webfont.eot);
 	src: url(~/fonts/pressstart2p-webfont.eot?#iefix) format('embedded-opentype'),
 		url(~/fonts/pressstart2p-webfont.woff) format('woff'),
@@ -11,7 +11,7 @@
 }
 
 @font-face {
-	font-family: super plumber bros;
+	font-family: Super Plumber Bros;
 	src: url(~/fonts/super_plumber_brothers-webfont.eot);
 	src: url(~/fonts/super_plumber_brothers-webfont.eot?#iefix) format('embedded-opentype'),
 		url(~/fonts/super_plumber_brothers-webfont.woff) format('woff'),
@@ -28,6 +28,31 @@ content {
 	left: 0;
 	right: 0;
 	bottom: 0;
+	font-family: "press start";
+	color: #fafafa;
+
+	&.show-game-over {
+		background: #000;
+
+		canvas {
+			display: none;
+		}
+
+		.game-over {
+			display: block;
+		}
+	}
+
+	.game-over {
+		display: none;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateY(-50%) translateX(-50%);
+		font-size: 49px;
+		white-space: nowrap;
+		text-transform: uppercase;
+	}
 
 	.text,
 	.display {
@@ -37,7 +62,6 @@ content {
 		color: #fafafa;
 		text-align: center;
 		vertical-align: middle;
-		font-family: press start;
 		z-index: 84;
 		-webkit-font-smoothing: none;
 		-webkit-user-select: none
@@ -90,5 +114,25 @@ content {
 		height: 14px;
 		font-size: 21px;
 		z-index: 14
+	}
+
+	.start {
+		width: 350px;
+		max-height: 189px;
+		background-color: #d64d00;
+		border-radius: 7px;
+		box-shadow: 3px 3px #efb28b inset, -3px -3px black inset;
+		background-image: url("~/images/greeting.gif"), url("~/images/greeting.gif"), url("~/images/greeting.gif"), url("~/images/greeting.gif");
+		background-repeat: no-repeat;
+		background-position: 7px 7px, 336px 7px, 7px 168px, 336px 168px;
+
+		p {
+			text-align: left;
+			padding: 7px 0 11px 11px;
+			color: #ffcccc;
+			font-family: Super Plumber Bros;
+			font-size: 77px;
+			text-shadow: 3px 8px black;
+		}
 	}
 }

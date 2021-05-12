@@ -99,7 +99,7 @@ function Controls(pipes, gamepadPipes) {
 				else play("Jump Small");
 				if (Global.map.underwater) setTimeout(function() {
 					Global.mario.jumping = keys.jump = false;
-				}, timer * 14);
+				}, Global.timer * 14);
 			}
 		},
 		// Down / Crouch
@@ -242,8 +242,8 @@ function scriptKeys(oldhistory) {
 	var i, entry;
 	for(i in oldhistory) {
 		entry = oldhistory[i];
-		EventHandler.addEvent(entry[0], i, entry[1]);
-		EventHandler.addEvent(function() { alert(entry[0].name + ", " + entry[1]) }, i);
+		Global.EventHandler.addEvent(entry[0], i, entry[1]);
+		Global.EventHandler.addEvent(function() { alert(entry[0].name + ", " + entry[1]) }, i);
 	}
 }
 
@@ -252,7 +252,7 @@ function lulz(options, timer) {
 	Global.mario.star = true;
 	options = options || [Goomba];
 	timer = timer || 7;
-	EventHandler.addEvent(function() {
+	Global.EventHandler.addEvent(function() {
 		if (characters.length > 210) return;
 		var lul = new Thing(options[randInt(options.length)], randBoolJS(), randBoolJS());
 		lul.yvel = random() * -unitsizet4;
@@ -260,17 +260,20 @@ function lulz(options, timer) {
 		addThing(lul, (32 * random() + 128) * unitsize, (88 * random()) * unitsize);
 	}, timer, Infinity);
 }
+
 function superlulz() {
 	lulz([Goomba, Koopa, Beetle, HammerBro, Lakitu, Podoboo, Blooper]);
 }
+
 function hyperlulz() {
 	lulz([Bowser], 21);
 }
+
 function maxlulz() {
 	// Sigh....
 	// Global.palette = arrayShuffle(Global.palette, 1);
 	// clearAllSprites(true);
-	EventHandler.addEvent(function(arr) {
+	Global.EventHandler.addEvent(function(arr) {
 			setAreaSetting(arr[randInt(arr.length)]);
 		}, 7, Infinity, ["Overworld", "Underworld", "Underwater", "Sky", "Castle"]);
 }

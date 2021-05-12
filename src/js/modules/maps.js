@@ -682,8 +682,9 @@ function pushPreFloor(xloc, yloc, length) {
 
 function makeCeiling(xloc, num) {
 	num = num || 1;
-	for(var i=0; i<num; ++i)
+	for(var i=0; i<num; ++i) {
 		pushPreThing(Brick, xloc + i * 8, Global.ceillev);
+	}
 }
 function makeCeilingCastle(xloc, bwidth, bheight) {
 	pushPreThing(Stone, xloc, Global.ceillev, bwidth || 1, bheight || 1);
@@ -701,8 +702,8 @@ function pushPreBridge(xloc, yloc, length, sides) {
 function fillPreWater(xloc, yloc, width) {
 	// Water is 3 x 5.5
 	var dtb = DtB(yloc),
-			numy = ceil(dtb / 5.5),
-			dtby = numy * 5;
+		numy = ceil(dtb / 5.5),
+		dtby = numy * 5;
 	pushPreScenery("Water", xloc, yloc - 5.5, width * 4 / 3);
 	pushPreScenery("WaterFill", xloc, yloc - dtby - 15.5, width * 4 / 3, numy + 2);
 }
@@ -740,10 +741,12 @@ function pushPreScale(xloc, yloc, width, settings) {
 // offset is how far between scrollblocker and main area (8 before first pipe)
 // block is whether the screen should be blocked from scrolling to this
 function pushPreWarpWorld(xloc, yloc, worlds, offset, block) {
-	if (worlds.length == 1) worlds = [-1, worlds[0], -1];
+	if (worlds.length == 1) {
+		worlds = [-1, worlds[0], -1];
+	}
 	var startx = (offset || 0) + xloc + 10,
-			len = worlds.length,
-			pipe, i;
+		len = worlds.length,
+		pipe, i;
 	
 	warp = pushPreThing(WarpWorld, xloc, yloc + ceilmax).object;
 	var title = pushPreText({innerText: "WELCOME TO WARP ZONE!", style: {visibility: "hidden"} }, startx, 58);
@@ -779,6 +782,7 @@ function goUnderWater() {
 		Global.map.underwater = true;
 	}
 }
+
 function goOntoLand() {
 	if (Global.map) {
 		if (Global.map.area) {
@@ -791,6 +795,7 @@ function goOntoLand() {
 		Global.map.underwater = false;
 	}
 }
+
 function setMapGravity() {
 	if (Global.mario) {
 		if (Global.map.underwater) Global.mario.gravity = Global.gravity / 2.8;
@@ -836,7 +841,7 @@ function startCastleInside() {
 
 function endCastleInside(xloc, last) {
 	var collider = pushPreThing(FuncCollider, xloc + 104, 48, CastleAxeFalls, [16, 24]).object,
-			axe = collider.axe = pushPreThing(CastleAxe, xloc + 104, 40).object;
+		axe = collider.axe = pushPreThing(CastleAxe, xloc + 104, 40).object;
 	axe.bridge = pushPreThing(CastleBridge, xloc, 24, 13).object;
 	axe.chain = pushPreThing(CastleChain, xloc + 96.5, 32).object;
 	axe.bowser = pushPreThing(Bowser, xloc + 69, 42).object;
@@ -867,9 +872,8 @@ function endCastleInsideFinal(xloc, last) {
 			pushPreText({innerHTML: "YOUR QUEST IS OVER.<BR>WE PRESENT YOU A NEW QUEST.", style: style}, xloc + 148, 50).object,
 			pushPreText({innerHTML: "PRESS BUTTON B<BR>TO SELECT A WORLD.", style: style}, xloc + 148, 26).object
 		];
-	}
-	// ...or that jerk Toad
-	else {
+	} else {
+		// ...or that jerk Toad
 		pushPreThing(Toad, xloc + 194, 12).object;
 		text = stopper.text = [
 			pushPreText({innerHTML: "THANK YOU MARIO!", style: style}, xloc + 160, 66).object,
@@ -920,8 +924,9 @@ function sectionFail(character, collider) {
 }
 function activateSection(parent, status) {
 	var colliders = parent.colliders;
-	for(var i=colliders.length-1; i>=0; --i)
+	for(var i=colliders.length-1; i>=0; --i) {
 		killNormal(colliders[i]);
+	}
 	
 	parent.activated = true;
 	parent.passed = status;
@@ -970,52 +975,66 @@ function pushPreCastleBig(xloc, yloc) {
 	var i, j;
 	pushPreCastleSmall(xloc + 16, yloc + 48);
 	// Top alternate fillings
-	for(i = 0; i < 3; ++i)
-		for(j = 0; j < 2; ++j)
+	for(i = 0; i < 3; ++i) {
+		for(j = 0; j < 2; ++j) {
 			pushPreScenerySolid("BrickPlain", xloc + 16 + i * 16, yloc + 24 + j * 8);
+		}
+	}
 	// Top alternate doors
-	for(i = 0; i < 2; ++i)
+	for(i = 0; i < 2; ++i) {
 		pushPreScenerySolid("CastleDoor", xloc + 24 + i * 16, yloc + 24);
+	}
 	// Top half filling
-	for(i = 0; i < 5; ++i)
+	for(i = 0; i < 5; ++i) {
 		if (i == 2) continue; 
 		else pushPreScenerySolid("BrickHalf", xloc + 16 + i * 8, yloc + 48);
+	}
 	
 	// Left railings
-	for(i = 0; i < 2; ++i)
+	for(i = 0; i < 2; ++i) {
 		pushPreScenerySolid("CastleRailing", xloc + i * 8, yloc + 44);
+	}
 	// Middle railings
-	for(i = 0; i < 5; ++i)
+	for(i = 0; i < 5; ++i) {
 		pushPreScenerySolid("CastleRailingFilled", xloc + 16 + i * 8, yloc + 44);
+	}
 	// Right railings
-	for(i = 5; i < 7; ++i)
+	for(i = 5; i < 7; ++i) {
 		pushPreScenerySolid("CastleRailing", xloc + 16 + i * 8, yloc + 44);
+	}
 	
 	// Bottom alternate fillings
-	for(i = 0; i < 2; ++i)
-		for(j = 0; j < 3; ++j)
+	for(i = 0; i < 2; ++i) {
+		for(j = 0; j < 3; ++j) {
 			pushPreScenerySolid("BrickPlain", xloc + 24 + i * 16, yloc + j * 8);
+		}
+	}
 	// Bottom alternate doors
-	for(i = 0; i < 3; ++i)
+	for(i = 0; i < 3; ++i) {
 		pushPreScenerySolid("CastleDoor", xloc + 16 + i * 16, yloc);
+	}
 		
 	// Left fill
 	for(i = 0; i < 2; ++i) {
-		for(j = 0; j < 5; ++j)
+		for(j = 0; j < 5; ++j) {
 			pushPreScenerySolid("BrickPlain", xloc + i * 8, yloc + j * 8);
+		}
 		pushPreScenerySolid("BrickHalf", xloc + i * 8, yloc + 40);
 	}
 	
 	// Right fill
 	for(i = 0; i < 2; ++i) {
-		for(j = 0; j < 5; ++j)
+		for(j = 0; j < 5; ++j) {
 			pushPreScenerySolid("BrickPlain", xloc + 56 + i * 8, yloc + j * 8);
+		}
 		pushPreScenerySolid("BrickHalf", xloc + 56 + i * 8, yloc + 40);
 	}
 	
-	for(i = 0; i < 3; ++i) 
-		for(j = 0; j < 2; ++j)
+	for(i = 0; i < 3; ++i) {
+		for(j = 0; j < 2; ++j) {
 			pushPreScenerySolid("BrickHalf", xloc + 16 + i * 16, yloc + 20 + j * 20);
+		}
+	}
 }
 
 // To do: y u no work scenery
@@ -1023,24 +1042,34 @@ function pushPreCastleSmall(xloc, yloc) {
 	var i, j;
 	
 	// Top railing
-	for(i = 0; i < 3; ++i) pushPreScenerySolid("CastleRailing", xloc + 8 + i * 8, yloc + 36);
+	for(i = 0; i < 3; ++i) {
+		pushPreScenerySolid("CastleRailing", xloc + 8 + i * 8, yloc + 36);
+	}
 	// Top bricking
-	for(i = 0; i < 2; ++i) pushPreScenerySolid("CastleTop", xloc + 8 + i * 12, yloc + 24);
+	for(i = 0; i < 2; ++i) {
+		pushPreScenerySolid("CastleTop", xloc + 8 + i * 12, yloc + 24);
+	}
 	// Med railing
 	pushPreScenerySolid("CastleRailing", xloc, yloc + 20);
-	for(i = 1; i <= 3; ++i) pushPreScenerySolid("CastleRailingFilled", xloc + i * 8, yloc + 20);
+	for(i = 1; i <= 3; ++i) {
+		pushPreScenerySolid("CastleRailingFilled", xloc + i * 8, yloc + 20);
+	}
 	pushPreScenerySolid("CastleRailing", xloc + 32, yloc + 20);
 	// Base filling left
 	for(i = 0; i < 2; ++i) { // x
 		pushPreScenerySolid("BrickHalf", xloc + i * 8, yloc);
-		for(j = 0; j < 2; ++j) // y
+		for(j = 0; j < 2; ++j) {
+			// y
 			pushPreScenerySolid("BrickPlain", xloc + i * 8, yloc + 4 + j * 8);
+		}
 	}
 	// Base filling right
 	for(i = 0; i < 2; ++i) { // x
 		pushPreScenerySolid("BrickHalf", xloc + 24 + i * 8, yloc);
-		for(j = 0; j < 2; ++j) // y
+		for(j = 0; j < 2; ++j) {
+			// y
 			pushPreScenerySolid("BrickPlain", xloc + 24 + i * 8, yloc + 4 + j * 8);
+		}
 	}
 	// Door
 	pushPreScenerySolid("CastleDoor", xloc + 16, yloc);
@@ -1051,10 +1080,12 @@ function pushPreFuncCollider(position, func) {
 	if (position instanceof Array) {
 		console.log("position", position);
 		return pushPreThing(FuncCollider, position[0], position[1], func, [position[2], position[3]]);
+	} else {
+		// Normally position is xloc
+		return pushPreThing(FuncCollider, position, ceilmax + 40, func);
 	}
-	// Normally position is xloc
-	else return pushPreThing(FuncCollider, position, ceilmax + 40, func);
 }
+
 function pushPreFuncSpawner(xloc, func) {
 	return pushPreThing(FuncSpawner, xloc, jumplev1, func);
 }
@@ -1063,6 +1094,7 @@ function zoneEnableLakitu() {
 	Global.map.zone_lakitu = true;
 	enterLakitu();
 }
+
 function zoneDisableLakitu() {
 	if (!Global.map.has_lakitu) return;// killNormal(me);
 	
@@ -1248,10 +1280,3 @@ function WorldRandomCastle(map) {
 	map.respawndist = 35;
 	randMapType(map);
 }
-
-console.log("This is an offline copy of Full Screen Mario, intended for private testing.",
-			"Normally, maps are loaded over-eagerly via AJAX requests; for the sake of offline use,",
-			"they have all been copied to the bottom of maps.js instead.",
-			"If you wish to make changes to a map, change both maps.js::WorldXY(map) and Maps/WorldXY.js",
-			"\n",
-			"To use Full Screen Mario normally, delete this log message and all functions after it in maps.js.");

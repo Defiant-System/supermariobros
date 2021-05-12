@@ -27,6 +27,8 @@ function FullScreenMario() {
 	// With that all set, set the map to World11.
 	Global.gameon = true;
 	setMap(1,1);
+
+	setLives(1);
 	
 	// Load sounds after setting the map, since it uses clearAllTimeouts
 	startLoadingSounds();

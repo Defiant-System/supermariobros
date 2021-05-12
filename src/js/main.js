@@ -1,7 +1,6 @@
 
 @import "modules/data.js";
 @import "modules/EventHandlr.js";
-// @impor--t "modules/gamepad.js";
 @import "modules/generator.js";
 @import "modules/library.js";
 @import "modules/load.js";

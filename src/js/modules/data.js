@@ -36,14 +36,13 @@ function DataObject(amount, length, name) {
 
 // Sets up the data display on the screen
 function setDataDisplay() {
-	var display = Global.createElement("table", {
-						className: "data_display display"
-					}),
+	var display = Global.createElement("table", { className: "data_display display" }),
 		elems = ["score", "coins", "world", "time", "lives"];
 	
 	window.find("content").append(display);
 	
 	Global.data.display = display;
+	
 	for(var i in elems) {
 		display.appendChild(Global.data[elems[i]].element);
 		updateDataElement(Global.data[elems[i]]);
