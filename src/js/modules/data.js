@@ -42,7 +42,7 @@ function setDataDisplay() {
 	window.find("content").append(display);
 	
 	Global.data.display = display;
-	
+
 	for(var i in elems) {
 		display.appendChild(Global.data[elems[i]].element);
 		updateDataElement(Global.data[elems[i]]);
@@ -104,9 +104,11 @@ function score(me, amount, appears) {
 }
 
 function killScore(text) {
-	if (body.contains(text)) body.removeChild(text);
+	// console.log(text);
+	// if (body.contains(text)) body.removeChild(text);
+	if (text.parentNode) text.parentNode.removeChild(text);
 	killNormal(text);
-	deleteThing(text, texts, texts.indexOf(text));
+	deleteThing(text, Global.texts, Global.texts.indexOf(text));
 }
 
 function findScore(lev) {

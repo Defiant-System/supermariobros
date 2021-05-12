@@ -14,7 +14,7 @@
 				
 				var greeter = "";
 				greeter += "<div style='width:350px;max-height:189px;background-color:#d64d00;border-radius:7px;box-shadow:3px 3px #efb28b inset, -3px -3px black inset;";
-				greeter += "background-image: url(\"Theme/Greeting.gif\"), url(\"Theme/Greeting.gif\"), url(\"Theme/Greeting.gif\"), url(\"Theme/Greeting.gif\");";
+				greeter += "background-image: url(\"~/images/greeting.gif\"), url(\"~/images/greeting.gif\"), url(\"~/images/greeting.gif\"), url(\"~/images/greeting.gif\");";
 				greeter += "background-repeat: no-repeat;";
 				greeter += "background-position: 7px 7px, 336px 7px, 7px 168px, 336px 168px";
 				greeter += "'>";
