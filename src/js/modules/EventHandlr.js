@@ -62,10 +62,10 @@ function EventHandlr(settings) {
 		
 		// Create the event, keeping track of start and end times
 		var event = {
-			func: func,
+			func,
+			args,
 			time_exec: time + time_exec,
 			time_repeat: time_exec,
-			args: args,
 			repeat: 1
 		};
 		

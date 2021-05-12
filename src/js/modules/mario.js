@@ -20,7 +20,7 @@ function FullScreenMario() {
 	
 	// With that all set, set the map to World11.
 	Global.gameon = true;
-	setMap(1,2);
+	setMap(1,3);
 	// setLives(1);
 
 	// setTimeout(() => pause(), 3000);

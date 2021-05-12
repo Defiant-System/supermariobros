@@ -1330,7 +1330,7 @@ function Coin(me, solid) {
 }
 
 function coinBecomesSolid(me) {
-	switchContainers(me, Global.characters, solids);
+	switchContainers(me, Global.characters, Global.solids);
 	me.movement = false;
 }
 

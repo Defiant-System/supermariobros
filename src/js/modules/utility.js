@@ -648,9 +648,9 @@ function moveSliding(me) {
 }
 
 function moveSlidingReal(me) {
-	if (gamescreen.left + me.left < me.begin)
+	if (Global.gamescreen.left + me.left < me.begin)
 		me.xvel = Global.min(me.xvel + Global.unitsized32, me.maxvel);
-	else if (gamescreen.left + me.right > me.end)
+	else if (Global.gamescreen.left + me.right > me.end)
 		me.xvel = Global.max(me.xvel - Global.unitsized32, -me.maxvel);
 	movePlatformNorm(me);
 }
@@ -676,11 +676,11 @@ function collideTransport(me, solid) {
 // To do: make me.collide and stages w/functions
 // To do: split this into .partner and whatnot
 function moveFalling(me) {
-	if (me != mario.resting) return me.yvel = 0;
+	if (me != Global.mario.resting) return me.yvel = 0;
 	
 	// Since Mario is on me, fall
 	shiftVert(me, me.yvel += Global.unitsized8);
-	setBottom(mario, me.top);
+	setBottom(Global.mario, me.top);
 	
 	// After a velocity threshold, always fall
 	if (me.yvel >= Global.unitsize * 2.8) {
@@ -690,7 +690,7 @@ function moveFalling(me) {
 }
 function moveFallingScale(me) {
 	// If Mario is resting on me, fall
-	if (mario.resting == me) {
+	if (Global.mario.resting == me) {
 		shiftScaleStringVert(me, me.string, me.yvel += Global.unitsized16);
 		shiftScaleStringVert(me.partner, me.partner.string, -me.yvel);
 		me.tension += me.yvel;
@@ -874,7 +874,7 @@ function killOtherCharacters() {
 
 function lookTowardMario(me, big) {
 	// Mario is to the left
-	if (mario.right <= me.left) {
+	if (Global.mario.right <= me.left) {
 		if (!me.lookleft || big) {
 			me.lookleft = true;
 			me.moveleft = false;
@@ -882,7 +882,7 @@ function lookTowardMario(me, big) {
 		}
 	}
 	// Mario is to the right
-	else if (mario.left >= me.right) {
+	else if (Global.mario.left >= me.right) {
 		if (me.lookleft || big) {
 			me.lookleft = false;
 			me.moveleft = true;
