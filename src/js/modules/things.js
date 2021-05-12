@@ -47,7 +47,7 @@ function Thing(type) {
 	
 	try { setContextStuff(self, self.spritewidth, self.spriteheight); }
 	catch(err) {
-		log("Thing context fail", err, self.title, self);
+		console.log("Thing context fail", err, self.title, self);
 		setTimeout(function() { setContextStuff(self, self.spritewidth, self.spriteheight); }, 1);
 	}
 	
@@ -994,7 +994,7 @@ function BowserFire(me, ylev) {
 }
 
 function moveFlying(me) {
-	if (round(me.bottom) == round(me.ylev)) {
+	if (Global.round(me.bottom) == Global.round(me.ylev)) {
 		me.movement = false;
 		return;
 	}
@@ -1197,7 +1197,7 @@ function moveLakitu(me) {
 		me.counter += .007;
 		slideToXLoc(me, Global.mario.left + Global.mario.xvel + Math.sin(Math.PI * me.counter) * 117, Global.mario.maxspeed * .7);
 	}
-	// log("moveLakitu after: " + (me.right - me.left) + "\n");
+	// console.log("moveLakitu after: " + (me.right - me.left) + "\n");
 }
 
 function throwSpiny(me) {
@@ -1292,7 +1292,14 @@ function BeetleShell(me) {
 	me.nofire = true;
 	me.group = "item";
 	me.speed = Global.unitsizet2;
-	me.moveleft = me.xvel = me.move = me.hitcount = me.peeking = me.counting = me.landing = me.enemyhitcount = 0;
+	me.moveleft =
+	me.xvel =
+	me.move =
+	me.hitcount =
+	me.peeking =
+	me.counting =
+	me.landing =
+	me.enemyhitcount = 0;
 	me.movement = moveShell;
 	me.collide = hitShell;
 	me.death = killFlip;
@@ -1304,7 +1311,13 @@ function Coin(me, solid) {
 	me.group = "coin";
 	me.width = 5;
 	me.height = 7;
-	me.nofall = me.coin = me.nofire = me.nocollidechar = me.nokillend = me.onlyupsolids = me.skipoverlaps = true;
+	me.nofall =
+	me.coin =
+	me.nofire =
+	me.nocollidechar =
+	me.nokillend =
+	me.onlyupsolids =
+	me.skipoverlaps = true;
 	me.tolx = 0;
 	me.toly = Global.unitsized2;
 	me.collide = hitCoin;
@@ -1705,6 +1718,7 @@ function marioStartRunningCycle(me) {
 	// setMarioRunningCycler sets the time between cycles
 	me.running = Global.EventHandler.addSpriteCycle(me, ["one", "two", "three", "two"], "running", setMarioRunningCycler);
 }
+
 // Used by Mario's running cycle to determine how fast he should switch between sprites
 function setMarioRunningCycler(event) {
 	event.timeout = 5 + Global.ceil(Global.mario.maxspeedsave - Global.abs(Global.mario.xvel));
@@ -3013,7 +3027,7 @@ function Sprite(me, name, reps) {
 	// Grab the template from window.Scenery (or complain if it's not there)
 	var template = me.template = Global.Scenery.sprites[name];
 	if (!template) {
-		log("No sprite template found for", name);
+		console.log("No sprite template found for", name);
 		return;
 	}
 	// Sizing is gotten from the listing under setScenery 
@@ -3027,7 +3041,9 @@ function Sprite(me, name, reps) {
 	me.title = name;
 	
 	// If the listing has a SpriteCycle, do that
-	if (template.spriteCycleTimer) Global.EventHandler.addSpriteCycle(me, spriteCycleTimer, spriteCycleTimer || undefined)
+	if (template.spriteCycleTimer) {
+		Global.EventHandler.addSpriteCycle(me, spriteCycleTimer, spriteCycleTimer || undefined)
+	}
 }
 
 // To do: is this ever used? (no longer used in sky)
