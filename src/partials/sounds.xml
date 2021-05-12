@@ -27,4 +27,17 @@
 	<i id="Vine Emerging" url="~/sounds/Vine Emerging.mp3" />
 	<i id="World Clear" url="~/sounds/World Clear.mp3" />
 	<i id="You Dead" url="~/sounds/You Dead.mp3" />
+
+	<i loop="1" id="Castle" url="~/sounds/Castle.mp3" />
+	<i loop="1" id="Overworld" url="~/sounds/Overworld.mp3" />
+	<i loop="1" id="Underwater" url="~/sounds/Underwater.mp3" />
+	<i loop="1" id="Underworld" url="~/sounds/Underworld.mp3" />
+	<i loop="1" id="Star" url="~/sounds/Star.mp3" />
+	<i loop="1" id="Sky" url="~/sounds/Sky.mp3" />
+	<i loop="1" id="Hurry Castle" url="~/sounds/Hurry Castle.mp3" />
+	<i loop="1" id="Hurry Overworld" url="~/sounds/Hurry Overworld.mp3" />
+	<i loop="1" id="Hurry Underwater" url="~/sounds/Hurry Underwater.mp3" />
+	<i loop="1" id="Hurry Underworld" url="~/sounds/Hurry Underworld.mp3" />
+	<i loop="1" id="Hurry Star" url="~/sounds/Hurry Star.mp3" />
+	<i loop="1" id="Hurry Sky" url="~/sounds/Hurry Sky.mp3" />
 </Sounds>

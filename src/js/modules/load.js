@@ -16,7 +16,7 @@ function setNextLevelArr(arr) {
 
 function startLoadingSounds() {
 	var libsounds = Global.library.sounds;
-	setTimeout(function() { loadSounds(libsounds, Global.library.sounds.names, "~/sounds/"); }, 7);
+	// setTimeout(function() { loadSounds(libsounds, Global.library.sounds.names, "~/sounds/"); }, 7);
 	setTimeout(function() { loadSounds(libsounds, Global.library.sounds.themes, "~/sounds/"); }, 14);
 }
 
