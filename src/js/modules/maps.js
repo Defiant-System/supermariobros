@@ -33,9 +33,6 @@ function resetMaps() {
 	Global.mapfuncs["Special"] = {
 		Blank: BlankMap
 	}
-	
-	// Maps not found, and sounds, are loaded via AJAX
-	// startLoadingMaps();
 }
 
 // A new map, which contains general settings for the game run
@@ -1091,7 +1088,7 @@ function pushPreFuncCollider(position, func) {
 }
 
 function pushPreFuncSpawner(xloc, func) {
-	return pushPreThing(FuncSpawner, xloc, jumplev1, func);
+	return pushPreThing(FuncSpawner, xloc, Global.jumplev1, func);
 }
 
 function zoneEnableLakitu() {

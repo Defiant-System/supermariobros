@@ -1,7 +1,7 @@
 /* Sounds.js */
 // Stores sounds in a global sounds object, to be played back on command
 
-// Starts pre-emptively loading sounds (see load.js::startLoadingSOunds)
+// Starts pre-emptively loading sounds (see load.js::startLoadingSounds)
 // All sounds are stored in library.sounds, while ones used in this run are also in window.sounds
 function resetSounds() {
 	Global.sounds = {};

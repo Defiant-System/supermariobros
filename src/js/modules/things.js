@@ -821,7 +821,7 @@ function jumpHammerBro(me) {
 	if (!characterIsAlive(me)) return true; // finish
 	if (!me.resting) return; // just skip
 	// If it's ok, jump down
-	if (Global.map.floor - (me.bottom / Global.unitsize) >= jumplev1 - 2 && me.resting.name != "floor" && Math.floor(Math.random() * 2)) {
+	if (Global.map.floor - (me.bottom / Global.unitsize) >= Global.jumplev1 - 2 && me.resting.name != "floor" && Math.floor(Math.random() * 2)) {
 		me.yvel = Global.unitsize * -.7;
 		me.falling = true;
 		Global.EventHandler.addEvent(function(me) { me.falling = false; }, 42, me);
@@ -992,7 +992,7 @@ function moveFlying(me) {
 function WaterBlock(me, width) {
 	me.height = 16;
 	me.width = width;
-	me.spritewidth = me.spriteheight = 1 / scale;
+	me.spritewidth = me.spriteheight = 1 / Global.scale;
 	me.repeat = true;
 	setSolid(me, "water-block");
 }
@@ -1112,7 +1112,7 @@ function startCheepSpawn() {
 			spawn.yvel = Global.unitsize * -2.33;
 			flipHoriz(spawn);
 			spawn.movement = function(me) {
-				if (me.top < ceilmax) me.movement = moveCheepJumping; 
+				if (me.top < Global.ceilmax) me.movement = moveCheepJumping; 
 				else shiftVert(me, me.yvel);
 			};
 		}, 21, Infinity
@@ -3095,7 +3095,7 @@ function GenerationStarter(me, func, arg) {
 }
 
 function castleDecider(me, xloc, secnum) {
-	me.height = ceilmax;
+	me.height = Global.ceilmax;
 	me.width = 10;
 	me.nocollide = true;
 	me.xloc = xloc;
@@ -3128,7 +3128,7 @@ function FuncCollider(me, func, position) {
 	// Normally position is nothing
 	else {
 		me.width = 8;
-		me.height = ceilmax + 40;
+		me.height = Global.ceilmax + 40;
 	}
 	me.collide = func;
 	me.hidden = true;
