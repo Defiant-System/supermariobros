@@ -1,6 +1,17 @@
 /* Load.js */
 // Sounds are loaded via AJAX
 
+
+
+function setNextLevelArr(arr) {
+	if (arr[1]++ == 4) {
+		++arr[0];
+		arr[1] = 1;
+	}
+	return arr;
+}
+
+
 /* Sounds */
 
 function startLoadingSounds() {

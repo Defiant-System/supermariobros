@@ -489,20 +489,23 @@ function pushRandomCoinRow(xloc, yloc, size) {
 					case 0: pattern = [1,0,0,1]; break;
 					case 1: pattern = [0,1,1,0]; break;
 				}
-			break;
+				break;
 			case 5:
 				switch(randTrue()) {
 					case 0: pattern = [1,0,1,0,1]; break;
 					case 1: pattern = [0,1,0,1,0]; break;
 				}
-			break;
+				break;
+		}
+	} else {
+		pattern = arrayOf(true, size);
+	}
+	
+	for(var i=0; i<size; ++i) {
+		if (pattern[i]) {
+			pushPreThing(Coin, xloc + i * 8, yloc);
 		}
 	}
-	else pattern = arrayOf(true, size);
-	
-	for(var i=0; i<size; ++i)
-		if (pattern[i])
-			pushPreThing(Coin, xloc + i * 8, yloc);
 }
 
 function getNextCoinRowSize(prev) {
@@ -534,7 +537,7 @@ function pushRandomSectionTrees(xloc) {
 					pushRandomSmallEnemy(xloc + i * 8, treeheight * 8);
 				}
 			}
-		break;
+			break;
 		case 1:
 			// Special things: scales and platform generators
 			treewidth = 14;
@@ -555,7 +558,7 @@ function pushRandomSectionTrees(xloc) {
 				// break;
 				// case 0:
 			}
-		break;
+			break;
 		default:
 			// A typical tree
 			treewidth = 4 + randSign() + randTrue();
@@ -570,7 +573,7 @@ function pushRandomSectionTrees(xloc) {
 				for(var i=1; i<treewidth - 1; ++i)
 					// if (randTrue(3))
 						pushPreThing(Coin, treex + 1 + i * 8, (treeheight + 1) * 8 - 1);
-		break;
+			break;
 	}
 	
 	var func;
@@ -589,13 +592,13 @@ function pushRandomSmallEnemy(xloc, yloc, canjump) {
 	switch(randTrue(7)) {
 		case 1: case 2: case 3:
 			pushPreThing(Koopa, xloc, yloc + 12, true, canjump);
-		break;
+			break;
 		case 7:
 			pushPreThing(Beetle, xloc, yloc + 8.5);
-		break;
+			break;
 		default:
 			pushPreThing(Goomba, xloc, yloc + 8);
-		break;
+			break;
 	}
 }
 
@@ -616,7 +619,7 @@ function pushRandomSectionUnderworld(xloc) {
 			case 0:
 				for(i = 0; i < bwidth - 2; i += 3)
 					pushRandomChunkEnemy(xloc + i * 8, 0, i);
-			break;        
+				break;        
 			case 1:
 				for(i = 0; i < bwidth - 2; i += 3) {
 					// Each chunk either has an obstacle...
@@ -624,7 +627,7 @@ function pushRandomSectionUnderworld(xloc) {
 					// ...or (maybe) an enemy, which might have bricks/blocks overhead
 					else if (i % 3 == 0) pushRandomChunkEnemy(xloc, i);
 				}
-			break;
+				break;
 		}
 	}
 	// Bigger / unusual
@@ -635,7 +638,7 @@ function pushRandomSectionUnderworld(xloc) {
 				case 0:
 					pushRandomUnderworldSquigglies(xloc + i * 8, each);
 					makeCeiling(xloc + i * 8, each);
-				break;
+					break;
 				// Have squigglies with a fill on top
 				case 1:
 					var diff = 1 + randTrue(),
@@ -647,25 +650,25 @@ function pushRandomSectionUnderworld(xloc) {
 					}
 					fillPreThing(Brick, xloc + i * 8, lev * 8, each - 1, 12 - lev, 8, 8);
 					i -= diff;
-				break;
+					break;
 				// Create a tunnel
 				case 2: createTunnel(xloc + (i + 2) * 8, each - 4, Brick); break;
 				// Pipes
 				case 3:
 					pushUnderworldPipes(xloc + (i + 2) * 8, each - 2);
 					makeCeiling(xloc + (i + 1) * 8, each);
-				break;
+					break;
 				// Stones
 				case 4:
 					pushUnderworldStones(xloc + (i + 2) * 8, each - 2);
 					makeCeiling(xloc + (i + 1) * 8, each);
-				break;
+					break;
 				// Chunk enemies, with rares
 				case 5:
 					for(j = 0; j < each - 4; j += 3) {
 						pushRandomChunkEnemy(xloc + (i + j) * 8, j);
 					}
-				break;
+					break;
 				case 6:
 					for(j = 0; j < bwidth - 2; j += 3) {
 							// Each chunk either has an obstacle...
@@ -678,7 +681,7 @@ function pushRandomSectionUnderworld(xloc) {
 							}
 						}
 					}
-				break;
+					break;
 			}
 		}
 	}
@@ -797,16 +800,16 @@ function pushRandomSectionUnderwater(xloc) {
 						pushPreThing(Stone, xloc + i * 8, botblock * 8, randTrue(3) + 1, botblock); // bottom
 						pushPreThing(Stone, xloc + i * 8, ceillev, randTrue(3) + 1, topblock); // top
 						
-					break;
+						break;
 					case 1:
 						// Simple stone pattern
 						if (randTrue()) pushPreThing(Stone, xloc + i * 8, Global.jumplev1, 4);
 						if (randTrue()) pushPreThing(Stone, xloc + i * 8, Global.jumplev2, 4);
-					break;
+						break;
 					case 2:
 						// A few coins
 						fillPreThing(Coin, xloc + (i + randTrue()) * 8 + 1, (randTrue(8) + 1) * 8 - 1, 3, 1, 8);
-					break;
+						break;
 					default:
 						if (map.had_coral) {
 							map.had_coral = false;
@@ -827,7 +830,7 @@ function pushRandomSectionUnderwater(xloc) {
 						if (randTrue()) pushPreThing(Coral, cx, cy, cheight); // beginning of stone
 						if (randTrue() && pwidth > 3 && pheight < 64) pushPreThing(Coral, cx + (pwidth - 1) * 8, cy, cheight); // end of stone
 						if (pwidth >= 3) i += (pwidth - 3);
-					break;
+						break;
 				}
 			break;
 		}
@@ -955,8 +958,9 @@ function prepareNextGeneratorStandard(xloc, bwidth, func, allow_platforms, no_un
 				else nofancy = true;
 			break;
 		}
+	} else {
+		nextdist = 1;
 	}
-	else nextdist = 1;
 	if (nofancy || !nextdist || nextdist < 1) nextdist = randTrue(3) + 1;
 	
 	// Water disabled because it sucks
@@ -1015,7 +1019,7 @@ function pushRandomEnemy(xloc, yloc, i, noRares) {
 						pushPreThing(HammerBro, xloc + i * 8, yloc + 12);
 						if (randTrue())
 							pushPreThing(HammerBro, xloc + i * 8 + 16, yloc + 40);
-					break;
+						break;
 					case 1:
 						if (map.randname != "Underworld") {
 							pushPreThing(Lakitu, xloc + i * 8, yloc + 80, true);
@@ -1023,18 +1027,18 @@ function pushRandomEnemy(xloc, yloc, i, noRares) {
 						}
 					case 2:
 						pushPreThing(Blooper, xloc + i * 8, yloc + 40);
-					break;
+						break;
 				}
 				break;
 			}
-		break;
+			break;
 		default: 
 			if (!randTrue(3)) return;
 			switch(randTrue(3)) {
 				case 1: fillPreThing(Koopa, xloc + i * 8, yloc + 12, randTrue(2), 1, 12, 0, randTrue() || map.onlysmartkoopas, randTrue()); break;
 				default: fillPreThing(Goomba, xloc + i * 8, yloc + 8, randTrue(2), 1, 12); break;
 			}
-		break;
+			break;
 	}
 }
 
@@ -1080,9 +1084,9 @@ function pushRandomObstacle(xloc, i) {
 			for(var j=0; j<2; ++j) {
 				if (randTrue() || i < 1) continue;
 				height = randTrue(2) + 2;
-					pushPreThing(Stone, xloc + (i + j) * 8, height * 8, 1, height);
+				pushPreThing(Stone, xloc + (i + j) * 8, height * 8, 1, height);
 			}
-		break;
+			break;
 		// Miscellaneous things
 		default:
 			var j = randTrue(2);
@@ -1110,16 +1114,18 @@ function pushRandomObstacle(xloc, i) {
 					// If it's not underwater, add a pipe at jumplev1
 					if (!map.underwater) {
 						var offx = randTrue();
-						if (!offx)
+						if (!offx) {
 							pushPreThing(Brick, xloc + i * 8, Global.jumplev1, getRandomBrickItem());
+						}
 						pushPreThing(Stone, xloc + (i + offx) * 8, Global.jumplev1, 2);
 						addPipeRandom(xloc + (i + offx) * 8, Global.jumplev1, 24 + randTrue() * 8);
-						if (offx)
+						if (offx) {
 							pushPreThing(Brick, xloc + i * 8, Global.jumplev1, getRandomBrickItem());
+						}
 						break;
 					}
 			}
-		break;
+			break;
 	}
 }
 
@@ -1163,15 +1169,16 @@ function pushRandomSkyScenery(xloc) {
 
 function addDistanceCounter() {
 	counter = createElement("div", {
-				className: "indisplay counter randomdisplay",
-				innerText: data.traveledold + " blocks traveled"
-			});
+			className: "indisplay counter randomdisplay",
+			innerText: data.traveledold + " blocks traveled"
+		});
 	body.appendChild(counter);
 	Global.EventHandler.addEventInterval(function(counter) {
-		data.traveled = Global.max(0, Math.round((mario.right + Global.gamescreen.left) / Global.unitsizet8) - 3);
+		data.traveled = Global.max(0, Math.round((Global.mario.right + Global.gamescreen.left) / Global.unitsizet8) - 3);
 		counter.innerText = (data.traveledold + data.traveled) + " blocks traveled";
 	}, 3, Infinity, counter);
 }
+
 function addSeedDisplay() {
 	// counter = createElement("div", {
 							// className: "indisplay seed randomdisplay",

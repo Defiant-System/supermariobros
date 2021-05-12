@@ -173,7 +173,7 @@ function EventHandlr(settings) {
 	// Given an object, clear all its class cycles
 	var clearAllCycles = this.clearAllCycles = function(me) {
 		var cycles = me[cycles],
-				name, cycle;
+			name, cycle;
 		for(name in cycles) {
 			cycle = cycles[name];
 			cycle[0] = false;

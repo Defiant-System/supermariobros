@@ -22,6 +22,8 @@ function FullScreenMario() {
 	Global.gameon = true;
 	setMap(1,1);
 	// setLives(1);
+
+	// setTimeout(() => pause(), 3000);
 	
 	// Load sounds after setting the map, since it uses clearAllTimeouts
 	startLoadingSounds();
@@ -117,7 +119,8 @@ function resetGameState(nocount) {
 	Global.editing =
 	Global.qcount =
 	Global.lastscroll = 0;
-	Global.paused = Global.gameon = true;
+	Global.paused =
+	Global.gameon = true;
 	// Shifting location shouldn't wipe the gamecount (for key histories)
 	if (!nocount) Global.gamecount = 0;
 	// And quadrants

@@ -146,7 +146,7 @@ function addText(html, left, top) {
 // Kills the text once it's too far away
 function spawnText(me, settings) {
 	var element = me.element = addText("", me.left, me.top);
-	if (typeof(settings) == "object") proliferate(element, settings);
+	if (typeof(settings) == "object") Global.proliferate(element, settings);
 	else element.innerHTML = settings;
 	me.movement = false;
 }
@@ -169,7 +169,6 @@ function checkTexts() {
 		}
 	}
 }
-
 
 // To do: make this use a variable number of arguments!
 function pushPreThing(type, xloc, yloc, extras, more) {
@@ -322,7 +321,7 @@ function hitShell(one, two) {
 				two.xvel = two.speed;
 				two.moveleft = false;
 			}
-		break;
+			break;
 		
 		// Hitting Mario
 		case "mario":
@@ -408,7 +407,7 @@ function hitShell(one, two) {
 				if (!two.hitcount && ((shelltoleft && two.xvel < 0) || (!shelltoleft && two.xvel > 0)))
 					one.death(one);
 			}
-		break;
+			break;
 		
 		// Shell hitting another shell
 		case "shell":
@@ -431,7 +430,7 @@ function hitShell(one, two) {
 				score(one, 500);
 				one.death(one);
 			}
-		break;
+			break;
 		
 		default:
 			switch(one.group) {
@@ -463,7 +462,7 @@ function hitShell(one, two) {
 					else return;
 				break;
 			}
-		break;
+			break;
 	}
 }
 
@@ -701,10 +700,8 @@ function collideEnemy(one, two) {
 		// addClass(one, "running three");
 		one.hopping = true;
 		if (Global.mario.power == 1)  setMarioSizeSmall(one);
-	}
-	
-	// Mario getting hit by an enemy
-	else if (one.mario) {
+	} else if (one.mario) {
+		// Mario getting hit by an enemy
 		if (!marioAboveEnemy(one, two)) one.death(one);
 	}
 	
@@ -715,7 +712,10 @@ function collideEnemy(one, two) {
 function Podoboo(me, jumpheight) {
 	me.width = 7;
 	me.height = 8;
-	me.deadly = me.nofall = me.nocollidesolid = me.nofire = true;
+	me.deadly =
+	me.nofall =
+	me.nocollidesolid =
+	me.nofire = true;
 	me.gravity = Global.map.gravity / 2.1;
 	me.jumpheight = (jumpheight || 64) * Global.unitsize;
 	me.speed = -Global.map.maxyvel;
@@ -736,6 +736,7 @@ function movePodobooInit(me) {
 	Global.EventHandler.addEvent(podobooJump, me.betweentime, me);
 	me.movement = false;
 }
+
 function podobooJump(me) {
 	if (!characterIsAlive(me)) return;
 	unflipVert(me);
@@ -774,7 +775,13 @@ function HammerBro(me) {
 	me.height = 12;
 	me.group = "enemy";
 	me.collide = collideEnemy;
-	me.statex = me.counter = me.statey = me.counterx = me.countery = me.level = me.throwcount = 0;
+	me.statex =
+	me.counter =
+	me.statey =
+	me.counterx =
+	me.countery =
+	me.level =
+	me.throwcount = 0;
 	me.death = killFlip;
 	me.movement = moveHammerBro;
 	setCharacter(me, "hammerbro");
@@ -825,15 +832,19 @@ function jumpHammerBro(me) {
 		me.yvel = Global.unitsize * -.7;
 		me.falling = true;
 		Global.EventHandler.addEvent(function(me) { me.falling = false; }, 42, me);
+	} else {
+		// Otherwise, jump up
+		me.yvel = Global.unitsize * -2.1;
 	}
-	// Otherwise, jump up
-	else me.yvel = Global.unitsize * -2.1;
 	me.resting = false;
 }
 
 function Hammer(me, left) {
 	me.width = me.height = 8;
-	me.nocollidesolid = me.nocollidechar = me.deadly = me.nofire = true;
+	me.nocollidesolid =
+	me.nocollidechar =
+	me.deadly =
+	me.nofire = true;
 	me.collide = collideEnemy;
 	me.yvel = -Global.unitsize * 1.4;
 	me.xvel = Global.unitsize / 1.4;
@@ -856,16 +867,18 @@ function Cannon(me, height, nofire) {
 function moveCannonInit(me) {
 	Global.EventHandler.addEventInterval(
 		function(me) {
-			if (Global.mario.right > me.left - Global.unitsizet8 && Global.mario.left < me.right + Global.unitsizet8)
+			if (Global.mario.right > me.left - Global.unitsizet8 && Global.mario.left < me.right + Global.unitsizet8) {
 				return; // don't fire if Mario is too close
+			}
 			var spawn = new Thing(BulletBill);
 			if (objectToLeft(Global.mario, me)) {
 				addThing(spawn, me.left, me.top);
 				spawn.direction = spawn.moveleft = true;
 				spawn.xvel *= -1;
 				flipHoriz(spawn);
+			} else {
+				addThing(spawn, me.left + me.width, me.top);
 			}
-			else addThing(spawn, me.left + me.width, me.top);
 			playLocal("Bump", me.right);
 		}, 270, Infinity, me);
 	me.movement = false;
@@ -881,7 +894,6 @@ function BulletBill(me) {
 	me.death = killFlip;
 	setCharacter(me, "bulletbill");
 }
-
 
 function Bowser(me, hard) {
 	me.width = me.height = 16;
@@ -939,7 +951,7 @@ function bowserFires(me) {
 	// After a little bit, open and fire
 	Global.EventHandler.addEvent(function(me) {
 		var top = me.top + Global.unitsizet4,
-			fire = new Thing(BowserFire, roundDigit(Global.mario.bottom, Global.unitsizet8));
+			fire = new Thing(BowserFire, Global.roundDigit(Global.mario.bottom, Global.unitsizet8));
 		removeClass(me, "firing");
 		addThing(fire, me.left - Global.unitsizet8, top);
 		play("Bowser Fires");
@@ -1695,7 +1707,7 @@ function marioStartRunningCycle(me) {
 }
 // Used by Mario's running cycle to determine how fast he should switch between sprites
 function setMarioRunningCycler(event) {
-	event.timeout = 5 + ceil(Global.mario.maxspeedsave - Global.abs(Global.mario.xvel));
+	event.timeout = 5 + Global.ceil(Global.mario.maxspeedsave - Global.abs(Global.mario.xvel));
 }
 
 function marioPaddles(me) {
@@ -2320,7 +2332,7 @@ function CastleBlock(me, arg1, arg2) {
 	if (length) {
 		me.balls = new Array(length);
 		me.dt = .07 * (dt ? 1 : -1);
-		me.timeout = round(7 / (Global.abs(dt) || 1));
+		me.timeout = Global.round(7 / (Global.abs(dt) || 1));
 		me.movement = castleBlockSpawn;
 		me.timer =
 		me.counter = 0;
@@ -2452,8 +2464,9 @@ function collideCastleNPC(me, collider) {
 	me.keys.run = 0;
 	Global.EventHandler.addEvent(function(text) {
 		var i;
-		for(i = 0; i < text.length; ++i)
-			Global.EventHandler.addEvent(proliferate, i * 70, text[i].element, {style: {visibility: "visible"}});
+		for(i = 0; i < text.length; ++i) {
+			Global.EventHandler.addEvent(Global.proliferate, i * 70, text[i].element, {style: {visibility: "visible"}});
+		}
 		Global.EventHandler.addEvent(endLevel, (i + 3) * 70);
 	}, 21, collider.text);
 } 
