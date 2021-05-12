@@ -129,13 +129,21 @@ content {
 		max-height: 189px;
 		background-color: #d64d00;
 		border-radius: 7px;
-		box-shadow: 3px 3px #efb28b inset, -3px -3px black inset;
-		background-image: url(~/images/greeting.gif),
-							url(~/images/greeting.gif),
-							url(~/images/greeting.gif),
-							url(~/images/greeting.gif);
-		background-repeat: no-repeat;
-		background-position: 7px 7px, 336px 7px, 7px 168px, 336px 168px;
+		box-shadow: 3px 3px #efb28b inset,
+					-3px -3px #000 inset;
+
+		&:before,
+		&:after {
+			content: "";
+			position: absolute;
+			top: 7px;
+			left: 7px;
+			width: 3px;
+			height: 3px;
+			background: #efb28b;
+			box-shadow: 2px 2px 0 #000;
+		}
+		&:after { left: 339px; }
 
 		p {
 			text-align: left;
@@ -144,6 +152,19 @@ content {
 			font-family: Super Plumber Bros;
 			font-size: 84px;
 			text-shadow: 3px 8px black;
+
+			&:before,
+			&:after {
+				content: "";
+				position: absolute;
+				top: 170px;
+				left: 7px;
+				width: 3px;
+				height: 3px;
+				background: #efb28b;
+				box-shadow: 2px 2px 0 #000;
+			}
+			&:after { left: 339px; }
 
 			span {
 				display: block;
