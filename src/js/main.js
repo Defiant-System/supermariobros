@@ -17,6 +17,8 @@
 
 
 const Global = {
+	addClass,
+	removeClass,
 	worlds: @import "modules/worlds.js"
 };
 

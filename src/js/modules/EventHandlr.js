@@ -216,8 +216,9 @@ function EventHandlr(settings) {
 		var cycle = me[cycles][name] = setSpriteCycle(me, settings, timingIsFunc ? 0 : timing);
 		
 		// If there is a timing function, make it the count changer
-		if (cycle.event && timingIsFunc)
+		if (cycle.event && timingIsFunc) {
 			cycle.event.count_changer = timing;
+		}
 			
 		// Immediately run the first class cycle, then return
 		cycleClass(me, settings);
@@ -251,7 +252,6 @@ function EventHandlr(settings) {
 		// Let the object know to start the cycle when needed
 		var func = synched ? addEventIntervalSynched : addEventInterval;
 		me[onSpriteCycleStart] = function() {
-			// console.log(me.title, me.cycles);
 			func(cycleClass, timing || timingDefault, Infinity, me, settings);
 		};
 		
@@ -268,7 +268,7 @@ function EventHandlr(settings) {
 		// If anything has been invalidated, return true to stop
 		if (!me || !settings || !settings.length) return true;
 		if (cycleCheckValidity != null && !me[cycleCheckValidity]) return true;
-		
+
 		// Get rid of the previous class, from settings (-1 by default)
 		if (settings.oldclass != -1 && settings.oldclass !== "") {
 			removeClass(me, settings.oldclass);
