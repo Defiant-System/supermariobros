@@ -189,10 +189,12 @@ function ControlsPipe(name, strict) {
 			event = event.which || event.control;
 
 		// If there is a known response to this character code, do it
-		if (responses[event])
+		if (responses[event]) {
 			responses[event](Global.mario.keys);
-		// Otherwise only complain if verbosity[name] is true
-		else mlog(name, "Could not", name,  event);
+		} else {
+			// Otherwise only complain if verbosity[name] is true
+			console.log(name, "Could not", name,  event);
+		}
 
 		// Record this in the history
 		Global.gamehistory[Global.gamecount] = [keydown, event];

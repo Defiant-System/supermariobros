@@ -257,14 +257,14 @@
 				pushPreThing(Stone, 1064, 32, 1, 4);
 				pushPreThing(Stone, 1072, 32, 1, 4);
 				pushPrePlatformGenerator(1096, 6, 1);
-				// pushPreThing(PlatformGenerator, 1096, ceilmax, 6, 1);
+				// pushPreThing(PlatformGenerator, 1096, Global.ceilmax, 6, 1);
 				
 				pushPreFloor(1144, 0, 8);
 				fillPreThing(Brick, 1144, 40, 5, 1, 8, 8);
 				pushPreThing(Koopa, 1152, 12, true);
 				pushPreThing(Brick, 1184, 40, Mushroom);
 				pushPrePlatformGenerator(1224, 6, -1);
-				// pushPreThing(PlatformGenerator, 1224, ceilmax, 6, -1);
+				// pushPreThing(PlatformGenerator, 1224, Global.ceilmax, 6, -1);
 				
 				pushPreFloor(1266, 0, 32);
 				fillPreThing(Brick, 1266, 8, 17, 3, 8, 8);
@@ -272,7 +272,7 @@
 				pushPreThing(PipeVertical, 1330, 88, 64);
 				makeCeiling(1274, 7);
 				fillPreThing(Brick, 1346, 32, 7, 7, 8, 8);
-				pushPreThing(ScrollEnabler, 1340, ceilmax);
+				pushPreThing(ScrollEnabler, 1340, Global.ceilmax);
 				makeCeiling(1346, 17);
 				pushPreWarpWorld(1400, 0, [[4,1],[3,1],[2,1]], 0, true);
 				fillPreThing(Brick, 1506, 8, 2, 11, 8, 8);
@@ -1287,7 +1287,7 @@
 				pushPreThing(Block, 440, Global.jumplev1, Mushroom);
 				
 				pushPrePlatformGenerator(470, 6, 1);
-				// pushPreThing(PlatformGenerator, 470, ceilmax, 6, 1);
+				// pushPreThing(PlatformGenerator, 470, Global.ceilmax, 6, 1);
 				
 				pushPreFloor(504, 0, 42);
 				pushPreThing(Block, 504, 40, Coin, true);
@@ -1320,7 +1320,7 @@
 				pushPreThing(Stone, 888, 24, 2, 3);
 				
 				pushPrePlatformGenerator(918, 6, 1);
-				// pushPreThing(PlatformGenerator, 918, ceilmax, 6, 1);
+				// pushPreThing(PlatformGenerator, 918, Global.ceilmax, 6, 1);
 				pushPreFloor(952, 0, 4);
 				fillPreThing(Brick, 952, 32, 4, 1, 8);
 				pushPreThing(Brick, 952, 64);
@@ -1329,7 +1329,7 @@
 				pushPreThing(Brick, 968, 64);
 				
 				pushPrePlatformGenerator(992, 6, -1);
-				// pushPreThing(PlatformGenerator, 992, ceilmax, 6, -1);
+				// pushPreThing(PlatformGenerator, 992, Global.ceilmax, 6, -1);
 				
 				makeCeiling(1024, 27);
 				pushPreFloor(1032, 0, 15);
@@ -1345,7 +1345,7 @@
 				pushPreThing(Beetle, 1232, 32.5);
 				
 				pushPrePlatformGenerator(1246, 6, 1);
-				// pushPreThing(PlatformGenerator, 1246, ceilmax, 6, 1);
+				// pushPreThing(PlatformGenerator, 1246, Global.ceilmax, 6, 1);
 				
 				pushPreFloor(1280, 0, 23);
 				fillPreThing(Brick, 1280, 48, 1, 2, 8, 8);
@@ -1370,7 +1370,7 @@
 				makeCeiling(1528, 28);
 				
 				fillPreThing(Brick, 1616, 32, 7, 7, 8, 8);
-				pushPreThing(ScrollEnabler, 1610, ceilmax);
+				pushPreThing(ScrollEnabler, 1610, Global.ceilmax);
 				makeCeiling(1616, 17);
 				pushPreWarpWorld(1670, 0, [[5,1]], 0, true);
 				fillPreThing(Brick, 1776, 8, 2, 11, 8, 8);

@@ -2,12 +2,6 @@
 // Starts everything.
 
 
-// Know when to shut up
-const verbosity = {
-	Maps: false,
-	Sounds: false,
-};
-
 
 function FullScreenMario() {
 	// I keep this cute little mini-library for some handy functions
@@ -151,8 +145,9 @@ function scrollWindow(x, y) {
 }
 
 function shiftAll(stuff, x, y) {
-	for(var i = stuff.length - 1; i >= 0; --i)
-			shiftBoth(stuff[i], x, y);
+	for(var i = stuff.length - 1; i >= 0; --i) {
+		shiftBoth(stuff[i], x, y);
+	}
 }
 
 function shiftElements(stuff, x, y) {
@@ -174,9 +169,3 @@ function scrollMario(x, y, see) {
 	updateQuads();
 }
 
-// Calls log if window.verbosity has the type enabled
-function mlog(type) {
-	if (verbosity[type]) {
-		log.apply(console, arguments);
-	}
-}

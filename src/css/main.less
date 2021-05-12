@@ -29,30 +29,35 @@ content {
 	right: 0;
 	bottom: 0;
 	font-family: "press start";
+	font-size: 16px;
 	color: #fafafa;
 
-	&.show-game-over {
-		background: #000;
-
-		canvas {
-			display: none;
-		}
-
-		.game-over {
-			display: block;
-		}
+	&.show-game-over .game-over {
+		visibility: visible;
+		opacity: 1;
 	}
 
 	.game-over {
-		display: none;
+		visibility: hidden;
+		opacity: 0;
+		background: #000;
 		position: absolute;
-		top: 50%;
-		left: 50%;
-		transform: translateY(-50%) translateX(-50%);
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
 		font-size: 49px;
 		white-space: nowrap;
 		text-transform: uppercase;
 		z-index: 99;
+		transition: opacity 120ms linear;
+
+		.go-text {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translateY(-50%) translateX(-50%);
+		}
 	}
 
 	.text,

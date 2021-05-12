@@ -257,8 +257,10 @@ function setAreaPreCreation(area) {
 function clearTexts() {
 	if (Global.texts)
 		for(var i = Global.texts.length - 1; i >= 0; --i) {
-			if (Global.texts[i]) {
-				Global.removeChildSafe(Global.texts[i], window.find(".content")[0]);
+			let el = Global.texts[i];
+			if (el && el.parentNode) {
+				el.parentNode.removeChild(el);
+				// Global.removeChildSafe(Global.texts[i], window.find(".content")[0]);
 			}
 		}
 	Global.texts = [];
@@ -619,7 +621,7 @@ function exitPipeVert(me, pipe) {
 function endLevel() {
 	if (Global.map.ending) return;
 	Global.map.ending = true;
-	Global.map.random ? setMapRandom(["Random", "Castle"]) : setNextLevelArr(currentmap);
+	Global.map.random ? setMapRandom(["Random", "Castle"]) : setNextLevelArr(Global.currentmap);
 	storeMarioStats();
 	pause();
 	setMap();
@@ -709,16 +711,16 @@ function fillPreWater(xloc, yloc, width) {
 }
 
 function pushPrePlatformGenerator(xloc, width, dir) {
-	pushPreThing(PlatformGenerator, xloc, ceilmax + 16, width, dir);
+	pushPreThing(PlatformGenerator, xloc, Global.ceilmax + 16, width, dir);
 }
 
 // settings = [platwidth, offy1, offy2] (offy is distance from top to platform)
 function pushPreScale(xloc, yloc, width, settings) {
 	var platwidth = settings[0],
-			offx = platwidth * 2,
-			offy1 = settings[1] + 1.5,
-			offy2 = settings[2] + 1.5,
-			me = pushPreThing(Scale, xloc, yloc, width).object;
+		offx = platwidth * 2,
+		offy1 = settings[1] + 1.5,
+		offy2 = settings[2] + 1.5,
+		me = pushPreThing(Scale, xloc, yloc, width).object;
 	
 	// Set the platforms
 	platleft = pushPreThing(Platform, xloc - offx, yloc - offy1 * 4, platwidth, moveFallingScale).object;
@@ -748,23 +750,23 @@ function pushPreWarpWorld(xloc, yloc, worlds, offset, block) {
 		len = worlds.length,
 		pipe, i;
 	
-	warp = pushPreThing(WarpWorld, xloc, yloc + ceilmax).object;
+	Global.warp = pushPreThing(WarpWorld, xloc, yloc + Global.ceilmax).object;
 	var title = pushPreText({innerText: "WELCOME TO WARP ZONE!", style: {visibility: "hidden"} }, startx, 58);
-	warp.texts.push(title.object);
+	Global.warp.texts.push(title.object);
 	
 	for(i = 0; i < len; ++i) {
 		if (worlds[i] != -1) {
-			warp.pipes.push(pipe = pushPrePipe(startx, yloc, 24, true, worlds[i]).object);
-			warp.pirhanas.push(pipe.pirhana);
+			Global.warp.pipes.push(pipe = pushPrePipe(startx, yloc, 24, true, worlds[i]).object);
+			Global.warp.pirhanas.push(pipe.pirhana);
 			if (worlds[i] instanceof Array)
-				warp.texts.push(pushPreText({innerText: worlds[i][0], style: {visibility: "hidden"}}, startx + 4, 38).object);
+				Global.warp.texts.push(pushPreText({innerText: worlds[i][0], style: {visibility: "hidden"}}, startx + 4, 38).object);
 		}
 		startx += 32;
 	}
 	
 	if (block) {
-		Global.block = pushPreThing(ScrollBlocker, xloc, ceilmax);
-		pushPreThing(ScrollBlocker, startx + 16, ceilmax);
+		Global.block = pushPreThing(ScrollBlocker, xloc, Global.ceilmax);
+		pushPreThing(ScrollBlocker, startx + 16, Global.ceilmax);
 	}
 }
 
@@ -772,8 +774,9 @@ function pushPreWarpWorld(xloc, yloc, worlds, offset, block) {
 function goUnderWater() {
 	if (Global.map) {
 		if (Global.map.area) {
-			if (Global.mario && !Global.map.shifting)
+			if (Global.mario && !Global.map.shifting) {
 				setAreaSetting(String(Global.map.area.setting || "") + " Underwater");
+			}
 			Global.map.area.underwater = true;
 		}
 		setMapGravity();
@@ -786,8 +789,9 @@ function goUnderWater() {
 function goOntoLand() {
 	if (Global.map) {
 		if (Global.map.area) {
-			if (Global.mario && !Global.map.shifting)
+			if (Global.mario && !Global.map.shifting) {
 				setAreaSetting(Global.map.area.setting.replace("Underwater", "") || "Overworld");
+			}
 			Global.map.area.underwater = false;
 		}
 		setMapGravity();
@@ -845,7 +849,7 @@ function endCastleInside(xloc, last) {
 	axe.bridge = pushPreThing(CastleBridge, xloc, 24, 13).object;
 	axe.chain = pushPreThing(CastleChain, xloc + 96.5, 32).object;
 	axe.bowser = pushPreThing(Bowser, xloc + 69, 42).object;
-	pushPreThing(ScrollBlocker, xloc + 112, ceilmax); // 104 + 16
+	pushPreThing(ScrollBlocker, xloc + 112, Global.ceilmax); // 104 + 16
 	
 	pushPreThing(Stone, xloc, 88, 32);
 	fillPreWater(xloc, 0, 26);
@@ -854,7 +858,7 @@ function endCastleInside(xloc, last) {
 	pushPreThing(Stone, xloc + 112, 80, 2, 3);
 	
 	// Stop that scrolling... again
-	pushPreThing(ScrollBlocker, xloc + 256, ceilmax);
+	pushPreThing(ScrollBlocker, xloc + 256, Global.ceilmax);
 	
 	// Place the NPC
 	endCastleInsideFinal(xloc, last);
@@ -902,7 +906,7 @@ function pushPreSectionFail(xloc, yloc, width, height, secnum) {
 	else section.colliders.push(failer);
 }
 function pushCastleDecider(xloc, secnum) {
-	pushPreThing(castleDecider, xloc, ceilmax, xloc, secnum);
+	pushPreThing(castleDecider, xloc, Global.ceilmax, xloc, secnum);
 }
 function sectionColliderInit(me) {
 	me.sections = Global.map.area.sections;
@@ -1082,7 +1086,7 @@ function pushPreFuncCollider(position, func) {
 		return pushPreThing(FuncCollider, position[0], position[1], func, [position[2], position[3]]);
 	} else {
 		// Normally position is xloc
-		return pushPreThing(FuncCollider, position, ceilmax + 40, func);
+		return pushPreThing(FuncCollider, position, Global.ceilmax + 40, func);
 	}
 }
 
@@ -1172,8 +1176,8 @@ function randMapType(map) {
 			if (map.randname == "Underwater") {
 				goUnderWater();
 				// To do: make a unified function for adding in water & blocker, by the block width
-				pushPreScenery("Water", 0, ceilmax - 21, (map.startwidth + 1) * 8 / 3, 1)
-				pushPreThing(WaterBlock, 0, ceilmax, (map.startwidth + 1) * 8);
+				pushPreScenery("Water", 0, Global.ceilmax - 21, (map.startwidth + 1) * 8 / 3, 1)
+				pushPreThing(WaterBlock, 0, Global.ceilmax, (map.startwidth + 1) * 8);
 			}
 			// if (map.randname == "Sky")
 				// map.locs[0].entry = enterCloudWorld

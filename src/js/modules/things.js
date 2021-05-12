@@ -160,7 +160,10 @@ function checkTexts() {
 		element = Global.texts[i].element || me;
 		me.right = me.left + element.clientWidth
 		if (me.right < delx) {
-			body.removeChild(element);
+			// body.removeChild(element);
+			if (element.parentNode) {
+				element.parentNode.removeChild(element);
+			}
 			killNormal(me);
 			deleteThing(element, Global.texts, i);
 		}
@@ -2737,8 +2740,8 @@ function endLevelFireworks(me, numfire, detector) {
 	nextfunc = function() { setTimeout(function() { endLevel(); }, nextnum); };
 	
 	// If the Stage Clear sound is still playing, wait for it to finish
-	if (sounds["Stage Clear"] && !sounds["Stage Clear"].paused)
-		sounds["Stage Clear"].addEventListener("ended", function() { Global.EventHandler.addEvent(nextfunc, 35); });
+	if (Global.sounds["Stage Clear"] && !Global.sounds["Stage Clear"].paused)
+		Global.sounds["Stage Clear"].addEventListener("ended", function() { Global.EventHandler.addEvent(nextfunc, 35); });
 	// Otherwise just start it immediately
 	else nextfunc();
 }

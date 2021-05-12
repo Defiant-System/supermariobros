@@ -19,7 +19,7 @@ function passivelyLoadMap(map, ajax) {
 	// Maps/WorldXY.js
 	var url = "Maps/World" + map[0] + "" + map[1] + ".js"
 	ajax.open("GET", url, true);
-	mlog("Maps", "Requesting:", url);
+	console.log("Maps", "Requesting:", url);
 	ajax.send();
 	ajax.onreadystatechange = function() {
 		if (ajax.readyState != 4) return;
@@ -33,7 +33,7 @@ function passivelyLoadMap(map, ajax) {
 				parentwindow.onmapload(map[0],map[1]);
 				setTimeout(function() { parentwindow.onmapload(map[0],map[1]); }, 2100); // just in case
 			}
-			mlog("Maps", " Loaded: Maps/World" + map[0] + "" + map[1] + ".js");
+			console.log("Maps", " Loaded: Maps/World" + map[0] + "" + map[1] + ".js");
 		}
 		// Otherwise, unless it just was a 404; return
 		else if (ajax.status != 404) return;
@@ -76,7 +76,7 @@ function loadSounds(container, reference, prefix) {
 		// Create the sound and store it in the container
 		sound = Global.createElement("Audio", details);
 		container[name_raw] = sound;
-		mlog("Sounds", sound)
+		// console.log("Sounds", sound)
 		
 		// Create the MP3 and OGG sources for the audio
 		sound.appendChild(Global.createElement("Source", {

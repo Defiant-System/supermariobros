@@ -103,18 +103,18 @@ function maintainCharacters(update) {
 		// To do: is map.shifting needed?
 		if (character.alive) {
 			if (character.type != "mario" && !Global.map.shifting && 
-					(character.numquads == 0 || character.left > delx) && !character.outerok) {
+				(character.numquads == 0 || character.left > delx) && !character.outerok) {
 					// (character.top > gamescreen.bottom - gamescreen.top || character.left < + quads.width * -1)) {
 				deleteThing(character, Global.characters, i);
-			}
-			else {
-				if (!character.nomove && character.movement)
+			} else {
+				if (!character.nomove && character.movement) {
 					character.movement(character);
+				}
 				// if (update) updateDisplay(character);
 			}
+		} else if (!Global.map.shifting) {
+			deleteThing(character, Global.characters, i);
 		}
-		else if (!Global.map.shifting) deleteThing(character, Global.characters, i);
-		
 	}
 }
 
@@ -168,7 +168,7 @@ function maintainMario(update) {
 	// Mario is moving to the left
 	else if (Global.mario.left < 0) {
 		// Stop Mario from going to the left.
-		Global.mario.xvel = max(0, Global.mario.xvel);
+		Global.mario.xvel = Global.max(0, Global.mario.xvel);
 	}
 	
 	// Mario is hitting something (stop jumping)
