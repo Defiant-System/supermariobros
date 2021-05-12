@@ -701,7 +701,7 @@ function pushPreBridge(xloc, yloc, length, sides) {
 function fillPreWater(xloc, yloc, width) {
 	// Water is 3 x 5.5
 	var dtb = DtB(yloc),
-		numy = ceil(dtb / 5.5),
+		numy = Global.ceil(dtb / 5.5),
 		dtby = numy * 5;
 	pushPreScenery("Water", xloc, yloc - 5.5, width * 4 / 3);
 	pushPreScenery("WaterFill", xloc, yloc - dtby - 15.5, width * 4 / 3, numy + 2);

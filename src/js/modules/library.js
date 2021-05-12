@@ -702,18 +702,22 @@ function resetLibrary() {
 // Given an object in the library, parse it into sprite data
 function libraryParse(setref) {
 	var setnew = {},
-			objref, objnew, i;
+		objref, objnew, i;
 	for(i in setref) {
 		objref = setref[i];
 		switch(objref.constructor) {
 			// If it's a string, parse it (unless it's a normal setter)
 			case String:
-					setnew[i] = spriteGetArray(spriteExpand(spriteUnravel(objref)));
-			break;
+				setnew[i] = spriteGetArray(spriteExpand(spriteUnravel(objref)));
+				break;
 			// // If it's an array, it should have a command such as 'same' to be post-processed
-			case Array: Global.library.posts.push({caller: setnew, name: i, command: setref[i]}); break;
+			case Array:
+				Global.library.posts.push({caller: setnew, name: i, command: setref[i]});
+				break;
 			// If it's an object, recurse
-			case Object: setnew[i] = libraryParse(objref); break;
+			case Object:
+				setnew[i] = libraryParse(objref);
+				break;
 		}
 	}
 	return setnew;
@@ -732,6 +736,7 @@ function libraryPosts() {
 		caller[name] = evaluatePost(caller, command, i);
 	}
 }
+
 function evaluatePost(caller, command, i) {
 	switch(command[0]) {
 		// Same: just returns a reference to the target
@@ -767,6 +772,7 @@ function applyLibraryFilter(ref, filter) {
 			return applyPaletteFilterRecursive(ref, filter[1]);
 	}
 }
+
 // Applies the filter to an object recursively
 function applyPaletteFilterRecursive(ref, filter) {
 	var obj = {}, found, i;
@@ -776,10 +782,10 @@ function applyPaletteFilterRecursive(ref, filter) {
 			case String: 
 				// if (i != "normal" || stringIsSprite(found)) obj[i] = spriteGetArray(spriteExpand(applyPaletteFilter(spriteUnravel(found), filter)));
 				obj[i] = spriteGetArray(spriteExpand(applyPaletteFilter(spriteUnravel(found), filter)));
-			break;
+				break;
 			case Object:
 				obj[i] = applyPaletteFilterRecursive(found, filter);
-			break;
+				break;
 		}
 	}
 	return obj;
@@ -820,6 +826,7 @@ function SpriteMultiple(type) {
 	this.type = type;
 	this.multiple = true;
 }
+
 function getDigitSize(palette) {
 	return Number(String(palette.length).length);
 }

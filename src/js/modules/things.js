@@ -2355,7 +2355,7 @@ function CastleBlock(me, arg1, arg2) {
 }
 
 function castleBlockSpawn(me) {
-	for(var i=0; i<me.balls.length; ++i) {
+	for(var i=0, spawn; i<me.balls.length; ++i) {
 		spawn = new Thing(CastleFireBall, i * 4);
 		var mid = me.width * Global.unitsized4, midx = me.left + mid, midy = me.top + mid;
 		me.balls[i] = addThing(spawn, midx + i * Global.unitsize * 3, midy + i * Global.unitsize * 3);
@@ -2746,7 +2746,9 @@ function endLevelPoints(me, detector) {
 		if (Global.data.time.amount <= 0)  {
 			// pause();
 			clearInterval(points);
-			setTimeout(function() { endLevelFireworks(me, numfire, detector); }, Global.timer * 49);
+			setTimeout(function() {
+				endLevelFireworks(me, numfire, detector);
+			}, Global.timer * 49);
 		}
 	}, Global.timerd2);
 }

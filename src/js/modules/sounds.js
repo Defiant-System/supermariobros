@@ -14,15 +14,14 @@ function resetSounds() {
 function play(name_raw) {
 	// First check if this is already in sounds
 	var sound = Global.sounds[name_raw];
-	
+
 	// If it's not already being played,
 	if (!sound) {
 		// Check for it in the library
 		if (sound = Global.library.sounds[name_raw]) {
 			Global.sounds[name_raw] = sound;
-		}
-		// Otherwise it's not known, complain
-		else {
+		} else {
+			// Otherwise it's not known, complain
 			console.log("Unknown sound: '" + name_raw + "'");
 			return sound;
 		}
@@ -30,17 +29,19 @@ function play(name_raw) {
 	
 	// Reset the sound, then play it
 	if (sound.readyState) {
-		sound.pause();
+		// sound.pause();
 		sound.currentTime = 0;
 	}
 	sound.volume = !Global.muted;
 	sound.play();
 	
 	// If this is the first time the sound was added, let it know how to stop
-	if (!(sound.used++)) sound.addEventListener("ended", function() {
-		// console.log("Sounds", sound);
-		soundFinish(sound, name_raw);
-	});
+	if (!(sound.used++)) {
+		sound.addEventListener("ended", function() {
+			// console.log("Sounds", sound);
+			soundFinish(sound, name_raw);
+		});
+	}
 	
 	return sound;
 }

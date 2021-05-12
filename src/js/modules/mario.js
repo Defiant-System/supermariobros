@@ -20,7 +20,7 @@ function FullScreenMario() {
 	
 	// With that all set, set the map to World11.
 	Global.gameon = true;
-	setMap(1,3);
+	setMap(1,1);
 	// setLives(1);
 
 	// setTimeout(() => pause(), 3000);
@@ -86,12 +86,12 @@ function getGameScreen() {
 function resetGameScreenPosition(me) {
 	me = me || Global.gamescreen;
 	me.left = me.top = 0;
-	me.bottom = innerHeight;
-	me.right = innerWidth;
-	me.height = innerHeight / Global.unitsize;
-	me.width = innerWidth / Global.unitsize;
-	me.unitheight = innerHeight;
-	me.unitwidth = innerWidth;
+	me.bottom = window.innerHeight;
+	me.right = window.innerWidth;
+	me.height = window.innerHeight / Global.unitsize;
+	me.width = window.innerWidth / Global.unitsize;
+	me.unitheight = window.innerHeight;
+	me.unitwidth = window.innerWidth;
 }
 
 // Events are done with EventHandlr.js
