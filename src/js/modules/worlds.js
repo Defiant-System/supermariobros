@@ -12,28 +12,24 @@
 			new Area("Overworld", function() {
 				setLocationGeneration(0);
 				
-				var greeter = "";
-				greeter += "<div style='width:350px;max-height:189px;background-color:#d64d00;border-radius:7px;box-shadow:3px 3px #efb28b inset, -3px -3px black inset;";
-				greeter += "background-image: url(\"~/images/greeting.gif\"), url(\"~/images/greeting.gif\"), url(\"~/images/greeting.gif\"), url(\"~/images/greeting.gif\");";
-				greeter += "background-repeat: no-repeat;";
-				greeter += "background-position: 7px 7px, 336px 7px, 7px 168px, 336px 168px";
-				greeter += "'>";
-				greeter += "  <p style='text-align:left;padding:7px 0 11px 11px;color:#ffcccc;font-family: Super Plumber Bros;font-size:77px;text-shadow:3px 8px black'>";
-				greeter += "    <span style='font-size:84px'>super</span>";
-				greeter += "    <br><br>"; // To do: make this not so font dependant
-				greeter += "    <span style='font-size:81px;line-height:96px'>MARIO BROS.</span>";
-				greeter += "  </p>";
-				greeter += "</div>";
-				greeter += "<div id='boo' style='text-align:right;color:#ffcccc;margin-top:-7px;width:350px;height:35px;'>&copy;1985 NINTENDO</div>";
-				greeter += "<p id='explanation' style='text-align:center;margin-left:7px;'>";
-				greeter += "  Move: Arrows/WASD";
-				greeter += "  <br>";
-				greeter += "  Fire/Sprint: Shift/CTRL";
-				greeter += "  <br>";
-				greeter += "  Pause/Mute: P/M ";
-				// greeter += "  <br>";
-				// greeter += "  TOP- " + (localStorage.highscore || "000000");
-				greeter += "</p>";
+				var greeter = `
+					<div class="start">
+						<p>
+							<span>super</span>
+							<span>MARIO BROS.</span>
+						</p>
+					</div>
+
+					<div class="start-copyright">
+						&copy;1985 NINTENDO
+					</div>
+
+					<p class="start-explanation">
+						Move: Arrows/WASD<br>
+						Fire/Sprint: Shift/CTRL<br>
+						Pause/Mute: P/M 
+					</p>
+				`;
 				pushPreText(greeter, 20, 91);
 				
 				pushPrePattern("backreg", 0, 0, 5);

@@ -130,7 +130,10 @@ content {
 		background-color: #d64d00;
 		border-radius: 7px;
 		box-shadow: 3px 3px #efb28b inset, -3px -3px black inset;
-		background-image: url("~/images/greeting.gif"), url("~/images/greeting.gif"), url("~/images/greeting.gif"), url("~/images/greeting.gif");
+		background-image: url(~/images/greeting.gif),
+							url(~/images/greeting.gif),
+							url(~/images/greeting.gif),
+							url(~/images/greeting.gif);
 		background-repeat: no-repeat;
 		background-position: 7px 7px, 336px 7px, 7px 168px, 336px 168px;
 
@@ -139,8 +142,34 @@ content {
 			padding: 7px 0 11px 11px;
 			color: #ffcccc;
 			font-family: Super Plumber Bros;
-			font-size: 77px;
+			font-size: 84px;
 			text-shadow: 3px 8px black;
+
+			span {
+				display: block;
+
+				&:nth-child(1) {
+					height: 67px;
+				}
+
+				&:nth-child(2) {
+					font-size: 81px;
+					line-height: 96px;
+				}
+			}
 		}
+	}
+
+	.start-copyright {
+		text-align: right;
+		color: #ffcccc;
+		margin-top: -7px;
+		width: 350px;
+		height: 35px;
+	}
+
+	.start-explanation {
+		text-align: center;
+		margin-left: 7px;
 	}
 }
