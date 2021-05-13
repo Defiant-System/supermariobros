@@ -13,6 +13,8 @@ function resetSounds() {
 function play(name) {
 	// play sound
 	let sound = window.audio.play(name);
+	
+	if (!sound) return;
 
 	// save reference
 	Global.sounds[name] = sound;
