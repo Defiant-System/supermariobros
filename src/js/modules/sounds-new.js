@@ -17,8 +17,21 @@ function play(name) {
 
 
 // The same as regular play, but with lower volume when further from Mario
-function playLocal(name, xloc, main) {
-	console.log("playLocal");
+function playLocal(name, xloc) {
+	// Don't do anything if there's no actual Mario
+	if (!Global.mario) return;
+
+	let volume = 1;
+
+	// If it's out of bounds (or muted), the volume is 0
+	if (Global.muted || xloc < 0 || xloc > Global.gamescreen.unitwidth) {
+		volume = 0;
+	} else {
+		// Otherwise it's a function of how far the thing is from Mario
+		volume = Global.max(.14, Global.min(.84, 1.4 * (Global.gamescreen.unitwidth - Global.abs(xloc - Global.mario.left)) / Global.gamescreen.unitwidth));
+	}
+	// play sound
+	window.audio.play(name, { volume });
 }
 
 // Plays a theme as sounds.theme via play()
