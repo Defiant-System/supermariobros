@@ -12,7 +12,13 @@ function resetSounds() {
 
 function play(name) {
 	// play sound
-	window.audio.play(name);
+	let sound = window.audio.play(name);
+
+	// save reference
+	Global.sounds[name] = sound;
+
+	// If this is the first time the sound was added, let it know how to stop
+	sound.addEventListener("ended", () => soundFinish(name));
 }
 
 
@@ -53,6 +59,11 @@ function playTheme(name, resume, loop) {
 // The equivalent of playTheme with Hurry added on
 function playCurrentThemeHurry(name) {
 	playTheme("Hurry " + (name || Global.area.theme));
+}
+
+// Called when a sound is done to get it out of sounds
+function soundFinish(name) {
+	if (Global.sounds[name]) delete Global.sounds[name];
 }
 
 function toggleMute() {

@@ -2725,7 +2725,8 @@ function endLevelPoints(me, detector) {
 	if (!me || !me.mario) return;
 	
 	// Stop the game, and get rid of mario and the detectors
-	Global.notime = Global.nokeys = true;
+	Global.notime =
+	Global.nokeys = true;
 	killNormal(detector);
 	killNormal(me);
 	
@@ -2746,15 +2747,14 @@ function endLevelPoints(me, detector) {
 		if (Global.data.time.amount <= 0)  {
 			// pause();
 			clearInterval(points);
-			setTimeout(function() {
-				endLevelFireworks(me, numfire, detector);
-			}, Global.timer * 49);
+			setTimeout(() => endLevelFireworks(me, numfire, detector), Global.timer * 49);
 		}
 	}, Global.timerd2);
 }
 
 function endLevelFireworks(me, numfire, detector) {
-	var nextnum, nextfunc,
+	var nextnum,
+		nextfunc,
 		i = 0;
 	if (numfire) {
 		// var castlemid = detector.castle.left + detector.castle.width * Global.unitsized2;
@@ -2769,15 +2769,19 @@ function endLevelFireworks(me, numfire, detector) {
 	}
 	
 	// The actual endLevel happens after all the fireworks are done
-	nextfunc = function() { setTimeout(function() { endLevel(); }, nextnum); };
+	nextfunc = function() {
+		setTimeout(() => endLevel(), nextnum);
+	};
 	
 	// If the Stage Clear sound is still playing, wait for it to finish
-	if (Global.sounds["Stage Clear"] && !Global.sounds["Stage Clear"].paused)
+	if (Global.sounds["Stage Clear"] && !Global.sounds["Stage Clear"].paused) {
 		Global.sounds["Stage Clear"].addEventListener("ended", function() {
 			Global.EventHandler.addEvent(nextfunc, 35);
 		});
-	// Otherwise just start it immediately
-	else nextfunc();
+	} else {
+		// Otherwise just start it immediately
+		nextfunc();
+	}
 }
 
 function explodeFirework(num, castlemid) {
