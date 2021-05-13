@@ -29,7 +29,7 @@ function TonedJS(give_window) {
 				if (no_override && elem[i]) continue;
 				if (typeof(setting = settings[i]) == "object") {
 					if (!elem[i]) elem[i] = {};
-					this.proliferate(elem[i], setting, no_override);
+					toned.proliferate(elem[i], setting, no_override);
 				} else if (setting) {
 					elem[i] = setting;
 				}
@@ -61,7 +61,7 @@ function TonedJS(give_window) {
 			var elem = document.createElement(type || "div"),
 					i = arguments.length;
 			while(--i > 0) // because negative
-				this.proliferate(elem, arguments[i]);
+				toned.proliferate(elem, arguments[i]);
 			return elem;
 		},
 		// Simple expressions to add/remove classes
@@ -71,7 +71,7 @@ function TonedJS(give_window) {
 		elementSetPosition: function(me, left, top) {
 			if (left == undefined) left = me.left;
 			if (top == undefined) top = me.top;
-			this.proliferate(me, {
+			toned.proliferate(me, {
 				left: left,
 				top: top,
 				style: {

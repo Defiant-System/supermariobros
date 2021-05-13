@@ -644,8 +644,7 @@ function movePirhanaRestart(me) {
 	var marmid = getMidX(Global.mario);
 	// If Mario's too close and counter == 0, don't do anything
 	if (me.counter >= me.countermax && marmid > me.left - Global.unitsizet8 && marmid < me.right + Global.unitsizet8) {
-		setTimeout(movePirhanaRestart, 7, me);
-		return;
+		return setTimeout(() => movePirhanaRestart(me), 7);
 	}
 	// Otherwise start again
 	me.movement = movePirhanaNew;
@@ -1414,7 +1413,8 @@ function coinEmergeMoveParent(me) {
 	me.landing = 0;
 	me.running = ''; // Evalues to false for cycle checker
 	me.power = Global.data.mariopower; // 1 for normal, 2 for big, 3 for fiery
-	me.maxspeed = me.maxspeedsave = Global.unitsize * 1.35; // Really only used for timed animations
+	me.maxspeed =
+	me.maxspeedsave = Global.unitsize * 1.35; // Really only used for timed animations
 	me.scrollspeed = Global.unitsize * 1.75;
 	me.keys = new Keys();
 	me.fire = marioFires;
@@ -2750,7 +2750,7 @@ function endLevelPoints(me, detector) {
 				endLevelFireworks(me, numfire, detector);
 			}, Global.timer * 49);
 		}
-	}, Global.timerd2 * 1.5);
+	}, Global.timerd2);
 }
 
 function endLevelFireworks(me, numfire, detector) {

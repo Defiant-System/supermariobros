@@ -21,7 +21,7 @@ function FullScreenMario() {
 	// With that all set, set the map to World11.
 	Global.gameon = true;
 	setMap(1,1);
-	// setLives(1);
+	// setLives(99);
 }
 
 /* Basic reset operations */
@@ -120,8 +120,6 @@ function resetGameState(nocount) {
 	if (!nocount) Global.gamecount = 0;
 	// And quadrants
 	resetQuadrants();
-	// Keep a history of pressed keys
-	Global.gamehistory = [];
 	// Clear audio
 	pauseAllSounds();
 	Global.sounds = {};
