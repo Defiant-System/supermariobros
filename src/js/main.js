@@ -3,11 +3,10 @@
 @import "modules/EventHandlr.js";
 @import "modules/generator.js";
 @import "modules/library.js";
-@import "modules/load.js";
 @import "modules/maps.js";
 @import "modules/mario.js";
 @import "modules/quadrants.js";
-@import "modules/sounds.js";
+@import "modules/sounds-new.js";
 @import "modules/sprites.js";
 @import "modules/things.js";
 @import "modules/toned.js";
@@ -28,6 +27,11 @@ const supermariobros = {
 		this.content = window.find("content");
 
 		FullScreenMario();
+		
+		// window.audio.play("Overworld");
+		// setTimeout(() => {
+		// 	window.audio.play("Hurry Overworld");
+		// }, 8000);
 	},
 	dispatch(event) {
 		switch (event.type) {

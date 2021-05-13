@@ -35,6 +35,14 @@ function resetMaps() {
 	}
 }
 
+function setNextLevelArr(arr) {
+	if (arr[1]++ == 4) {
+		++arr[0];
+		arr[1] = 1;
+	}
+	return arr;
+}
+
 // A new map, which contains general settings for the game run
 function Map() {
 	this.underwater = this.current_character = this.current_solid = this.current_scenery = this.xloc = 0;

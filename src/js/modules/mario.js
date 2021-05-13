@@ -22,11 +22,6 @@ function FullScreenMario() {
 	Global.gameon = true;
 	setMap(1,1);
 	// setLives(1);
-
-	// setTimeout(() => pause(), 3000);
-	
-	// Load sounds after setting the map, since it uses clearAllTimeouts
-	startLoadingSounds();
 }
 
 /* Basic reset operations */

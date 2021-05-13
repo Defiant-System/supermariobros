@@ -2730,7 +2730,7 @@ function endLevelPoints(me, detector) {
 	killNormal(me);
 	
 	// Determine the number of fireballs (1, 3, and 6 become not 0)
-	var numfire = Global.getLast(String(Global.data.time.amount));
+	var numfire = Global.data.time.amount.toString().slice(-1);
 	if (!(numfire == 1 || numfire == 3 || numfire == 6)) numfire = 0;
 
 	// Count down the points (x50)
@@ -2750,7 +2750,7 @@ function endLevelPoints(me, detector) {
 				endLevelFireworks(me, numfire, detector);
 			}, Global.timer * 49);
 		}
-	}, Global.timerd2);
+	}, Global.timerd2 * 1.5);
 }
 
 function endLevelFireworks(me, numfire, detector) {
@@ -2759,18 +2759,23 @@ function endLevelFireworks(me, numfire, detector) {
 	if (numfire) {
 		// var castlemid = detector.castle.left + detector.castle.width * Global.unitsized2;
 		var castlemid = detector.left + 32 * Global.unitsized2;
-		while(i < numfire)
-			explodeFirework(++i, castlemid); //pre-increment since explodeFirework expects numbers starting at 1
+		while(i < numfire) {
+			//pre-increment since explodeFirework expects numbers starting at 1
+			explodeFirework(++i, castlemid);
+		}
 		nextnum = Global.timer * (i + 2) * 42;
+	} else {
+		nextnum = 0;
 	}
-	else nextnum = 0;
 	
 	// The actual endLevel happens after all the fireworks are done
 	nextfunc = function() { setTimeout(function() { endLevel(); }, nextnum); };
 	
 	// If the Stage Clear sound is still playing, wait for it to finish
 	if (Global.sounds["Stage Clear"] && !Global.sounds["Stage Clear"].paused)
-		Global.sounds["Stage Clear"].addEventListener("ended", function() { Global.EventHandler.addEvent(nextfunc, 35); });
+		Global.sounds["Stage Clear"].addEventListener("ended", function() {
+			Global.EventHandler.addEvent(nextfunc, 35);
+		});
 	// Otherwise just start it immediately
 	else nextfunc();
 }

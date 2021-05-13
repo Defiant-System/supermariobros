@@ -10,23 +10,20 @@ function resetSounds() {
 }
 
 
-function play(name_raw) {
-	window.audio.play(name_raw);
-}
-
 // Override is whether the main music pauses
-function playOrg(name_raw) {
+function play(name) {
 	// First check if this is already in sounds
-	var sound = Global.sounds[name_raw];
+	var sound = Global.sounds[name];
 
 	// If it's not already being played,
 	if (!sound) {
 		// Check for it in the library
-		if (sound = Global.library.sounds[name_raw]) {
-			Global.sounds[name_raw] = sound;
+		if (sound = Global.library.sounds[name]) {
+			Global.sounds[name] = sound;
 		} else {
 			// Otherwise it's not known, complain
-			console.log("Unknown sound: '" + name_raw + "'");
+			// console.log("Unknown sound: '" + name + "'");
+			window.audio.play(name);
 			return sound;
 		}
 	}
@@ -42,8 +39,7 @@ function playOrg(name_raw) {
 	// If this is the first time the sound was added, let it know how to stop
 	if (!(sound.used++)) {
 		sound.addEventListener("ended", function() {
-			// console.log("Sounds", sound);
-			soundFinish(sound, name_raw);
+			soundFinish(sound, name);
 		});
 	}
 	
@@ -52,7 +48,7 @@ function playOrg(name_raw) {
 
 // The same as regular play, but with lower volume when further from Mario
 function playLocal(name, xloc, main) {
-	var sound = playOrg(name, main),
+	var sound = play(name, main),
 		volume_real;
 	// Don't do anything without having played a sound, or if there's no actual Mario
 	if (!sound || !Global.mario) return;
@@ -69,7 +65,7 @@ function playLocal(name, xloc, main) {
 
 // Plays a theme as sounds.theme via play()
 // If no theme is provided, it plays the area's theme
-function playTheme(name_raw, resume, loop) {
+function playTheme(name, resume, loop) {
 	// set loop default to true
 	loop = typeof loop !== 'undefined' ? loop : true;
 
@@ -77,14 +73,14 @@ function playTheme(name_raw, resume, loop) {
 	if (sound = Global.sounds.theme) {
 		soundStop(sound);
 		delete Global.sounds.theme;
-		delete Global.sounds[sound.name_raw];
+		delete Global.sounds[sound.name];
 	}
 	
 	// If the name isn't given, get it from the current area
-	if (!name_raw) name_raw = Global.area.theme;
-	
+	if (!name) name = Global.area.theme;
+
 	// This creates the sound.
-	var sound = Global.sounds.theme = playOrg(name_raw);
+	var sound = Global.sounds.theme = play(name);
 
 	if (loop) {
 		sound.loop = true;
@@ -99,13 +95,13 @@ function playTheme(name_raw, resume, loop) {
 }
 
 // The equivalent of playTheme with Hurry added on
-function playCurrentThemeHurry(name_raw) {
-	playTheme("Hurry " + (name_raw || Global.area.theme));
+function playCurrentThemeHurry(name) {
+	playTheme("Hurry " + (name || Global.area.theme));
 }
 
 // Called when a sound is done to get it out of sounds
-function soundFinish(sound, name_raw) {
-	if (Global.sounds[name_raw]) delete Global.sounds[name_raw];
+function soundFinish(sound, name) {
+	if (Global.sounds[name]) delete Global.sounds[name];
 }
 
 function soundStop(sound) {
