@@ -55,18 +55,9 @@ function playCurrentThemeHurry(name) {
 	playTheme("Hurry " + (name || Global.area.theme));
 }
 
-// Called when a sound is done to get it out of sounds
-function soundFinish(sound, name) {
-	console.log("soundFinish");
-}
-
-function soundStop(sound) {
-	// If this sound has a readyState, stop it
-	console.log("soundStop");
-}
-
 function toggleMute() {
-	console.log("toggleMute");
+	var level = (localStorage.muted = Global.data.muted = Global.muted = !Global.muted);
+	window.audio.mute = level;
 }
 
 function pauseAllSounds() {
