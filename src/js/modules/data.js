@@ -4,12 +4,8 @@
 
 // window.data stores the references to data and elements
 function resetData() {
-	// Make sure there's no data display already
-	window.find(".data_display").remove();
-	
 	if (!Global.data) {
 		Global.data = new Data();
-		// setDataDisplay();
 	}
 }
 // Keeps information displayed on the screen
@@ -36,10 +32,11 @@ function DataObject(amount, length, name) {
 
 // Sets up the data display on the screen
 function setDataDisplay() {
-	var display = Global.createElement("table", { className: "data_display display" }),
+	var display = Global.createElement("table", { className: "display" }),
 		elems = ["score", "coins", "world", "time", "lives"];
 	
-	window.find("content").append(display);
+	// Make sure there's no data display already
+	clearDataDisplay();
 	
 	Global.data.display = display;
 
@@ -52,7 +49,7 @@ function setDataDisplay() {
 
 // Getting rid of the display simply means removing it from body
 function clearDataDisplay() {
-	window.find(".data_display").remove();
+	window.find(".display").remove();
 }
 
 // Starts the interval of updating data time
@@ -78,8 +75,7 @@ function updateDataTime(me) {
 function updateDataElement(me) {
 	var text = me.name + "<br />" + (me.amount == "Infinity" ? "Inf" : me.amount);
 	me.element.innerHTML = text;
-	/*if (text.length > 14) me.element.style.width = "490px";
-	else */me.element.style.width = "";
+	// me.element.style.width = "";
 }
 
 
@@ -104,7 +100,6 @@ function score(me, amount, appears) {
 }
 
 function killScore(text) {
-	// console.log(text);
 	// if (body.contains(text)) body.removeChild(text);
 	if (text.parentNode) text.parentNode.removeChild(text);
 	killNormal(text);

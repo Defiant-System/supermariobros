@@ -82,6 +82,7 @@ function Controls(pipes) {
 			toggleMute();
 		}
 	};
+
 	var keyup = this.keyup = {
 		// Left
 		left: function(keys) {
@@ -173,15 +174,6 @@ function keyup(event) {
 	}
 }
 
-function scriptKeys(oldhistory) {
-	var i, entry;
-	for (i in oldhistory) {
-		entry = oldhistory[i];
-		Global.EventHandler.addEvent(entry[0], i, entry[1]);
-		Global.EventHandler.addEvent(function() { alert(entry[0].name + ", " + entry[1]) }, i);
-	}
-}
-
 
 
 /* Triggers (from a UI)
@@ -189,7 +181,7 @@ function scriptKeys(oldhistory) {
 function setMessageTriggers() {
 	// Commands will be sent in by these codes
 	var command_codes = {
-		setMap: triggerSetMap,
+		// setMap: triggerSetMap,
 		startEditor: function() { loadEditor(); }
 	};
 	

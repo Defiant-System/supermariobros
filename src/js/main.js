@@ -37,6 +37,36 @@ const supermariobros = {
 		switch (event.type) {
 			case "window.open":
 				break;
+			case "window.keystroke":
+
+				switch (event.keyCode) {
+					case 80: // p - pause
+						break;
+					case 77: // m - mute
+						break;
+					case 37: // left
+					case 65: // a
+						break;
+					case 39: // right
+					case 68: // d
+						break;
+					case 38: // up
+					case 87: // w
+					case 32: // space
+						break;
+					case 40: // down
+					case 83: // s
+						break;
+					case 16: // shift
+					case 17: // ctrl
+						break;
+				}
+
+				console.log( event.keyCode );
+				break;
+			case "window.keyup":
+				
+				break;
 			case "open-help":
 				defiant.shell("fs -u '~/help/index.md'");
 				break;
