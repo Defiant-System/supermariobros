@@ -1989,15 +1989,20 @@ function Clouds(me, length) {
 }
 
 function Brick(me, content) {
-	me.width = me.height = 8;
+	me.width =
+	me.height = 8;
 	me.used = false;
 	me.bottomBump = brickBump;
 	if (!content) me.contents = false;
 	else {
 		if (content instanceof Array) {
 			me.contents = content;
-			while(me.contents.length < 3) me.contents.push(false);
-		} else me.contents = [content, false, false];
+			while(me.contents.length < 3) {
+				me.contents.push(false);
+			}
+		} else {
+			me.contents = [content, false, false];
+		}
 	}
 	me.death = killNormal;
 	setSolid(me, "brick unused");

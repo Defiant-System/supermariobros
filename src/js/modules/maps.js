@@ -265,7 +265,6 @@ function clearTexts() {
 			let el = Global.texts[i];
 			if (el && el.parentNode) {
 				el.parentNode.removeChild(el);
-				// Global.removeChildSafe(Global.texts[i], window.find(".content")[0]);
 			}
 		}
 	Global.texts = [];
@@ -289,6 +288,11 @@ function setAreaPostCreation() {
 		if (!Global.map.random) Global.area.presolids.push(new PreThing(0, 16, Sprite, "Water", [Global.area.width / 3, 1]));
 	}
 	
+	let prethingsorter = (a, b) => {
+		if (a.xloc == b.xloc) return b.yloc - a.yloc;
+		else return a.xloc - b.xloc;
+	};
+
 	// Sort everything using ascending order
 	Global.area.presolids.sort(prethingsorter);
 	Global.area.precharacters.sort(prethingsorter);
@@ -314,16 +318,12 @@ function setAreaPostCreation() {
 function getAreaFillStyle(setting) {
 	if (Global.stringHas(setting, "Underworld") ||
 		 Global.stringHas(setting, "Castle") ||
-		 Global.stringHas(setting, "Night"))
+		 Global.stringHas(setting, "Night")) {
 			return Global.stringHas(setting, "Underwater") ? "#2038ec" : "black";
+	}
 	if (Global.stringHas(setting, "Underwater")) return "#2038ec";
 	return "#5c94fc";
 }
-
-function prethingsorter(a,b) {
-	if (a.xloc == b.xloc) return b.yloc - a.yloc;
-	else return a.xloc - b.xloc;
-};
 
 
 // Moves generation to a specific location #
@@ -644,8 +644,9 @@ function pushPreThing2(type, xloc, yloc, extras, more) {
 	if (prething.object.solid && !prething.object.nostretch) {
 		Global.map.area.width = Global.max(Global.map.area.width, prething.xloc + prething.object.width);
 		Global.map.area.presolids.push(prething);
+	} else {
+		Global.map.area.prechars.push(prething);
 	}
-	else Global.map.area.prechars.push(prething);
 	return prething;
 }
 

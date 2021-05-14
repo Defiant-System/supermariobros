@@ -226,6 +226,7 @@ function expandObtainedSprite(sprite, thing, width, height, norefill) {
 	}
 	return parsed;
 }
+
 // A set of multiple sprites must each be manipulated individually
 function expandObtainedSpriteMultiple(sprites, thing, width, height) {
 	// The middle (repeated) sprite is used as normal
@@ -367,8 +368,7 @@ function refillThingCanvases(thing, parsed) {
 // This is called every upkeep to refill the main canvas
 function refillCanvas() {
 	var canvas = Global.canvas,
-		context = Global.context,
-		things, thing, left, top, i;
+		context = Global.context;
 	
 	// I could implement dirty rectangles, but why? Worst case == average case...
 	// context.clearRect(0, 0, canvas.width, canvas.height);
@@ -376,13 +376,13 @@ function refillCanvas() {
 	context.fillStyle = Global.area.fillStyle;
 	context.fillRect(0, 0, canvas.width, canvas.height);
 
-	for (i=Global.scenery.length-1; i>=0; --i) {
+	for (let i=Global.scenery.length-1; i>=0; --i) {
 		drawThingOnCanvas(context, Global.scenery[i]);
 	}
-	for (i=Global.solids.length-1; i>=0; --i) {
+	for (let i=Global.solids.length-1; i>=0; --i) {
 		drawThingOnCanvas(context, Global.solids[i]);
 	}
-	for (i=Global.characters.length-1; i>=0; --i) {
+	for (let i=Global.characters.length-1; i>=0; --i) {
 		drawThingOnCanvas(context, Global.characters[i]);
 	}
 }
