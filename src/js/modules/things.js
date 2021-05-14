@@ -45,8 +45,9 @@ function Thing(type) {
 	self.spriteheight = self.spriteheight || self.height;
 	self.sprite = "";
 	
-	try { setContextStuff(self, self.spritewidth, self.spriteheight); }
-	catch(err) {
+	try {
+		setContextStuff(self, self.spritewidth, self.spriteheight);
+	} catch(err) {
 		console.log("Thing context fail", err, self.title, self);
 		setTimeout(function() { setContextStuff(self, self.spritewidth, self.spriteheight); }, 1);
 	}
@@ -126,15 +127,18 @@ function placeThing(me, left, top) {
 }
 
 function addText(html, left, top) {
-	var element = Global.createElement("div", {innerHTML: html, className: "text",
-		left: left,
-		top: top,
-		onclick: Global.canvas.onclick, 
-		// onclick: body.onclick || canvas.onclick, 
-		style: {
-			marginLeft: left + "px",
-			marginTop: top + "px"
-		}});
+	var element = Global.createElement("div", {
+			innerHTML: html,
+			className: "text",
+			left: left,
+			top: top,
+			onclick: Global.canvas.onclick, 
+			// onclick: body.onclick || canvas.onclick, 
+			style: {
+				marginLeft: left + "px",
+				marginTop: top + "px"
+			}
+		});
 
 	window.find("content").append(element);
 	
@@ -2005,8 +2009,10 @@ function brickBump(me, character) {
 	play("Bump");
 	if (me.used) return;
 	me.up = character;
-	if (character.power > 1 && !me.contents)
-		return Global.EventHandler.addEvent(brickBreak, 2, me, character); // wait until after collision testing to delete (for coins)
+	if (character.power > 1 && !me.contents) {
+		// wait until after collision testing to delete (for coins)
+		return Global.EventHandler.addEvent(brickBreak, 2, me, character);
+	}
 	
 	// Move the brick
 	blockBumpMovement(me);
@@ -2018,7 +2024,7 @@ function brickBump(me, character) {
 		Global.EventHandler.addEvent(
 			function(me) {
 				var contents = me.contents,
-						out = new Thing(contents[0], contents[1], contents[2]);
+					out = new Thing(contents[0], contents[1], contents[2]);
 				addThing(out, me.left, me.top);
 				setMidXObj(out, me, true);
 				out.blockparent = me;
@@ -2027,11 +2033,10 @@ function brickBump(me, character) {
 				if (me.contents[0] == Coin) {
 					if (me.lastcoin) makeUsedBlock(me);
 					Global.EventHandler.addEvent( function(me) { me.lastcoin = true; }, 245, me );
-				} else makeUsedBlock(me);
-			}, 
-			7,
-			me
-		);
+				} else {
+					makeUsedBlock(me);
+				}
+			}, 7, me);
 	}
 }
 

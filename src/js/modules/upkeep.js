@@ -38,7 +38,6 @@ function adjustFPS() {
 	
 	Global.fps = Global.roundDigit((.7 * Global.fps) + (.3 * fps_actual), .01);
 	Global.realtime = Global.fps_target / Global.fps;
-	
 	Global.time_prev = Global.time_now;
 }
 

@@ -499,14 +499,14 @@ function characterTouchesUp(me, solid) {
 		case "item": 
 			me.moveleft = getMidX(me) <= getMidX(solid) + Global.unitsized2;
 			characterHops(me);
-		break;
+			break;
 		case "coin":
 			me.animate(me);
-		break;
+			break;
 		default:
 			me.death(me, 2);
 			scoreEnemyBelow(me);
-		break;
+			break;
 	}
 }
 

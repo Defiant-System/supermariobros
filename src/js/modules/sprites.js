@@ -333,6 +333,7 @@ function refillThingCanvas(thing) {
 	memcpyU8(thing.sprite, imageData.data);
 	context.putImageData(imageData, 0, 0);
 }
+
 // Like refillThingCanvas, but for multiple sprites
 function refillThingCanvases(thing, parsed) {
 	var canvases = thing.canvases = {},
@@ -375,9 +376,15 @@ function refillCanvas() {
 	context.fillStyle = Global.area.fillStyle;
 	context.fillRect(0, 0, canvas.width, canvas.height);
 
-	for (i=Global.scenery.length-1; i>=0; --i) drawThingOnCanvas(context, Global.scenery[i]);
-	for (i=Global.solids.length-1; i>=0; --i) drawThingOnCanvas(context, Global.solids[i]);
-	for (i=Global.characters.length-1; i>=0; --i) drawThingOnCanvas(context, Global.characters[i]);
+	for (i=Global.scenery.length-1; i>=0; --i) {
+		drawThingOnCanvas(context, Global.scenery[i]);
+	}
+	for (i=Global.solids.length-1; i>=0; --i) {
+		drawThingOnCanvas(context, Global.solids[i]);
+	}
+	for (i=Global.characters.length-1; i>=0; --i) {
+		drawThingOnCanvas(context, Global.characters[i]);
+	}
 }
 
 // General function to draw a thing to a context
@@ -394,12 +401,14 @@ function drawThingOnCanvas(context, me) {
 	// Otherwise some calculations will be needed
 	else drawThingOnCanvasMultiple(context, me.canvases, me.canvas, me, leftc, topc);
 }
+
 // Used for the vast majority of sprites, where only one sprite is drawn
 function drawThingOnCanvasSingle(context, canvas, me, leftc, topc) {
 	if (me.repeat) drawPatternOnCanvas(context, canvas, leftc, topc, me.unitwidth, me.unitheight);
 	// else context.putImageData(me.context.getImageData(0, 0, me.spritewidthpixels, me.spriteheightpixels), leftc, topc);
 	else context.drawImage(canvas, leftc, topc);
 }
+
 // Slower than single; used when things have multiple sprites.
 function drawThingOnCanvasMultiple(context, canvases, canvas, me, leftc, topc) {
 	var topreal = topc,
@@ -560,21 +569,9 @@ function clearAllSprites(clearcache) {
 	if (clearcache) Global.library.cache = {};
 }
 
-// http://www.html5rocks.com/en/tutorials/webgl/typed_arrays/
-// http://www.javascripture.com/Uint8ClampedArray
-// function memcpyU8(source, destination, readloc, writeloc, length) {
-	// if (readloc == null) readloc = 0;
-	// if (length == null) length = source.length - readloc;
-	// destination.set(source.subarray(readloc || 0, length), writeloc || 0);
-// }
 function memcpyU8(source, destination, readloc, writeloc, writelength/*, thing*/) {
 	if (!source || !destination || readloc < 0 || writeloc < 0 || writelength <= 0) return;
-	if (readloc >= source.length || writeloc >= destination.length) {
-		// console.log("Alert: memcpyU8 requested out of bounds!");
-		// console.log("source, destination, readloc, writeloc, writelength, thing");
-		// console.log(arguments);
-		return;
-	}
+	if (readloc >= source.length || writeloc >= destination.length) return;
 	if (readloc == null) readloc = 0;
 	if (writeloc == null) writeloc = 0;
 	if (writelength == null) writelength = Global.max(0, Global.min(source.length, destination.length));
@@ -583,14 +580,12 @@ function memcpyU8(source, destination, readloc, writeloc, writelength/*, thing*/
 	var lwriteloc = writeloc + 0;
 	var lreadloc = readloc + 0;
 	while(lwritelength--)
-	// while(--lwritelength)
 		destination[lwriteloc++] = source[lreadloc++];
 }
 
 // Somewhat cross-platform way to make a canvas' 2d context not smooth pixels
 function canvasDisableSmoothing(canvas, context) {
 	context = context || canvas.getContext("2d");
-	
 	context.webkitImageSmoothingEnabled = false;
 	context.mozImageSmoothingEnabled = false;
 	context.imageSmoothingEnabled = false;
