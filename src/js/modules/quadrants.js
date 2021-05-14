@@ -1,3 +1,4 @@
+
 // Quads has 7 cols and 6 rows
 function resetQuadrants() {
 	Global.quads = [];
@@ -12,7 +13,6 @@ function Quadrant(row, left) {
 	this.top = (row-1) * Global.quads.height;
 	this.right = this.left + Global.quads.width;
 	this.bottom = this.top + Global.quads.height;
-	
 	this.things = []
 	this.numobjects = this.tolx = this.toly = 0;
 }
@@ -29,7 +29,6 @@ function createQuadrants() {
 function setQuadDimensions() {
 	Global.quads.width = Global.quads.rightdiff = Math.round(window.innerWidth / (Global.quads.cols - 3));
 	Global.quads.height = Math.round(window.innerHeight / (Global.quads.rows - 2));
-	
 	Global.quads.delx = Global.quads.width * -2;
 }
 
@@ -78,12 +77,11 @@ function determineAllQuadrants() {
 	for(var i=0; i<Global.quads.length; ++i)
 		Global.quads[i].numthings = 0;
 	
-	for(var j=0; j<Global.solids.length; ++j)
-		if (Global.solids[j].moved != false)
+	for(var j=0; j<Global.solids.length; ++j) {
+		if (Global.solids[j].moved != false) {
 			determineThingQuadrants(Global.solids[j]);
-	
-	// for(var k=0; k<characters.length; ++k)
-		// determineThingQuadrants(characters[k]);
+		}
+	}
 }
 
 function determineThingQuadrants(me) {

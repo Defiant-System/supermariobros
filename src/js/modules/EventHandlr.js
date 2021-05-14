@@ -197,7 +197,7 @@ function EventHandlr(settings) {
 	 *   "running",
 	 *   7
 	 * );
-	 * Note: These require handlers from the user, such as those given by FullScreenMario
+	 * Note: These require handlers from the user, such as those given by StartGame
 	*/
 	
 	// Public: addSpriteCycle

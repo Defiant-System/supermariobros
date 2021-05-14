@@ -1,9 +1,7 @@
 /* mario.js */
 // Starts everything.
 
-
-
-function FullScreenMario() {
+function StartGame() {
 	// I keep this cute little mini-library for some handy functions
 	TonedJS(true);
 
@@ -14,7 +12,6 @@ function FullScreenMario() {
 	resetCanvas();
 	resetMaps();
 	resetScenery();
-	resetTriggers();
 	resetSeed();
 	resetSounds();
 	
