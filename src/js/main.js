@@ -27,11 +27,6 @@ const supermariobros = {
 		this.content = window.find("content");
 
 		FullScreenMario();
-		
-		// window.audio.play("Overworld");
-		// setTimeout(() => {
-		// 	window.audio.play("Hurry Overworld");
-		// }, 8000);
 	},
 	dispatch(event) {
 		switch (event.type) {
@@ -69,8 +64,14 @@ const supermariobros = {
 			case "window.keyup":
 				
 				break;
+			// custom events
 			case "open-help":
 				defiant.shell("fs -u '~/help/index.md'");
+				break;
+			case "set-level":
+				clearMarioStats();
+				setMap.apply({}, event.arg.split("-"));
+				setLives(3);
 				break;
 		}
 	}

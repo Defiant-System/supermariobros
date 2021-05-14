@@ -158,12 +158,3 @@ function keyup(event) {
 
 
 
-/* Triggers (from a UI)
-*/
-
-// The UI has requested a map change
-function triggerSetMap(data) {
-	clearMarioStats();
-	setMap.apply(this, data.map || []);
-	setLives(3);
-}
