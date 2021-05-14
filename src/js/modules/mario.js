@@ -64,16 +64,9 @@ function getGameScreen() {
 	resetGameScreenPosition(this);
 	// Middlex is static and only used for scrolling to the right
 	this.middlex = (this.left + this.right) / 2;
-	// this.middlex = (this.left + this.right) / 3;
-	
-	// This is the bottom of the screen - water, pipes, etc. go until here
-	Global.botmax = this.height - Global.ceilmax;
-	if (Global.botmax < Global.unitsize) {
-		body.innerHTML = "<div><br>Your screen isn't high enough. Make it taller, then refresh.</div>";
-	}
 	
 	// The distance at which Things die from falling
-	this.deathheight = this.bottom + 48;
+	this.deathheight = this.bottom + 40;
 }
 function resetGameScreenPosition(me) {
 	me = me || Global.gamescreen;

@@ -24,23 +24,19 @@ const supermariobros = {
 	init() {
 		// fast references
 		this.content = window.find("content");
-
-		StartGame();
 	},
 	dispatch(event) {
 		let Keys;
 		switch (event.type) {
+			// system events
 			case "window.open":
+				StartGame();
 				break;
 			case "window.keystroke":
 				Keys = Global.mario.keys;
 
 				switch (event.keyCode) {
-					case 80: // p - pause
-						Global.paused ? unpause(true) : pause(true);
-						break;
 					case 77: // m - mute
-						toggleMute();
 						break;
 					case 37: // left
 					case 65: // a
@@ -82,8 +78,6 @@ const supermariobros = {
 						Keys.sprint = 1;
 						break;
 				}
-
-				// console.log( event.keyCode );
 				break;
 			case "window.keyup":
 				Keys = Global.mario.keys;
@@ -118,11 +112,20 @@ const supermariobros = {
 						Keys.sprint = 0;
 						break;
 				}
-
 				break;
 			// custom events
 			case "open-help":
 				defiant.shell("fs -u '~/help/index.md'");
+				break;
+			case "toggle-pause":
+				Global.paused ? unpause(true) : pause(true);
+				break;
+			case "toggle-audio":
+				toggleMute();
+				break;
+			case "toggle-music":
+			case "toggle-sound-fx":
+				console.log(event);
 				break;
 			case "set-level":
 				clearMarioStats();
