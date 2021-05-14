@@ -41,8 +41,10 @@ const supermariobros = {
 
 				switch (event.keyCode) {
 					case 80: // p - pause
+						Global.paused ? unpause(true) : pause(true);
 						break;
 					case 77: // m - mute
+						toggleMute();
 						break;
 					case 37: // left
 					case 65: // a

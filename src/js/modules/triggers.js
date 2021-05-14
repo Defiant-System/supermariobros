@@ -1,7 +1,7 @@
 /* Triggers.js */
+
 // Keeps track of triggers, which mainly consist of key presses,
 // and messages, which would be from an index.html UI
-
 function resetTriggers() {
 	// Make the controls object
 	Global.controls = new Controls({
@@ -10,9 +10,8 @@ function resetTriggers() {
 		up:     [38, 87, 32 ], // w,     up
 		down:   [40, 83,    ], // s,     down
 		sprint: [16, 17,    ], // shift, ctrl
-		pause:  [80,        ], // p
-		mute:   [77],          // m
-		q:      [81]           // q
+	//	pause:  [80,        ], // p
+	//	mute:   [77],          // m
 	});
 	
 	// Set the key events on the body
@@ -20,9 +19,6 @@ function resetTriggers() {
 			onkeydown: ControlsPipe("keydown", true),
 			onkeyup: ControlsPipe("keyup", false),
 		});
-	
-	// Set UI triggers
-	setMessageTriggers();
 }
 
 // Hash table for onkeydown and onkeyup
@@ -70,16 +66,6 @@ function Controls(pipes) {
 				Global.mario.fire();
 			}
 			keys.sprint = 1;
-		},
-		// Pause
-		pause: function(keys) {
-			if (!Global.paused && !(Global.editing && !editor.playing)) {
-				setTimeout(function() { pause(true); }, 140);
-			}
-		},
-		// Mute / Unmute
-		mute: function(keys) {
-			toggleMute();
 		}
 	};
 
@@ -107,11 +93,7 @@ function Controls(pipes) {
 		// Spring
 		sprint: function(keys) {
 			keys.sprint = 0;
-		},
-		// Pause (if held down)
-		pause: function(keys) {
-			unpause(true);
-		},
+		}
 	}
 
 	var tag, codes, code, i;
@@ -178,26 +160,6 @@ function keyup(event) {
 
 /* Triggers (from a UI)
 */
-function setMessageTriggers() {
-	// Commands will be sent in by these codes
-	var command_codes = {
-		// setMap: triggerSetMap,
-		startEditor: function() { loadEditor(); }
-	};
-	
-	// When a message is received, send it to the appropriate command code
-	window.addEventListener("message", function(event) {
-		var data = event.data,
-			type = data.type;
-		// If the type is known, do it
-		if (command_codes[type])
-			command_codes[type](data);
-		// Otherwise complain
-		else {
-			console.log("Unknown event type received:", type, ".\n", data);
-		}
-	});
-}
 
 // The UI has requested a map change
 function triggerSetMap(data) {
