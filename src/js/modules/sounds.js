@@ -6,7 +6,8 @@
 function resetSounds() {
 	Global.sounds = {};
 	Global.theme = false;
-	Global.muted = (localStorage && localStorage.muted == "true");
+	Global.muted =
+	window.audio.mute = Global.settings.muted;
 }
 
 
@@ -44,7 +45,7 @@ function playLocal(name, xloc) {
 
 // Plays a theme as sounds.theme via play()
 // If no theme is provided, it plays the area's theme
-function playTheme(name, resume, loop) {
+function playTheme(name) {
 	// First make sure there isn't already a theme playing
 	// window.audio.pause();
 
@@ -69,8 +70,8 @@ function soundFinish(name) {
 }
 
 function toggleMute() {
-	var level = (localStorage.muted = Global.data.muted = Global.muted = !Global.muted);
-	window.audio.mute = level;
+	var mute = (Global.settings.muted = Global.data.muted = Global.muted = !Global.muted);
+	window.audio.mute = mute;
 }
 
 function pauseAllSounds() {

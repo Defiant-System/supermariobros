@@ -26,8 +26,7 @@
 
 					<p class="start-explanation">
 						Move: Arrows/WASD<br>
-						Fire/Sprint: Shift/CTRL<br>
-						Pause/Mute: P/M 
+						Fire/Sprint: Shift/CTRL
 					</p>
 				`;
 				pushPreText(greeter, 20, 91);
@@ -178,6 +177,9 @@
 				pushPreThing(Block, 80, Global.jumplev1, Mushroom);
 				fillPreThing(Block, 88, Global.jumplev1, 4, 1, 8, 8);
 				
+				// fillPreThing(Brick, 48, 40, 1, 2, 8, 8);
+				// pushPreThing(Brick, 48, 32, Coin);
+
 				pushPreThing(Goomba, 128, 8);
 				pushPreThing(Stone, 136, 8);
 				pushPreThing(Goomba, 136, 16);

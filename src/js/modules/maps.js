@@ -285,7 +285,9 @@ function setAreaPostCreation() {
 		// Random maps have a block to stop mario from swimming too high
 		Global.area.presolids.push(new PreThing(0, 0, WaterBlock, Global.area.width));
 		// Non-random maps also have a water sprite (randoms set it themselves)
-		if (!Global.map.random) Global.area.presolids.push(new PreThing(0, 16, Sprite, "Water", [Global.area.width / 3, 1]));
+		if (!Global.map.random) {
+			Global.area.presolids.push(new PreThing(0, 16, Sprite, "Water", [Global.area.width / 3, 1]));
+		}
 	}
 	
 	let prethingsorter = (a, b) => {
@@ -412,7 +414,8 @@ function entryNormal(me) {
 	// pause();
 	setLeft(me, Global.unitsizet16);
 	setTop(me, Global.unitsizet16);
-	me.nocollide = me.piping = false;
+	me.nocollide =
+	me.piping = false;
 	me.placed = true;
 	// unpause();
 }
@@ -420,8 +423,13 @@ function entryNormal(me) {
 function entryBlank(me) {
 	setLeft(me, Global.unitsizet16);
 	setBottom(me, Global.map.floor * Global.unitsize);
-	me.nocollide = me.piping = me.movement = false;
-	me.placed = me.nofall = me.nocollide = Global.notime = Global.nokeys = true;
+	me.nocollide =
+	me.piping = me.movement = false;
+	me.placed =
+	me.nofall =
+	me.nocollide =
+	Global.notime =
+	Global.nokeys = true;
 	thingStoreVelocity(me);
 	clearDataDisplay();
 }
@@ -432,8 +440,9 @@ function entryRandom(me) {
 	updateDataElement(Global.data.time);
 	if (Global.map.startwidth) {
 		if (!Global.map.nofloor) pushPreFloor(0, 0, Global.map.startwidth);
+	} else {
+		Global.map.startwidth = 0;
 	}
-	else Global.map.startwidth = 0;
 	Global.map.firstRandomThings(map);
 	Global.map.randtype((Global.map.startwidth + 1) * 8); //17 * 8
 	entryPlain(me);
@@ -443,26 +452,26 @@ function entryRandom(me) {
 	switch(Global.map.entrancetype) {
 		case "Down": 
 			entryNormal(Global.mario);
-		break;
+			break;
 		case "Up":
 			// Use a pipe
 			locMovePreparations(Global.mario);
 			exitPipeVert(Global.mario, addThing(new Thing(Pipe, 32), Global.unitsizet8, (Global.map.floor - 32) * Global.unitsize));
-		break;
+			break;
 		case "Vine":
 			// Do that vine stuff
 			locMovePreparations(Global.mario);
 			Global.EventHandler.addEvent(function() { enterCloudWorld(Global.mario, true); }, 1);
 			Global.mario.nofall = true;
 			spawnMap();
-		break;
+			break;
 		case "Castle":
 			startCastle(Global.mario);
-		break;
+			break;
 		default:
 			// Only reached by Overworld the first time
 			// if (Global.map.randname == "Overworld") addThing(new Thing(Sprite, "Castle", 1), unitsizet16 * -1, (map.floor - 88) * unitsize);
-		break;
+			break;
 	}
 }
 

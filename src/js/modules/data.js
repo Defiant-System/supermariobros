@@ -84,8 +84,10 @@ function score(me, amount, appears) {
 	if (amount <= 0) return;
 	// If it's in the form 'score(X)', return 'score(mario, x)'
 	if (arguments.length == 1) return score(Global.mario, me);
+	
 	// Keep the high score in localStorage, why not.
-	localStorage.highscore = Global.max(localStorage.highscore, Global.data.score.amount += amount);
+	// let highscore = Global.max(highscore, Global.data.score.amount += amount);
+
 	// If it appears, add the element
 	if (appears) {
 		var text = addText(amount, me.left, me.top);

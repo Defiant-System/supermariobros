@@ -17,7 +17,12 @@
 const Global = {
 	addClass,
 	removeClass,
-	worlds: @import "modules/worlds.js"
+	worlds: @import "modules/worlds.js",
+	settings: {
+		muted: false,
+		fx: true,
+		music: true,
+	}
 };
 
 const supermariobros = {
@@ -30,7 +35,14 @@ const supermariobros = {
 		switch (event.type) {
 			// system events
 			case "window.open":
+				// get settings, if any
+				Global.settings = window.settings.getItem("settings") || Global.settings;
+				// start game
 				StartGame();
+				break;
+			case "window.close":
+				// save settings
+				window.settings.setItem("settings", Global.settings);
 				break;
 			case "window.keystroke":
 				Keys = Global.mario.keys;
