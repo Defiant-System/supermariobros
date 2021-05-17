@@ -3,8 +3,8 @@
 
 function upkeep() {
 	if (Global.paused) return;
-	// Global.nextupk = requestAnimationFrame(upkeep);
-	Global.nextupk = setTimeout(upkeep, Global.timer);
+	Global.nextupk = requestAnimationFrame(upkeep);
+	// Global.nextupk = setTimeout(upkeep, Global.timer);
 	
 	// Adjust for differences in performance
 	adjustFPS();

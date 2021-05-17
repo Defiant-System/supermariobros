@@ -45,6 +45,7 @@ const supermariobros = {
 				window.settings.setItem("settings", Global.settings);
 				break;
 			case "window.keystroke":
+				if (Global.paused) return;
 				Keys = Global.mario.keys;
 
 				switch (event.keyCode) {
@@ -92,6 +93,7 @@ const supermariobros = {
 				}
 				break;
 			case "window.keyup":
+				if (Global.paused) return;
 				Keys = Global.mario.keys;
 
 				switch (event.keyCode) {

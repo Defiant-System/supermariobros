@@ -72,6 +72,7 @@ function soundFinish(name) {
 function toggleMute() {
 	var mute = (Global.settings.muted = Global.data.muted = Global.muted = !Global.muted);
 	window.audio.mute = mute;
+	if (!mute) window.audio.play();
 }
 
 function pauseAllSounds() {

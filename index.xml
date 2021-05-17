@@ -2,7 +2,7 @@
 	<Head>
 		<meta name="id" value="supermariobros"/>
 		<meta name="title" value="Super Mario Bros" version="1.0"/>
-		<meta name="author" value="Hakan Bilgin" namespace="ant"/>
+		<meta name="author" value="N/A" namespace="ant" ported="Hakan Bilgin"/>
 		<meta name="license" value="AGPL-3.0"/>
 		<meta name="repository" value="https://github.com/Defiant-System/supermariobros"/>
 		<meta name="width" value="828"/>
