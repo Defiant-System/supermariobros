@@ -735,11 +735,11 @@ function pushPreScale(xloc, yloc, width, settings) {
 		offx = platwidth * 2,
 		offy1 = settings[1] + 1.5,
 		offy2 = settings[2] + 1.5,
-		me = pushPreThing(Scale, xloc, yloc, width).object;
+		me = pushPreThing(Scale, xloc, yloc, width).object,
+		platleft = pushPreThing(Platform, xloc - offx, yloc - offy1 * 4, platwidth, moveFallingScale).object,
+		platright = pushPreThing(Platform, xloc + width * 4 - platwidth - 6, yloc - offy2 * 4, platwidth, moveFallingScale).object;
 	
 	// Set the platforms
-	platleft = pushPreThing(Platform, xloc - offx, yloc - offy1 * 4, platwidth, moveFallingScale).object;
-	platright = pushPreThing(Platform, xloc + width * 4 - platwidth - 6, yloc - offy2 * 4, platwidth, moveFallingScale).object;
 	platleft.parent = me; platright.parent = me;
 	platleft.partner = platright; platright.partner = platleft;
 	platleft.tension = offy1 * Global.unitsizet4 - Global.unitsize * 10; 
