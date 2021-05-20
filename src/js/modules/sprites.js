@@ -97,8 +97,9 @@ function spriteGetArray(colors) {
 		// Grab its RGBA ints
 		reference = Global.palette[Number(split[i])];
 		// Place each in output
-		for(k = 0; k < 4; ++k)
+		for(k = 0; k < 4; ++k) {
 			output[j + k] = reference[k];
+		}
 		j += 4;
 	}
 	
