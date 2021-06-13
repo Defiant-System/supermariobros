@@ -958,7 +958,7 @@ function prepareNextGeneratorStandard(xloc, bwidth, func, allow_platforms, no_un
 				else nofancy = true;
 			break;
 		}
-	} else {
+	} else {
 		nextdist = 1;
 	}
 	if (nofancy || !nextdist || nextdist < 1) nextdist = randTrue(3) + 1;
