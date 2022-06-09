@@ -34,7 +34,7 @@ const supermariobros = {
 		let Keys;
 		switch (event.type) {
 			// system events
-			case "window.open":
+			case "window.init":
 				// get settings, if any
 				Global.settings = window.settings.getItem("settings") || Global.settings;
 				// start game
