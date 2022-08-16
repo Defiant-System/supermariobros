@@ -129,7 +129,7 @@ const supermariobros = {
 				break;
 			// custom events
 			case "open-help":
-				defiant.shell("fs -u '~/help/index.md'");
+				karaqu.shell("fs -u '~/help/index.md'");
 				break;
 			case "toggle-pause":
 				Global.paused ? unpause(true) : pause(true);
