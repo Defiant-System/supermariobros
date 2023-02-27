@@ -35,7 +35,7 @@ function getCanvas(width, height, stylemult) {
 	}
 	
 	// For speed
-	canv.getContext("2d").webkitImageSmoothingEnabled = false
+	canv.getContext("2d", { willReadFrequently: true }).webkitImageSmoothingEnabled = false
 	
 	return canv;
 }
@@ -119,7 +119,7 @@ function updateSize(me) {
 	if (canvas = me.canvas) {
 		canvas.width = me.spritewidthpixels;
 		canvas.height = me.spriteheightpixels;
-		// me.context = canvas.getContext("2d");
+		// me.context = canvas.getContext("2d", { willReadFrequently: true });
 		refillThingCanvas(me);
 	}
 }

@@ -59,7 +59,7 @@ function setContextStuff(me, spritewidth, spriteheight) {
 	me.spritewidthpixels = me.spritewidth * Global.unitsize;
 	me.spriteheightpixels = me.spriteheight * Global.unitsize;
 	me.canvas = getCanvas(me.spritewidthpixels, me.spriteheightpixels);
-	me.context = me.canvas.getContext("2d");
+	me.context = me.canvas.getContext("2d", { willReadFrequently: true });
 	me.imageData = me.context.getImageData(0, 0, me.spritewidthpixels, me.spriteheightpixels);
 	me.sprite_type = me.sprite_type || "neither";
 	canvasDisableSmoothing(me, me.context);

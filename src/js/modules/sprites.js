@@ -6,7 +6,7 @@ function resetCanvas() {
 	// The global canvas is one that fills the screen
 	Global.canvas = window.find("canvas")[0];
 	// The context is saved for ease of access
-	Global.context = Global.canvas.getContext("2d");
+	Global.context = Global.canvas.getContext("2d", { willReadFrequently: true });
 }
 
 /* Sprite Parsing */
@@ -128,7 +128,7 @@ function setThingSprite(thing) {
 	// If one isn't found, search for it manually
 	sprite = getSpriteFromLibrary(thing);
 	if (!sprite) {
-		log("Could not get sprite from library on " + thing.title);
+		console.log("Could not get sprite from library on " + thing.title);
 		return;
 	}
 	if (sprite.multiple) {
@@ -350,7 +350,7 @@ function refillThingCanvases(thing, parsed) {
 			++thing.num_sprites;
 			// Each canvas has a .canvas and a .context
 			canvases[i] = canvas = { canvas: getCanvas(width, height) };
-			canvas.context = context = canvas.canvas.getContext("2d");
+			canvas.context = context = canvas.canvas.getContext("2d", { willReadFrequently: true });
 			imageData = context.getImageData(0, 0, width, height);
 			memcpyU8(part, imageData.data);
 			context.putImageData(imageData, 0, 0);
@@ -586,7 +586,7 @@ function memcpyU8(source, destination, readloc, writeloc, writelength/*, thing*/
 
 // Somewhat cross-platform way to make a canvas' 2d context not smooth pixels
 function canvasDisableSmoothing(canvas, context) {
-	context = context || canvas.getContext("2d");
+	context = context || canvas.getContext("2d", { willReadFrequently: true });
 	context.webkitImageSmoothingEnabled = false;
 	context.mozImageSmoothingEnabled = false;
 	context.imageSmoothingEnabled = false;
