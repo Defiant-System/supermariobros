@@ -13,6 +13,8 @@
 @import "modules/upkeep.js";
 @import "modules/utility.js";
 
+@import "modules/test.js";
+
 
 const Global = {
 	addClass,
@@ -31,7 +33,8 @@ const supermariobros = {
 		this.content = window.find("content");
 	},
 	dispatch(event) {
-		let Keys;
+		let Self = supermariobros,
+			Keys;
 		switch (event.type) {
 			// system events
 			case "window.init":
@@ -39,6 +42,10 @@ const supermariobros = {
 				Global.settings = window.settings.getItem("settings") || Global.settings;
 				// start game
 				StartGame();
+
+				// DEV-ONLY-START
+				Test.init();
+				// DEV-ONLY-END
 				break;
 			case "window.close":
 				// save settings
@@ -49,8 +56,6 @@ const supermariobros = {
 				Keys = Global.mario.keys;
 
 				switch (event.keyCode) {
-					case 77: // m - mute
-						break;
 					case 37: // left
 					case 65: // a
 						Keys.run = -1;
@@ -125,6 +130,28 @@ const supermariobros = {
 					case 17: // ctrl
 						Keys.sprint = 0;
 						break;
+				}
+				break;
+			// gamepad support
+			case "gamepad.up":
+				break;
+			case "gamepad.stick":
+				Keys = Global.mario.keys;
+				let keyCode;
+				switch (true) {
+					case (event.value[0] == 1): keyCode = 68; break;
+					case (event.value[0] == -1): keyCode = 65; break;
+					case (event.value[0] == 0):
+						// reset input
+						Keys.run = 0;
+						Keys.left_down =
+						Keys.right_down = false;
+						break;
+					case (event.value[1] == 1): break;
+					case (event.value[1] == -1): break;
+				}
+				if (keyCode) {
+					Self.dispatch({ type: "window.keystroke", keyCode });
 				}
 				break;
 			// custom events
