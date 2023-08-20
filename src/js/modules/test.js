@@ -1,6 +1,7 @@
 
 let Test = {
 	init() {
+		// setTimeout(() => toggleMute(), 300);
 
 		return;
 		setTimeout(() => {

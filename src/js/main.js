@@ -34,7 +34,9 @@ const supermariobros = {
 	},
 	dispatch(event) {
 		let Self = supermariobros,
-			Keys;
+			Keys,
+			keyCode,
+			type;
 		switch (event.type) {
 			// system events
 			case "window.init":
@@ -133,25 +135,25 @@ const supermariobros = {
 				}
 				break;
 			// gamepad support
-			case "gamepad.up":
-				break;
-			case "gamepad.stick":
-				Keys = Global.mario.keys;
-				let keyCode;
-				switch (true) {
-					case (event.value[0] == 1): keyCode = 68; break;
-					case (event.value[0] == -1): keyCode = 65; break;
-					case (event.value[0] == 0):
-						// reset input
-						Keys.run = 0;
-						Keys.left_down =
-						Keys.right_down = false;
-						break;
-					case (event.value[1] == 1): break;
-					case (event.value[1] == -1): break;
+			case "gamepad.down":
+				switch (event.button) {
+					case "b9": Self.dispatch({ type: "toggle-pause" }); break;
+					case "b12": Self.dispatch({ type: "window.keystroke", keyCode: 38 }); break; // up
+					case "b15": Self.dispatch({ type: "window.keystroke", keyCode: 39 }); break; // left
+					case "b13": Self.dispatch({ type: "window.keystroke", keyCode: 40 }); break; // down
+					case "b14": Self.dispatch({ type: "window.keystroke", keyCode: 37 }); break; // right
+					case "b0": Self.dispatch({ type: "window.keystroke", keyCode: 16 }); break; // right
+					default:
+						// console.log(event);
 				}
-				if (keyCode) {
-					Self.dispatch({ type: "window.keystroke", keyCode });
+				break;
+			case "gamepad.up":
+				switch (event.button) {
+					case "b12": Self.dispatch({ type: "window.keyup", keyCode: 38 }); break; // up
+					case "b15": Self.dispatch({ type: "window.keyup", keyCode: 39 }); break; // left
+					case "b13": Self.dispatch({ type: "window.keyup", keyCode: 40 }); break; // down
+					case "b14": Self.dispatch({ type: "window.keyup", keyCode: 37 }); break; // right
+					case "b0": Self.dispatch({ type: "window.keyup", keyCode: 16 }); break; // right
 				}
 				break;
 			// custom events
