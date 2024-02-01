@@ -53,7 +53,7 @@ const supermariobros = {
 				// save settings
 				window.settings.setItem("settings", Global.settings);
 				break;
-			case "window.keystroke":
+			case "window.keydown":
 				if (Global.paused) return;
 				Keys = Global.mario.keys;
 
