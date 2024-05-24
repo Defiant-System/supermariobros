@@ -37,6 +37,7 @@ const supermariobros = {
 			Keys,
 			keyCode,
 			type;
+		// console.log(event);
 		switch (event.type) {
 			// system events
 			case "window.init":
