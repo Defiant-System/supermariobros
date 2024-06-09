@@ -50,6 +50,12 @@ const supermariobros = {
 				Test.init();
 				// DEV-ONLY-END
 				break;
+			case "window.focus":
+				unpause(true);
+				break;
+			case "window.blur":
+				if (Global.mario) pause(true);
+				break;
 			case "window.close":
 				// save settings
 				window.settings.setItem("settings", Global.settings);
