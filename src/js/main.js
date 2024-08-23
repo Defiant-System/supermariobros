@@ -57,6 +57,7 @@ const supermariobros = {
 				if (Global.mario) pause(true);
 				break;
 			case "window.close":
+				if (Global.mario) pause();
 				// save settings
 				window.settings.setItem("settings", Global.settings);
 				break;
